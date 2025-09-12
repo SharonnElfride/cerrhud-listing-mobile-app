@@ -51,6 +51,7 @@ yarn-error.*
 dist/
 web-build/
 expo-env.d.ts
+nativewind-env.d.ts
 
 # Native
 .kotlin/

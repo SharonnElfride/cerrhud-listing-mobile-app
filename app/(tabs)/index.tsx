@@ -5,7 +5,7 @@ import { View } from "react-native";
 export default function Home() {
 
     return (
-        <View>
+        <View className="flex-1 items-center justify-center">
             <CatalogScreen />
             <Link href={"/cerrhud-lab"}>Go to lab</Link>
         </View>
