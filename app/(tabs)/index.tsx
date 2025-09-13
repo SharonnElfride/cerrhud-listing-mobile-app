@@ -1,13 +1,5 @@
-import CatalogScreen from "@/src/screens/CatalogScreen";
-import { Link } from "expo-router";
-import { View } from "react-native";
+import MedicalTestCatalogScreen from "@/src/screens/MedicalTestCatalogScreen";
 
-export default function Home() {
-
-    return (
-        <View className="flex-1 items-center justify-center">
-            <CatalogScreen />
-            <Link href={"/cerrhud-lab"}>Go to lab</Link>
-        </View>
-    );
+export default function MedicalTestCatalog() {
+  return <MedicalTestCatalogScreen />;
 }

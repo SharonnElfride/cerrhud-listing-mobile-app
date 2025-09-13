@@ -1,11 +1,5 @@
-import TextButton from "@/src/components/buttons/TextButton";
-import { Alert, Text, View } from "react-native";
+import CerrhudLabScreen from "@/src/screens/CerrhudLabScreen";
 
 export default function CerrhudLab() {
-  return (
-    <View>
-      <Text>Cerrhud Lab</Text>
-      <TextButton label={"Press me"} onPress={() => Alert.alert("Pressed")} />
-    </View>
-  );
+  return <CerrhudLabScreen />;
 }
