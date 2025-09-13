@@ -1,4 +1,4 @@
-interface MedicalTestModel {
+interface MedicalTest {
   id: string;
   title: string;
   acronym: string;
@@ -10,4 +10,4 @@ interface MedicalTestModel {
   whatsappId: string;
 }
 
-export { type MedicalTestModel };
+export { type MedicalTest };

@@ -1,9 +1,5 @@
-import { Text, View } from "react-native";
+import CerrhudLabScreen from "@/src/screens/CerrhudLabScreen";
 
 export default function CerrhudLab() {
-  return (
-    <View>
-      <Text>Cerrhud Lab</Text>
-    </View>
-  );
+  return <CerrhudLabScreen />;
 }

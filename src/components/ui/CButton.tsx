@@ -10,6 +10,27 @@ type CButtonProps = {
   onPress: () => void;
 };
 
+/*
+const variantStyles = {
+  default: "rounded",
+  primary: "bg-blue-500 text-white",
+  secondary: "bg-white-500 text-black",
+};
+ 
+function MyComponent({ variant, className, ...props }) {
+  return (
+    <Text
+      className={`
+        ${variantStyles.default}
+        ${variantStyles[variant]}
+        ${className}
+      `}
+      {...props }
+    />
+  );
+}
+*/
+
 // export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
 const CButton = ({ variant, label, icon, onPress }: CButtonProps) => {
   return (
