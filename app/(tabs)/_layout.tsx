@@ -27,9 +27,25 @@ export default function TabLayout() {
 
   // <Link href={"/cerrhud-lab"}>Go to lab</Link>
   return (
-    <Tabs>
-      <Tabs.Screen name="index" />
-      <Tabs.Screen name="book-appointment" />
+    <Tabs screenOptions={{ tabBarActiveTintColor: 'primary' }}>
+
+      {/* <FontAwesomeIcon icon={faFlaskVial} /> */}
+      {/* <FontAwesomeIcon icon={faCalendarCheck} /> */}
+      <Tabs.Screen name="index" options={{ headerShown: false, title: "Examens" }} />
+
+
+    {/* 
+    
+          title: 'Home',
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+
+
+          title: 'Settings',
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="cog" color={color} />,
+    
+    */}
+
+      <Tabs.Screen name="book-appointment" options={{ headerShown: false, title: "Prendre un rdv" }} />
     </Tabs>
   );
 }

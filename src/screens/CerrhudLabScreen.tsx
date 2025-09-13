@@ -3,8 +3,8 @@ import TextButton from "../components/buttons/TextButton";
 
 const CerrhudLabScreen = ({}) => {
   return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-xl font-bold text-purple-600">
+    <View className="flex-1 items-center justify-center">
+      <Text className="text-xl font-bold text-primary">
         Cerrhud Lab info screen
       </Text>
 

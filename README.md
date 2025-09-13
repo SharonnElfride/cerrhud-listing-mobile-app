@@ -1,6 +1,6 @@
 # CERRHUD Lab Mobile App
 
-📱 Mobile application for **Cerrhud (CEntre de Recherche en Reproduction Humaine et en Démographie)** based in Cotonou, Benin <br>
+📱 Mobile application for **Cerrhud (CEntre de Recherche en Reproduction Humaine et en Démographie)** based in Cotonou, Benin. <br>
 It allows clients to browse the catalog of biomedical analyses, view descriptions and prices, and request an appointment through existing communication channel (WhatsApp).
 
 ## 🚀 Features
