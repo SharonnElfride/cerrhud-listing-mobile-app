@@ -39,7 +39,8 @@
             "node_modules/@expo-google-fonts/roboto-serif/900Black/RobotoSerif_900Black.ttf"
           ]
         }
-      ]
+      ],
+      "expo-maps"
     ],
     "experiments": {
       "typedRoutes": true,

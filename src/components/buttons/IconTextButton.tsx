@@ -6,8 +6,8 @@ const IconTextButton = ({
   icon,
   onPress,
 }: {
-  label?: string;
-  icon?: IoniconName;
+  label: string;
+  icon: IoniconName;
   onPress: () => void;
 }) => {
   return (
