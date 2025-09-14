@@ -21,8 +21,8 @@ module.exports = {
       colors: colors,
       backgroundColor: colors.background.DEFAULT,
       fontFamily: {
-        title: ["Roboto Serif", "Georgia", "Times New Roman", "serif"],
-        body: ["Poppins", "Helvetica", "Arial", "Lucida", "sans-serif"],
+        title: ["Roboto Serif", "RobotoSerif_700Bold", "Georgia", "Times New Roman", "serif"],
+        body: ["Poppins", "Poppins_400Regular", "Helvetica", "Arial", "Lucida", "sans-serif"],
       },
       animation: {
         bounce: "bounce 1s infinite",

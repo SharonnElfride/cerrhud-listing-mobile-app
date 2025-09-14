@@ -1,35 +1,25 @@
+import colors from "@/colors";
+import CTabBottomBar from "@/src/components/ui/CTabBottomBar";
+import { BottomBarItems } from "@/src/constants/navigation";
 import { Tabs } from "expo-router";
 
 export default function TabLayout() {
-  /*
-<Tab.Navigator
-    initialRouteName="Home"
-    screenOptions={{
-        header: () => <Header />,
-    }}
->
-    <Tab.Screen
-        ...
-
-</Tab.Navigator>;
-
- <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          title: 'My home',
-        }}
-      />
-    </Stack.Navigator>
-  );
-*/
-
-  // <Link href={"/cerrhud-lab"}>Go to lab</Link>
   return (
-    <Tabs>
-      <Tabs.Screen name="index" />
-      <Tabs.Screen name="book-appointment" />
+    <Tabs
+      tabBar={(props) => <CTabBottomBar {...props} />}
+      screenOptions={{
+        tabBarActiveTintColor: "white",
+        sceneStyle: {
+          backgroundColor: colors.background.DEFAULT,
+        },
+      }}
+    >
+      {BottomBarItems.map((item) => (
+        <Tabs.Screen
+          name={item.id}
+          options={{ headerShown: false, title: `${item.title}` }}
+        />
+      ))}
     </Tabs>
   );
 }
