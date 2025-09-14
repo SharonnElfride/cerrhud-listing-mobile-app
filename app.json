@@ -16,7 +16,6 @@
     },
     "android": {
       "package": "com.zase.cerrhudlab",
-
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
@@ -27,14 +26,18 @@
     "plugins": [
       "expo-router",
       [
-        "expo-splash-screen",
+        "expo-font",
         {
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
-          "dark": {
-            "backgroundColor": "#000000"
-          }
+          "fonts": [
+            "node_modules/@expo-google-fonts/poppins/400Regular/Poppins_400Regular.ttf",
+            "node_modules/@expo-google-fonts/poppins/500Medium/Poppins_500Medium.ttf",
+            "node_modules/@expo-google-fonts/roboto-serif/400Regular/RobotoSerif_400Regular.ttf",
+            "node_modules/@expo-google-fonts/roboto-serif/500Medium/RobotoSerif_500Medium.ttf",
+            "node_modules/@expo-google-fonts/roboto-serif/600SemiBold/RobotoSerif_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/roboto-serif/700Bold/RobotoSerif_700Bold.ttf",
+            "node_modules/@expo-google-fonts/roboto-serif/800ExtraBold/RobotoSerif_800ExtraBold.ttf",
+            "node_modules/@expo-google-fonts/roboto-serif/900Black/RobotoSerif_900Black.ttf"
+          ]
         }
       ]
     ],

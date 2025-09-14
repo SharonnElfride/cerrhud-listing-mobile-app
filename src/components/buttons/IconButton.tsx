@@ -1,11 +1,11 @@
-import { ReactNode } from "react";
+import { IoniconName } from "@/src/constants/shared";
 import CButton from "../ui/CButton";
 
 const IconButton = ({
   icon,
   onPress,
 }: {
-  icon: ReactNode;
+  icon: IoniconName;
   onPress: () => void;
 }) => {
   return <CButton variant="icon" icon={icon} onPress={onPress} />;

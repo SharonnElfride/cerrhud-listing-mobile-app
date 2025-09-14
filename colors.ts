@@ -6,7 +6,7 @@ Text colour => #fff
 Website background => #d9d5e8
 */
 
-module.exports = {
+const colors = {
   transparent: "transparent",
   current: "currentColor",
   // primary: "#6e4596",
@@ -40,3 +40,5 @@ module.exports = {
     900: "#164e63",
   },
 };
+
+export default colors;

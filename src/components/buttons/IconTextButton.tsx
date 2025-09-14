@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { IoniconName } from "@/src/constants/shared";
 import CButton from "../ui/CButton";
 
 const IconTextButton = ({
@@ -7,7 +7,7 @@ const IconTextButton = ({
   onPress,
 }: {
   label?: string;
-  icon?: ReactNode;
+  icon?: IoniconName;
   onPress: () => void;
 }) => {
   return (

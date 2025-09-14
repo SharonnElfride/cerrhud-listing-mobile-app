@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import { IconButtonSize, IoniconName } from "@/src/constants/shared";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { Pressable, Text, View } from "react-native";
 
 type ButtonVariant = "text" | "icon" | "iconText";
@@ -6,7 +7,7 @@ type ButtonVariant = "text" | "icon" | "iconText";
 type CButtonProps = {
   variant: ButtonVariant;
   label?: string;
-  icon?: ReactNode;
+  icon?: IoniconName;
   onPress: () => void;
 };
 
@@ -36,22 +37,17 @@ const CButton = ({ variant, label, icon, onPress }: CButtonProps) => {
   return (
     <Pressable
       onPress={onPress}
-      className="rounded-lg px-4 py-2 bg-purple-600"
+      className={`rounded-xl px-4 py-2 ${variant === "icon" ? "" : "bg-accent"}`}
       accessibilityLabel={`${label} button`}
-      style={({ pressed }) => [
-        { opacity: pressed ? 0.7 : 1 },
-      ]}
+      style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
     >
       <View className="flex-row items-center justify-center gap-2">
-        {variant === "icon" && icon}
-        {variant === "text" && label && (
-          <Text className="text-white font-semibold">{label}</Text>
+        {(variant === "icon" || variant === "iconText") && icon && (
+          <Ionicons name={icon} size={IconButtonSize} color={"white"} />
         )}
-        {variant === "iconText" && (
-          <>
-            {icon}
-            {label && <Text className="text-white font-semibold">{label}</Text>}
-          </>
+
+        {(variant === "text" || variant === "iconText") && label && (
+          <Text className="text-white font-semibold">{label}</Text>
         )}
       </View>
     </Pressable>

@@ -8,7 +8,7 @@ const CerrhudLabScreen = ({}) => {
         Cerrhud Lab info screen
       </Text>
 
-      <TextButton label={"Press me"} onPress={() => Alert.alert("Pressed")} />
+      <TextButton label={"Book an appointment"} onPress={() => Alert.alert("Pressed")} />
     </View>
   );
 };

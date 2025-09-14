@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 
 const MedicalTestCatalogScreen = ({}) => {
   return (
@@ -7,7 +7,13 @@ const MedicalTestCatalogScreen = ({}) => {
       <Text className="text-xl font-bold text-primary">
         Catalog of Medical tests
       </Text>
-      <Link href={"/cerrhud-lab"}>Go to lab</Link>
+      {/* <FontAwesome.Button
+        name="whatsapp"
+        backgroundColor="#25D366"
+        // onPress={() => {}}
+      >
+        Book on WhatsApp
+      </FontAwesome.Button> */}
     </View>
   );
 };
