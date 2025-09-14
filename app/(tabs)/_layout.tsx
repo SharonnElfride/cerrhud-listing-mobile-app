@@ -10,7 +10,7 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: "white",
         sceneStyle: {
-          backgroundColor: colors.background.DEFAULT,
+          // backgroundColor: colors.background.DEFAULT,
         },
       }}
     >

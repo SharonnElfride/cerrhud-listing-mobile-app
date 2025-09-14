@@ -2,13 +2,15 @@ import colors from "@/colors";
 import IconButton from "@/src/components/buttons/IconButton";
 import { TopBarItem } from "@/src/constants/navigation";
 import { IconButtonSize } from "@/src/constants/shared";
+import { callNumber } from "@/src/utils/phone";
 import { Poppins_400Regular } from "@expo-google-fonts/poppins";
 import { RobotoSerif_700Bold, useFonts } from "@expo-google-fonts/roboto-serif";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import * as NavigationBar from "expo-navigation-bar";
 import { Link, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
@@ -18,6 +20,12 @@ export default function RootLayout() {
     RobotoSerif_700Bold,
     Poppins_400Regular,
   });
+
+  useEffect(() => {
+    if (Platform.OS === "android") {
+      NavigationBar.setVisibilityAsync("hidden");
+    }
+  }, []);
 
   useEffect(() => {
     if (fontsLoaded || error) {
@@ -36,11 +44,14 @@ export default function RootLayout() {
           headerStyle: { backgroundColor: colors.primary.DEFAULT },
           headerTintColor: "#fff",
           headerTitleStyle: {
-            fontWeight: "700",
-            fontFamily: "RobotoSerif_700Bold",
+            // fontFamily: "RobotoSerif_700Bold",
+            fontFamily: Platform.select({
+              android: "RobotoSerif_700Bold",
+              ios: "RobotoSerif-Bold",
+            }),
           },
           contentStyle: {
-            backgroundColor: colors.background.DEFAULT,
+            // backgroundColor: colors.background.DEFAULT,
           },
         }}
       >
@@ -49,7 +60,12 @@ export default function RootLayout() {
           options={{
             title: `${TopBarItem.title}`,
             headerTitle: () => (
-              <Text className="font-title uppercase font-bold text-2xl text-white">
+              <Text
+                className="uppercase text-2xl text-white"
+                style={{
+                  fontFamily: "RobotoSerif_700Bold",
+                }}
+              >
                 {TopBarItem.title}
               </Text>
             ),
@@ -69,10 +85,7 @@ export default function RootLayout() {
           options={{
             title: `${TopBarItem.title}`,
             headerRight: () => (
-              // <Pressable onPress={() => alert("Home action!")}>
-              //   <Ionicons name="add-circle-outline" size={24} color="#fff" />
-              // </Pressable>
-              <IconButton icon="call-outline" onPress={() => {}} />
+              <IconButton icon="call-outline" onPress={() => callNumber()} />
             ),
           }}
         />
@@ -80,17 +93,3 @@ export default function RootLayout() {
     </View>
   );
 }
-
-/*
-  import { Platform } from 'react-native';
-  // Inside a React component:
-  <Text
-    style={{
-      fontFamily: Platform.select({
-        android: 'Inter_900Black',
-        ios: 'Inter-Black',
-      }),
-    }}>
-    Inter Black
-  </Text>
-*/

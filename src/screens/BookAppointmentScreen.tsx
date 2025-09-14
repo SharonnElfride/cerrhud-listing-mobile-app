@@ -1,12 +1,18 @@
-import { View, Text } from "react-native";
+import { Alert } from "react-native";
+import TextButton from "../components/buttons/TextButton";
+import CView from "../components/ui/CView";
+import {
+  BookAppointmentScreenData
+} from "../constants/screens-data";
 
 const BookAppointmentScreen = ({}) => {
   return (
-    <View className="flex-1 items-center justify-center">
-      <Text className="text-xl font-bold text-primary">
-        Book an appointment with the lab
-      </Text>
-    </View>
+    <CView viewData={BookAppointmentScreenData}>
+      <TextButton
+        label={"Book an appointment"}
+        onPress={() => Alert.alert("Pressed")}
+      />
+    </CView>
   );
 };
 

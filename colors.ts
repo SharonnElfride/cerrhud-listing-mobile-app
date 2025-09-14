@@ -18,9 +18,13 @@ const colors = {
   "web-footer-bg": "#240049",
   accent: "#f94caf",
   background: {
-    light: "#d9d5e8",
-    DEFAULT: "#d9d5e8",
-    dark: "#d9d5e8",
+    light: "#fff",
+    DEFAULT: "#fff",
+    dark: "#fff",
+  },
+  card: {
+    background: "#d9d5e8",
+    text: "#000"
   },
   midnight: "#121063",
   metal: "#565584",
