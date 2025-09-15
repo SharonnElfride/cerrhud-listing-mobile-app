@@ -18,6 +18,7 @@ jspm_packages/
 # Generated native folders
 /ios
 /android
+**/*.properties
 
 # Xcode
 ios/build/
