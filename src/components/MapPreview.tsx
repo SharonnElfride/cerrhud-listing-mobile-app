@@ -6,7 +6,7 @@ import { CerrhudLabData } from "../constants/cerrhud-lab-data";
 import { openMap } from "../utils/maps";
 
 const MapPreview = () => {
-  const MAPTILER_API_KEY = process.env.MAPTILER_API_KEY;
+  const MAPTILER_API_KEY = process.env.EXPO_PUBLIC_MAPTILER_API_KEY;
 
   return (
     <MapView
