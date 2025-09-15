@@ -40,14 +40,17 @@
           ]
         }
       ],
-      "expo-maps"
+      "@maplibre/maplibre-react-native"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
     },
     "extra": {
-      "router": {}
+      "router": {},
+      "eas": {
+        "projectId": "1cd7dab8-77d5-49cf-bb11-969f49491581"
+      }
     },
     "runtimeVersion": {
       "policy": "appVersion"
