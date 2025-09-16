@@ -2,26 +2,27 @@ import colors from "@/colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
 import { ExternalPathString, useRouter } from "expo-router";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import IconTextButton from "../components/buttons/IconTextButton";
 import ExternalLink from "../components/ExternalLink";
 import MapPreview from "../components/MapPreview";
 import CDivider from "../components/ui/CDivider";
+import CText from "../components/ui/CText";
 import CView from "../components/ui/CView";
 import { CerrhudLabData } from "../constants/cerrhud-lab-data";
 import { CerrhudLabScreenData } from "../constants/screens-data";
 import { Blurhash, IconButtonSize, IoniconName } from "../constants/shared";
 import { callNumber } from "../utils/phone";
 
-const CerrhudLabScreen = ({}) => {
+const CerrhudLabScreen = () => {
   const router = useRouter();
 
   return (
     <CView viewData={CerrhudLabScreenData}>
       <ExternalLink href={"https://n.cerrhud.net/"} className="my-2">
-        <Text className="font-medium text-sm text-accent underline underline-offset-8">
+        <CText className="font-medium text-sm text-accent underline underline-offset-8">
           Visiter notre site web
-        </Text>
+        </CText>
       </ExternalLink>
       <View className="gap-2">
         <View className="flex flex-row items-center gap-2">
@@ -30,22 +31,22 @@ const CerrhudLabScreen = ({}) => {
             size={IconButtonSize}
             color={colors.accent}
           />
-          <Text className="text-lg capitalize w-full font-medium text-primary underline underline-offset-8">
+          <CText className="text-lg capitalize w-full font-medium text-primary underline underline-offset-8">
             {/* Localisation */}
             Accès au laboratoire
-          </Text>
+          </CText>
         </View>
 
         <View>
-          <Text className="font-medium">
+          <CText className="font-medium">
             Rue 607. Carré 750 Gbégamey Cotonou-Bénin
-          </Text>
+          </CText>
           <CDivider />
-          <Text className="text-justify">
+          <CText className="text-justify">
             Maison Adjovi, sise rue de la Salle de Gymnastique, à environ 300
             mètres sur la droite en partant du carrefour Codiam/Camp Guézo, en
             direction du petit portail du Collège Père Aupiais.
-          </Text>
+          </CText>
         </View>
 
         <MapPreview />
@@ -58,13 +59,13 @@ const CerrhudLabScreen = ({}) => {
             size={IconButtonSize}
             color={colors.accent}
           />
-          <Text className="text-lg capitalize w-full font-medium text-primary underline underline-offset-8">
+          <CText className="text-lg capitalize w-full font-medium text-primary underline underline-offset-8">
             Horaires d'ouverture
-          </Text>
+          </CText>
         </View>
 
         <View>
-          <Text className="text-justify">Lun 10:00 - 12:00</Text>
+          <CText className="text-justify">Lun 10:00 - 12:00</CText>
         </View>
       </View>
 
@@ -75,9 +76,9 @@ const CerrhudLabScreen = ({}) => {
             size={IconButtonSize}
             color={colors.accent}
           />
-          <Text className="text-lg capitalize w-full font-medium text-primary underline underline-offset-8">
+          <CText className="text-lg capitalize w-full font-medium text-primary underline underline-offset-8">
             Notre équipe
-          </Text>
+          </CText>
         </View>
 
         <View className="gap-2">
@@ -92,12 +93,12 @@ const CerrhudLabScreen = ({}) => {
             contentPosition="top center"
             transition={1000}
           />
-          <Text className="text-justify">
+          <CText className="text-justify">
             Notre équipe réunit des techniciens expérimentés, des gynécologues
             spécialisés en fertilité et des professionnels de santé engagés.
             Ensemble, nous vous accompagnons dans votre parcours vers la
             parentalité avec écoute et solutions adaptées.
-          </Text>
+          </CText>
         </View>
       </View>
 
@@ -108,14 +109,14 @@ const CerrhudLabScreen = ({}) => {
             size={IconButtonSize}
             color={colors.accent}
           />
-          <Text className="text-lg capitalize w-full font-medium text-primary underline underline-offset-8">
+          <CText className="text-lg capitalize w-full font-medium text-primary underline underline-offset-8">
             Nos réseaux sociaux
-          </Text>
+          </CText>
         </View>
 
-        <Text>
+        <CText>
           Suivez-nous sur nos réseaux sociaux et rejoignez la conversation !
-        </Text>
+        </CText>
         <View className="flex flex-row w-full justify-evenly items-center">
           {CerrhudLabData.socials.map((item) => (
             <ExternalLink href={item.url as ExternalPathString} key={item.id}>

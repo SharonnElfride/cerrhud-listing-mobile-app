@@ -22,23 +22,12 @@ export function callNumber() {
 }
 
 export function sendMessageOnWhatsapp(message: string = "") {
-  const url = `whatsapp://send?phone=${CerrhudLabData.phoneNumber}&text=${encodeURIComponent(
-    message
-  )}`;
+  const url = `https://api.whatsapp.com/send?phone=${CerrhudLabData.phoneNumber}&text=${encodeURIComponent(message)}`;
 
-  Linking.canOpenURL(url)
-    .then((supported) => {
-      if (supported) {
-        return Linking.openURL(url);
-      } else {
-        // Alert.alert(PhoneErrorMessages.whatsapp);
-        sendSms(message);
-      }
-    })
-    .catch((err) => {
-      console.error(`${PhoneErrorMessages.default} WhatsApp : `, err);
-      sendSms(message);
-    });
+  Linking.openURL(url).catch((err) => {
+    console.error("Failed to open WhatsApp:", err);
+    sendSms(message);
+  });
 }
 
 export function sendSms(message: string = "") {

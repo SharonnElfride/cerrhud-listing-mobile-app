@@ -1,4 +1,3 @@
-import colors from "@/colors";
 import CTabBottomBar from "@/src/components/ui/CTabBottomBar";
 import { BottomBarItems } from "@/src/constants/navigation";
 import { Tabs } from "expo-router";

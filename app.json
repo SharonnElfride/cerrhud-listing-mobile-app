@@ -31,13 +31,35 @@
           "fonts": [
             "node_modules/@expo-google-fonts/poppins/400Regular/Poppins_400Regular.ttf",
             "node_modules/@expo-google-fonts/poppins/500Medium/Poppins_500Medium.ttf",
-            "node_modules/@expo-google-fonts/roboto-serif/400Regular/RobotoSerif_400Regular.ttf",
-            "node_modules/@expo-google-fonts/roboto-serif/500Medium/RobotoSerif_500Medium.ttf",
             "node_modules/@expo-google-fonts/roboto-serif/600SemiBold/RobotoSerif_600SemiBold.ttf",
-            "node_modules/@expo-google-fonts/roboto-serif/700Bold/RobotoSerif_700Bold.ttf",
-            "node_modules/@expo-google-fonts/roboto-serif/800ExtraBold/RobotoSerif_800ExtraBold.ttf",
-            "node_modules/@expo-google-fonts/roboto-serif/900Black/RobotoSerif_900Black.ttf"
+            "node_modules/@expo-google-fonts/roboto-serif/700Bold/RobotoSerif_700Bold.ttf"
           ]
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#d9d5e8",
+          "image": "./assets/images/cerrhud-logo-cropped.png",
+          "imageWidth": 200
+        }
+      ],
+      [
+        "expo-sqlite",
+        {
+          "enableFTS": true,
+          "useSQLCipher": true,
+          "android": {
+            // Override the shared configuration for Android
+            "enableFTS": false,
+            "useSQLCipher": false
+          },
+          "ios": {
+            // Override the shared configurations for iOS
+            "customBuildFlags": [
+              "-DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_SNAPSHOT=1"
+            ]
+          }
         }
       ],
       "@maplibre/maplibre-react-native"

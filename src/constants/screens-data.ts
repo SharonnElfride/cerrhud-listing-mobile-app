@@ -14,7 +14,7 @@ const MedicalTestCatalogScreenData: ScreenData = {
 
 const BookAppointmentScreenData: ScreenData = {
   title: "Prendre un rendez-vous",
-  subTitle: "Planifiez facilement votre visite via WhatsApp ou appel.",
+  subTitle: "Planifiez facilement votre visite via WhatsApp ou sms.",
 };
 
 const CerrhudLabScreenData: ScreenData = {

@@ -8,8 +8,20 @@ export const IconButtonSize = 24;
 
 export const Blurhash = "LEPPr{fi.ktR%MofkCWV%}ofD%V@";
 export const PhoneErrorMessages = {
-    call: "Le numéro de téléphone n'est pas disponible.",
-    whatsapp: "WhatsApp n'est pas installé sur cet appareil.",
-    sms: "Les SMS ne sont pas disponibles sur cet appareil.",
-    default: "Erreur lors de l'ouverture de l'application"
-}
+  call: "Le numéro de téléphone n'est pas disponible.",
+  whatsapp: "WhatsApp n'est pas installé sur cet appareil.",
+  sms: "Les SMS ne sont pas disponibles sur cet appareil.",
+  default: "Erreur lors de l'ouverture de l'application",
+};
+
+export const PickerDateFormat = "dd/MM/yyyy";
+export const MessageDateFormat = "dd MMMM yyyy";
+
+export const FormErrorMessages = {
+  required: (suffix: string = "") => {
+    return `⚠️ Ce champ est obligatoire. ${suffix}`;
+  },
+  invalid: (prefix?: string) => {
+    return `${prefix ?? "🚫 Champ"} invalide. Merci de vérifier.`;
+  },
+};

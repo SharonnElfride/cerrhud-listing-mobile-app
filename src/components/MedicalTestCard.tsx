@@ -1,5 +1,5 @@
-import { Text } from "react-native";
 import { MedicalTest } from "../models/MedicalTest";
+import CText from "./ui/CText";
 
 interface MedicalTestCardProps {
   medicalTest: MedicalTest;
@@ -8,8 +8,8 @@ interface MedicalTestCardProps {
 const MedicalTestCard = ({ medicalTest }: MedicalTestCardProps) => {
   return (
     <>
-      <Text className="text-lg">{medicalTest.title}</Text>
-      <Text className="text-base">{medicalTest.acronym}</Text>
+      <CText className="text-lg">{medicalTest.title}</CText>
+      <CText className="text-base">{medicalTest.acronym}</CText>
     </>
   );
 };
