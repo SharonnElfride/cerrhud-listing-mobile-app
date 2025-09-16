@@ -24,13 +24,22 @@ const colors = {
   },
   card: {
     background: "#d9d5e8",
-    text: "#000"
+    text: "#000",
+  },
+  caret: "#A17EC4",
+  "placeholder-color": {
+    light: "gray",
+    DEFAULT: "gray",
+    dark: "gray",
   },
   midnight: "#121063",
   metal: "#565584",
   silver: "#ecebff",
   "bubble-gum": "#ff77e9",
   bermuda: "#78dcca",
+  red: {
+    DEFAULT: "#ff0000",
+  },
   tahiti: {
     100: "#cffafe",
     200: "#a5f3fc",

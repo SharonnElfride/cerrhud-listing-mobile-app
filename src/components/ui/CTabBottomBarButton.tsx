@@ -86,7 +86,7 @@ const CTabBottomBarButton = ({
           children: routeName,
         })
       ) : (
-        <Animated.Text style={[{ color: color, fontSize: 12 }]}>
+        <Animated.Text style={[{ color: color, fontSize: 12, fontFamily: "Poppins_400Regular" }]}>
           {label}
         </Animated.Text>
       )}

@@ -5,7 +5,6 @@ const socials = {
   },
   whatsapp: {
     id: "whatsapp",
-    // url: "https://wa.me/22999886001",
     url: "https://wa.me/2290199886001",
     size: 22,
   },
@@ -33,8 +32,7 @@ interface SocialItem {
 export const CerrhudLabData = {
   logo: require("@/assets/images/cerrhud-logo-cropped.png"),
   teamImg: require("@/assets/images/cerrhud-team.jpg"),
-  //+229 0199 886 001
-  phoneNumber: "+2290199886001",
+  phoneNumber: "2290199886001",
   coordinates: {
     latitude: 6.359887,
     longitude: 2.407297,

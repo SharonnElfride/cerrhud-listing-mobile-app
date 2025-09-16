@@ -1,8 +1,10 @@
 import { ScreenData } from "@/src/constants/screens-data";
 import { Blurhash } from "@/src/constants/shared";
 import { Image } from "expo-image";
-import { ScrollView, Text, View, ViewProps } from "react-native";
+import { ScrollView, View, ViewProps } from "react-native";
 import CDivider from "./CDivider";
+import CText from "./CText";
+import CTitleText from "./CTitleText";
 
 const CView = ({
   children,
@@ -36,18 +38,13 @@ const CView = ({
             transition={1000}
           />
         )}
-        <Text
-          className="text-xl text-primary capitalize w-full"
-          style={{ fontFamily: "RobotoSerif_700Bold" }}
-        >
-          {viewData.title}
-        </Text>
+        <CTitleText>{viewData.title}</CTitleText>
       </View>
       <CDivider />
 
-      <Text className="font-body text-base text-justify">
+      <CText className="font-body text-base text-justify">
         {viewData.subTitle}
-      </Text>
+      </CText>
 
       {children}
     </ScrollView>

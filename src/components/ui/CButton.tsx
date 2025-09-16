@@ -1,6 +1,7 @@
 import { IconButtonSize, IoniconName } from "@/src/constants/shared";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Dimensions, Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
+import CText from "./CText";
 
 type ButtonVariant = "text" | "icon" | "iconText";
 
@@ -8,32 +9,23 @@ type CButtonProps = {
   variant: ButtonVariant;
   label?: string;
   icon?: IoniconName;
-  onPress: () => void;
+  onPress?: () => void;
+  className?: string;
 };
 
-/*
-const variantStyles = {
-  default: "rounded",
-  primary: "bg-blue-500 text-white",
-  secondary: "bg-white-500 text-black",
+const textVariantStyles = {
+  default: "text-white font-extrabold",
+  text: "w-full text-center",
+  iconText: "",
 };
- 
-function MyComponent({ variant, className, ...props }) {
-  return (
-    <Text
-      className={`
-        ${variantStyles.default}
-        ${variantStyles[variant]}
-        ${className}
-      `}
-      {...props }
-    />
-  );
-}
-*/
 
-// export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
-const CButton = ({ variant, label, icon, onPress }: CButtonProps) => {
+const CButton = ({
+  variant,
+  label,
+  icon,
+  onPress,
+  className,
+}: CButtonProps) => {
   return (
     <Pressable
       onPress={onPress}
@@ -47,7 +39,11 @@ const CButton = ({ variant, label, icon, onPress }: CButtonProps) => {
         )}
 
         {(variant === "text" || variant === "iconText") && label && (
-          <Text className="text-white font-semibold">{label}</Text>
+          <CText
+            className={`${textVariantStyles.default} ${textVariantStyles[variant]} ${className}`}
+          >
+            {label}
+          </CText>
         )}
       </View>
     </Pressable>

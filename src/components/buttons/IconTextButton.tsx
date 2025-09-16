@@ -5,13 +5,15 @@ const IconTextButton = ({
   label,
   icon,
   onPress,
+  className
 }: {
   label: string;
   icon: IoniconName;
-  onPress: () => void;
+  onPress?: () => void;
+  className?: string;
 }) => {
   return (
-    <CButton variant="iconText" label={label} icon={icon} onPress={onPress} />
+    <CButton variant="iconText" label={label} icon={icon} onPress={onPress} className={className} />
   );
 };
 
