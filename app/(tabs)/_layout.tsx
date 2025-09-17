@@ -13,12 +13,14 @@ export default function TabLayout() {
         },
       }}
     >
-      {BottomBarItems.map((item) => (
-        <Tabs.Screen
-          name={item.id}
-          options={{ headerShown: false, title: `${item.title}` }}
-        />
-      ))}
+      {BottomBarItems.map((item) => {
+        return (
+          <Tabs.Screen
+            name={item.id}
+            options={{ headerShown: false, title: `${item.title}` }}
+          />
+        );
+      })}
     </Tabs>
   );
 }

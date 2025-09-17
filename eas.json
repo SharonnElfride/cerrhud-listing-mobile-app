@@ -14,11 +14,23 @@
     },
     "preview": {
       "distribution": "internal",
-      "channel": "preview"
+      "channel": "preview",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:bundleRelease"
+      }
     },
     "production": {
       "autoIncrement": true,
-      "channel": "production"
+      "channel": "production",
+      "android": {
+        "buildType": "app-bundle",
+        "gradleCommand": ":app:bundleRelease",
+        "enableSplitApks": true
+      },
+      "ios": {
+        "buildConfiguration": "Release"
+      }
     }
   },
   "submit": {

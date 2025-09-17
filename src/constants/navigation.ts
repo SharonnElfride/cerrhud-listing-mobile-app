@@ -1,16 +1,17 @@
 import { IoniconName } from "./shared";
 
+export type TopBarRoute = "app-bar";
 export type BottomBarRoute = "index" | "book-appointment";
 
 interface AppNavigationBarItem {
-  id: BottomBarRoute | string;
+  id: TopBarRoute | BottomBarRoute;
   title: string;
 }
 
 export const TopBarItem: AppNavigationBarItem = {
   id: "app-bar",
-  title: "Cerrhud Lab"
-}
+  title: "Cerrhud Lab",
+};
 
 export const BottomBarItems: AppNavigationBarItem[] = [
   {
