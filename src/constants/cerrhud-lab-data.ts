@@ -32,6 +32,7 @@ interface SocialItem {
 export const CerrhudLabData = {
   logo: require("@/assets/images/cerrhud-logo-cropped.png"),
   teamImg: require("@/assets/images/cerrhud-team.jpg"),
+  //+229 0199 886 001
   phoneNumber: "2290199886001",
   coordinates: {
     latitude: 6.359887,

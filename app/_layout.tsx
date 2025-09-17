@@ -2,7 +2,7 @@ import colors from "@/colors";
 import IconButton from "@/src/components/buttons/IconButton";
 import { TopBarItem } from "@/src/constants/navigation";
 import { IconButtonSize } from "@/src/constants/shared";
-import { initDb } from "@/src/database/sqlite";
+import { MedicalTestsProvider } from "@/src/context/MedicalTestsContext";
 import { callNumber } from "@/src/utils/phone";
 import { Poppins_400Regular } from "@expo-google-fonts/poppins";
 import { RobotoSerif_700Bold, useFonts } from "@expo-google-fonts/roboto-serif";
@@ -35,82 +35,78 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    // if (fontsLoaded || error) {
-    //   SplashScreen.hideAsync();
-    // }
+    if (!fontsLoaded) return;
 
-    async function prepare() {
-      try {
-        // await initDb();
-      } catch (e) {
-        console.error("DB init error:", e);
-      } finally {
-        if (fontsLoaded || error) {
-          SplashScreen.hideAsync();
-        }
-      }
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
     }
-
-    prepare();
-  }, [fontsLoaded, error]);
+  }, [fontsLoaded]);
 
   if (!fontsLoaded && !error) {
     return null;
   }
 
   return (
-    <View className="flex-1 bg-background">
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: colors.primary.DEFAULT },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            // fontFamily: "RobotoSerif_700Bold",
-            fontFamily: Platform.select({
-              android: "RobotoSerif_700Bold",
-              ios: "RobotoSerif-Bold",
-            }),
-          },
-          contentStyle: {
-            // backgroundColor: colors.background.DEFAULT,
-          },
-        }}
-      >
-        <Stack.Screen
-          name="(tabs)"
-          options={{
-            title: `${TopBarItem.title}`,
-            headerTitle: () => (
-              <Text
-                className="uppercase text-2xl text-white"
-                style={{
-                  fontFamily: "RobotoSerif_700Bold",
-                }}
-              >
-                {TopBarItem.title}
-              </Text>
-            ),
-            headerRight: () => (
-              <Link href={"/cerrhud-lab"}>
-                <Ionicons
-                  name="information-circle-outline"
-                  size={IconButtonSize}
-                  color="#fff"
-                />
-              </Link>
-            ),
+    <MedicalTestsProvider>
+      <View className="flex-1 bg-background">
+        <Stack
+          screenOptions={{
+            headerStyle: { backgroundColor: colors.primary.DEFAULT },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              // fontFamily: "RobotoSerif_700Bold",
+              fontFamily: Platform.select({
+                android: "RobotoSerif_700Bold",
+                ios: "RobotoSerif-Bold",
+              }),
+            },
+            contentStyle: {
+              // backgroundColor: colors.background.DEFAULT,
+            },
           }}
-        />
-        <Stack.Screen
-          name="cerrhud-lab"
-          options={{
-            title: `${TopBarItem.title}`,
-            headerRight: () => (
-              <IconButton icon="call-outline" onPress={() => callNumber()} />
-            ),
-          }}
-        />
-      </Stack>
-    </View>
+        >
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              title: `${TopBarItem.title}`,
+              headerTitle: () => (
+                <Text
+                  className="uppercase text-2xl text-white"
+                  style={{
+                    fontFamily: "RobotoSerif_700Bold",
+                  }}
+                >
+                  {TopBarItem.title}
+                </Text>
+              ),
+              headerRight: () => (
+                <Link href={"/cerrhud-lab"}>
+                  <Ionicons
+                    name="information-circle-outline"
+                    size={IconButtonSize}
+                    color="#fff"
+                  />
+                </Link>
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="cerrhud-lab"
+            options={{
+              title: `${TopBarItem.title}`,
+              // headerBackTitleVisible: false,
+              // headerBackTitle: undefined,
+              headerBackButtonDisplayMode: "minimal",
+              headerBackTitleStyle: {
+                fontFamily: "RobotoSerif_700Bold",
+              },
+              headerRight: () => (
+                <IconButton icon="call-outline" onPress={() => callNumber()} />
+              ),
+            }}
+          />
+        </Stack>
+      </View>
+    </MedicalTestsProvider>
   );
 }

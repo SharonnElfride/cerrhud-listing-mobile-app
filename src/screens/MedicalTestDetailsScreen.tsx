@@ -1,4 +1,5 @@
 import { View } from "react-native";
+import TextButton from "../components/buttons/TextButton";
 import CText from "../components/ui/CText";
 
 const MedicalTestDetailsScreen = ({}) => {
@@ -7,14 +8,23 @@ const MedicalTestDetailsScreen = ({}) => {
       <CText className="text-xl font-bold text-primary">
         Details of selected medical test
       </CText>
+
+      {/* 👉 Conditions à respecter : */}
+      {/* 👉 Prélèvement : */}
+      {/* 💰 Prix : 61.500FCFA */}
+
+      <View>
+        <TextButton
+          label={"Prendre un rdv pour cet examen"}
+          onPress={() => {}}
+        />
+        <TextButton
+          label={"Demander + d'info sur cet examen"}
+          onPress={() => {}}
+        />
+      </View>
     </View>
   );
 };
-
-/*
-price = 8000.5
-formatted = f"{price:,.2f}".replace(",", " ").replace(".", ",")
-print(formatted + " €")  # Output: 8 000,50 €
-*/
 
 export default MedicalTestDetailsScreen;

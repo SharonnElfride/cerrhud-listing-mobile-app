@@ -8,13 +8,31 @@ import { CDateInput } from "../components/ui/CDateInput";
 import { CRadioGroup } from "../components/ui/CRadioGroup";
 import CTextInput from "../components/ui/CTextInput";
 import CTimePickerInput from "../components/ui/CTimePickerInput";
+import { MedicalTest } from "../models/MedicalTest";
 import { appointmentBookingMessage } from "../utils/messages/appointment-booking-message-template";
 import { sendMessageOnWhatsapp } from "../utils/phone";
 import { appointmentSchema } from "./appointment-schema";
 
 export type AppointmentFormData = z.infer<typeof appointmentSchema>;
+export const OtherMedicalTestsCheckbox = {
+  label: "Autre",
+  value: "other",
+};
 
-export const AppointmentForm = () => {
+export const AppointmentForm = ({
+  medicalTests,
+}: {
+  medicalTests: MedicalTest[];
+}) => {
+  const medicalTestsCheckboxes = medicalTests.map((test) => {
+    return {
+      label: `${test.title} (${test.acronym})`,
+      value: test.whatsappId,
+    };
+  });
+
+  medicalTestsCheckboxes.push(OtherMedicalTestsCheckbox);
+
   const { control, handleSubmit } = useForm<AppointmentFormData>({
     resolver: zodResolver(appointmentSchema),
     defaultValues: {
@@ -24,6 +42,15 @@ export const AppointmentForm = () => {
   });
 
   const onSubmit = (data: AppointmentFormData) => {
+    const chosenMedicalTests = data.medicalTests.map(
+      (id) =>
+        medicalTests.find((x) => x.whatsappId === id)?.title ??
+        (id === OtherMedicalTestsCheckbox.value
+          ? OtherMedicalTestsCheckbox.label
+          : "-")
+    );
+
+    data.medicalTests = chosenMedicalTests;
     const message = appointmentBookingMessage(data);
     sendMessageOnWhatsapp(message);
   };
@@ -67,10 +94,11 @@ export const AppointmentForm = () => {
         control={control}
         controlName={"medicalTests"}
         controlLabel={"Examen(s) demandé(s)"}
-        options={[
-          { label: "What", value: "what" },
-          { label: "Etc", value: "etc" },
-        ]}
+        options={medicalTestsCheckboxes}
+        // options={[
+        //   { label: "What", value: "what" },
+        //   { label: "Etc", value: "etc" },
+        // ]}
         required
       />
 

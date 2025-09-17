@@ -25,3 +25,9 @@ export const FormErrorMessages = {
     return `${prefix ?? "🚫 Champ"} invalide. Merci de vérifier.`;
   },
 };
+
+export const FormatPrice = (price: number) =>
+  new Intl.NumberFormat("fr-FR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(price);
