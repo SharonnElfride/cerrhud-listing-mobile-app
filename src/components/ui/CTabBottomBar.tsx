@@ -10,7 +10,6 @@ const CTabBottomBar = ({
 }: BottomTabBarProps) => {
   return (
     <View
-      // className="flex flex-row absolute bg-white bottom-[50] justify-between items-center mx-[50] py-[10] rounded-[35]"
       className="flex flex-row absolute bg-white bottom-[30] justify-between items-center mx-[50] py-[10] rounded-[35]"
       style={{
         shadowColor: "#000",
@@ -66,25 +65,5 @@ const CTabBottomBar = ({
     </View>
   );
 };
-
-/*
-  <BlurView
-    intensity={80}
-    tint="light"
-    style={{
-      position: "absolute",
-      bottom: 50,
-      left: 50,
-      right: 50,
-      paddingVertical: 10,
-      borderRadius: 35,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 10 },
-      shadowRadius: 10,
-      shadowOpacity: 0.15,
-      elevation: 6,
-    }}
-  ></BlurView>
-*/
 
 export default CTabBottomBar;

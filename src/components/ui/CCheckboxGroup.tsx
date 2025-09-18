@@ -1,3 +1,4 @@
+import colors from "@/colors";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { Pressable, View } from "react-native";
 import { Checkbox } from "react-native-paper";
@@ -24,31 +25,39 @@ export function CCheckboxGroup<T extends FieldValues>({
     <Controller
       control={control}
       name={controlName}
-      render={({ field: { value = [], onChange }, fieldState: { error } }) => (
-        <View className="gap-2">
-          <CFormInputLabel label={controlLabel} required={required} />
+      render={({ field: { value, onChange }, fieldState: { error } }) => {
+        const currentValue = (value ?? []) as string[];
 
-          {options.map((opt) => {
-            const checked = (value as string[]).includes(opt.value);
-            return (
-              <Pressable
-                key={opt.value}
-                onPress={() =>
-                  checked
-                    ? onChange(value.filter((v: string) => v !== opt.value))
-                    : onChange([...value, opt.value])
-                }
-                className="flex-row items-center gap-2"
-              >
-                <Checkbox status={checked ? "checked" : "unchecked"} />
-                <CText>{opt.label}</CText>
-              </Pressable>
-            );
-          })}
+        return (
+          <View className="gap-2 justify-center">
+            <CFormInputLabel label={controlLabel} required={required} />
 
-          {error && <CFormInputError errorMessage={error.message} />}
-        </View>
-      )}
+            {options.map((opt) => {
+              const checked = currentValue.includes(opt.value);
+
+              return (
+                <Pressable
+                  key={opt.value}
+                  onPress={() =>
+                    checked
+                      ? onChange(currentValue.filter((v) => v !== opt.value))
+                      : onChange([...currentValue, opt.value])
+                  }
+                  className="flex-row items-center gap-2"
+                >
+                  <Checkbox.Android
+                    status={checked ? "checked" : "unchecked"}
+                    color={colors.primary.DEFAULT}
+                  />
+                  <CText>{opt.label}</CText>
+                </Pressable>
+              );
+            })}
+
+            {error && <CFormInputError errorMessage={error.message} />}
+          </View>
+        );
+      }}
     />
   );
 }

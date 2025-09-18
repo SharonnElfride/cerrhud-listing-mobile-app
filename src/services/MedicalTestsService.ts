@@ -1,22 +1,35 @@
 import { db, MedicalTestsTableName } from "../database/sqlite";
 import { MedicalTest } from "../models/MedicalTest";
 
+function fromDatabase(row: any) {
+  return {
+    id: row.id,
+    title: row.title,
+    acronym: row.acronym,
+    price: row.price,
+    image: row.image,
+    conditions: row.conditions ? JSON.parse(row.conditions) : [],
+    sampleInstructions: row.sample_instructions
+      ? JSON.parse(row.sample_instructions)
+      : [],
+    customDetails: row.custom_details ? JSON.parse(row.custom_details) : [],
+    whatsappId: row.whatsapp_id,
+  } as MedicalTest;
+}
+
 export async function getMedicalTests(): Promise<MedicalTest[]> {
-  const result = await db.getAllAsync<MedicalTest>(
-    `SELECT * FROM ${MedicalTestsTableName}`
-  );
-  return result;
+  const rows = await db.getAllAsync(`SELECT * FROM ${MedicalTestsTableName}`);
+  return rows.map((row: any) => fromDatabase(row));
 }
 
 export async function getMedicalTestById(
   id: string
 ): Promise<MedicalTest | null> {
-  const result = await db.getFirstAsync<MedicalTest>(
+  const row = await db.getFirstAsync<MedicalTest>(
     `SELECT * FROM ${MedicalTestsTableName} WHERE id = ?`,
     id
   );
-
-  return result;
+  return fromDatabase(row);
 }
 
 export async function insertMedicalTest(test: MedicalTest) {

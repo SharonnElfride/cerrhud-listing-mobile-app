@@ -11,10 +11,10 @@ import * as NavigationBar from "expo-navigation-bar";
 import { Link, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { Platform, Text, View } from "react-native";
+import { Platform, Text } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "../global.css";
 
-// Set the animation options. This is optional.
 SplashScreen.setOptions({
   duration: 500,
   fade: true,
@@ -48,13 +48,12 @@ export default function RootLayout() {
 
   return (
     <MedicalTestsProvider>
-      <View className="flex-1 bg-background">
+      <GestureHandlerRootView className="bg-background" style={{ flex: 1 }}>
         <Stack
           screenOptions={{
             headerStyle: { backgroundColor: colors.primary.DEFAULT },
             headerTintColor: "#fff",
             headerTitleStyle: {
-              // fontFamily: "RobotoSerif_700Bold",
               fontFamily: Platform.select({
                 android: "RobotoSerif_700Bold",
                 ios: "RobotoSerif-Bold",
@@ -94,8 +93,6 @@ export default function RootLayout() {
             name="cerrhud-lab"
             options={{
               title: `${TopBarItem.title}`,
-              // headerBackTitleVisible: false,
-              // headerBackTitle: undefined,
               headerBackButtonDisplayMode: "minimal",
               headerBackTitleStyle: {
                 fontFamily: "RobotoSerif_700Bold",
@@ -106,7 +103,7 @@ export default function RootLayout() {
             }}
           />
         </Stack>
-      </View>
+      </GestureHandlerRootView>
     </MedicalTestsProvider>
   );
 }

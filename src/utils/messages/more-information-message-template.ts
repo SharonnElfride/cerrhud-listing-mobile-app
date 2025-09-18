@@ -3,5 +3,5 @@ J'aimerais avoir des informations supplémentaires concernant vos examens médic
 
 export function medicalTestsInfoMessage(medicalTests: string[]) {
   return `👋 Bonjour,
-J'aimerais avoir des informations supplémentaires concernant vos examens médicaux suivants: ${medicalTests}.`;
+J'aimerais avoir des informations supplémentaires concernant vos examens médicaux suivants: ${medicalTests.join(", ")}.`;
 }

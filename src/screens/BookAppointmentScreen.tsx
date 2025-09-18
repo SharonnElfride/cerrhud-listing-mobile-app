@@ -1,32 +1,38 @@
-import { Image } from "expo-image";
 import { View } from "react-native";
 import IconTextButton from "../components/buttons/IconTextButton";
+import CScreenFooter from "../components/CScreenFooter";
+import CCallout from "../components/ui/CCallout";
 import CDivider from "../components/ui/CDivider";
 import CText from "../components/ui/CText";
 import CTitleText from "../components/ui/CTitleText";
 import CView from "../components/ui/CView";
-import { CerrhudLabData } from "../constants/cerrhud-lab-data";
 import { BookAppointmentScreenData } from "../constants/screens-data";
-import { Blurhash } from "../constants/shared";
 import { useMedicalTests } from "../context/MedicalTestsContext";
 import { AppointmentForm } from "../forms/AppointmentForm";
 import { AppointmentInfoMessage } from "../utils/messages/more-information-message-template";
 import { sendMessageOnWhatsapp } from "../utils/phone";
 
-const BookAppointmentScreen = () => {
+const BookAppointmentScreen = ({
+  selectedTestId,
+}: {
+  selectedTestId?: string;
+}) => {
   const { medicalTests } = useMedicalTests();
 
   return (
     <CView viewData={BookAppointmentScreenData}>
-      <CText className="">
-        Pour réserver vos examens, vos informations seront envoyées via WhatsApp
-        si l'application est disponible sur votre téléphone. Si WhatsApp n'est
-        pas installé ou disponible, nous utiliserons automatiquement un SMS.
-        Veuillez vérifier que votre numéro de téléphone est correct afin que
-        nous puissions vous répondre rapidement.
-      </CText>
+      <CCallout type="accent">
+        Vos informations seront envoyées via WhatsApp si l'application est
+        disponible sur votre téléphone. Si WhatsApp n'est pas installé ou
+        disponible, nous utiliserons automatiquement un SMS. Veuillez vérifier
+        que votre numéro de téléphone est correct afin que nous puissions vous
+        répondre rapidement.
+      </CCallout>
 
-      <AppointmentForm medicalTests={medicalTests} />
+      <AppointmentForm
+        medicalTests={medicalTests}
+        selectedTestId={selectedTestId}
+      />
 
       <View className="mt-10 gap-3">
         <View>
@@ -40,25 +46,13 @@ const BookAppointmentScreen = () => {
         <View className="w-full items-center">
           <IconTextButton
             label={"Nous contacter"}
-            // icon={"logo-whatsapp"}
             icon={"chatbubbles-outline"}
             onPress={() => sendMessageOnWhatsapp(AppointmentInfoMessage)}
           />
         </View>
       </View>
 
-      <View className="justify-center items-center w-full mt-5">
-        <Image
-          style={{
-            width: 150,
-            height: 150,
-          }}
-          source={CerrhudLabData.logo}
-          placeholder={{ blurhash: Blurhash }}
-          contentFit="cover"
-          transition={1000}
-        />
-      </View>
+      <CScreenFooter />
     </CView>
   );
 };

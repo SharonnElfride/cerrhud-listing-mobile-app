@@ -1,15 +1,6 @@
-/*
-Primary colour => #6e4596
-Accent colour => #f94caf
-Footer bg colour => #240049
-Text colour => #fff
-Website background => #d9d5e8
-*/
-
 const colors = {
   transparent: "transparent",
   current: "currentColor",
-  // primary: "#6e4596",
   primary: {
     light: "#6e4596",
     DEFAULT: "#6e4596",

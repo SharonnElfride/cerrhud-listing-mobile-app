@@ -34,7 +34,7 @@ function CTextInput<T extends FieldValues>({
             <TextInput
               value={value}
               onChangeText={onChange}
-              className="text-black border border-primary rounded-lg"
+              className="text-black border border-primary rounded-lg p-2"
               placeholder={controlPlaceholder}
               placeholderTextColor={colors["placeholder-color"].DEFAULT}
               keyboardType={keyboardType}
