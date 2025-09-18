@@ -15,12 +15,5 @@ interface MedicalTest {
   whatsappId: string;
 }
 
-/*
-// Iterate over the new customDetails
-urineTest.customDetails?.forEach(detail => {
-  console.log(detail.title);
-  detail.values.forEach(value => console.log(" -", value));
-});
-*/
+export { type CustomDetail, type MedicalTest };
 
-export { type MedicalTest, type CustomDetail };

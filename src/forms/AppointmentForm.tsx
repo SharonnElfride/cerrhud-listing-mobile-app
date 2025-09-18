@@ -5,6 +5,7 @@ import { z } from "zod";
 import TextButton from "../components/buttons/TextButton";
 import { CCheckboxGroup } from "../components/ui/CCheckboxGroup";
 import { CDateInput } from "../components/ui/CDateInput";
+import CFormInputError from "../components/ui/CFormInputError";
 import { CRadioGroup } from "../components/ui/CRadioGroup";
 import CTextInput from "../components/ui/CTextInput";
 import CTimePickerInput from "../components/ui/CTimePickerInput";
@@ -21,8 +22,10 @@ export const OtherMedicalTestsCheckbox = {
 
 export const AppointmentForm = ({
   medicalTests,
+  selectedTestId,
 }: {
   medicalTests: MedicalTest[];
+  selectedTestId?: string;
 }) => {
   const medicalTestsCheckboxes = medicalTests.map((test) => {
     return {
@@ -33,10 +36,14 @@ export const AppointmentForm = ({
 
   medicalTestsCheckboxes.push(OtherMedicalTestsCheckbox);
 
-  const { control, handleSubmit } = useForm<AppointmentFormData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AppointmentFormData>({
     resolver: zodResolver(appointmentSchema),
     defaultValues: {
-      medicalTests: [],
+      medicalTests: selectedTestId ? [selectedTestId] : [],
       hasPrescription: false,
     },
   });
@@ -89,16 +96,11 @@ export const AppointmentForm = ({
         controlLabel={"Date de naissance"}
       />
 
-      {/* Examen(s) demandé(s) */}
       <CCheckboxGroup
         control={control}
         controlName={"medicalTests"}
         controlLabel={"Examen(s) demandé(s)"}
         options={medicalTestsCheckboxes}
-        // options={[
-        //   { label: "What", value: "what" },
-        //   { label: "Etc", value: "etc" },
-        // ]}
         required
       />
 
@@ -135,6 +137,8 @@ export const AppointmentForm = ({
       />
 
       <View className="w-full items-center mt-5">
+        {/* {errors.root && <CText>{errors.root.message}</CText>} */}
+        {errors.root && <CFormInputError errorMessage={errors.root.message} />}
         <TextButton
           label="Prendre un rendez-vous"
           onPress={handleSubmit(onSubmit)}

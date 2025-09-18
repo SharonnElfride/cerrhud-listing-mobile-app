@@ -3,60 +3,72 @@ import { ImageBackground } from "expo-image";
 import { StyleSheet, View } from "react-native";
 import { FormatPrice } from "../constants/shared";
 import { MedicalTest } from "../models/MedicalTest";
-import TextButton from "./buttons/TextButton";
+import IconTextButton from "./buttons/IconTextButton";
 import CText from "./ui/CText";
 
 interface MedicalTestCardProps {
   medicalTest: MedicalTest;
 }
 
-const MedicalTestCard = ({ medicalTest }: MedicalTestCardProps) => {
+const MedicalTestCard = ({
+  medicalTest,
+  onMoreDetailsClick,
+}: MedicalTestCardProps & {
+  onMoreDetailsClick: (medicalTest: MedicalTest) => void;
+}) => {
   return (
     <View className="bg-card-background rounded-lg p-3">
-      <View className="bg-primary rounded-lg gap-2 p-2">
-        <CText className="text-white text-lg font-[RobotoSerif_700Bold] capitalize w-full text-justify">
-          {/* <CText className="text-white text-lg font-[RobotoSerif_700Bold] capitalize"> */}
+      <View className="bg-primary border border-white rounded-lg gap-2 p-2">
+        <CText
+          className="text-white text-lg capitalize w-full text-justify"
+          style={{
+            fontFamily: "RobotoSerif_700Bold",
+          }}
+        >
           {medicalTest.title}
         </CText>
-        <View className="flex-row gap-2 items-center">
+        <View className="flex-row gap-1 items-center">
           <Ionicons name="cash-outline" color={"white"} size={22} />
-          <CText className="text-white text-sm">
-            {/* {medicalTest.price} FCFA */}
+          <CText
+            className="text-white text-sm font-semibold"
+            style={{
+              fontFamily: "Poppins_400Regular",
+            }}
+          >
             {FormatPrice(medicalTest.price)} FCFA
           </CText>
         </View>
       </View>
 
       <View className="w-full items-center p-2">
-        {/* <Link href={"/cerrhud-lab"}>Voir + de détails</Link> */}
-        <TextButton
-          label={"Voir + de détails"}
+        <IconTextButton
+          icon="albums-outline"
+          label={"Voir plus de détails"}
           onPress={() => {
-            // openBottomSheet(medicalTest)
+            onMoreDetailsClick(medicalTest);
           }}
-        ></TextButton>
+        ></IconTextButton>
       </View>
 
       <View className="w-full">
         <ImageBackground
-          source={require("@/assets/images/cerrhud-team.jpg")}
+          source={medicalTest.image}
           style={{
             width: "100%",
-            height: 150,
+            height: 100,
             justifyContent: "center",
-            // borderRadius: 8,
           }}
-          imageStyle={{ borderRadius: 8 }}
+          imageStyle={{ borderRadius: 5 }}
           contentFit="cover"
         >
           <View
             style={{
               ...StyleSheet.absoluteFillObject,
               backgroundColor: "rgba(255,255,255,0.69)",
-              borderRadius: 8,
+              borderRadius: 5,
             }}
           />
-          <CText className="text-center text-black font-bold">
+          <CText className="text-center text-lg text-black font-bold uppercase">
             {medicalTest.acronym}
           </CText>
         </ImageBackground>

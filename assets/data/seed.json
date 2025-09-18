@@ -4,7 +4,7 @@
       "title": "Examen Cyto Bactériologique des Urines & Antibiogramme",
       "acronym": "E.C.B.U + ATB",
       "price": 8000,
-      "image": "",
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/05/ECBU-scaled.jpg",
       "conditions": [
         "Pas de prise d'antibiotiques depuis au moins 10 jours.",
         "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
@@ -43,9 +43,9 @@
     },
     {
       "title": "Spermoculture",
-      "acronym": "spermoculture",
+      "acronym": "Spermoculture",
       "price": 11500,
-      "image": "",
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/Spermoculture.jpg",
       "conditions": [
         "Pas de prise d'antibiotiques depuis au moins 10 jours.",
         "Pas de rapport sexuel pendant au moins 3 jours."
@@ -62,7 +62,7 @@
       "title": "Prélèvement vaginal & Antibiogramme",
       "acronym": "PV + ATB",
       "price": 11500,
-      "image": "",
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/05/PV-ATB-scaled.jpg",
       "conditions": [
         "Pas de prise d'antibiotiques depuis au moins 10 jours.",
         "Pas de rapport sexuel la veille de l'examen.",
@@ -76,7 +76,7 @@
       "title": "Prélèvement urétral & Antibiogramme",
       "acronym": "PU + ATB",
       "price": 11500,
-      "image": "",
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/05/PU-ATB-scaled.jpg",
       "conditions": [
         "Pas de prise d'antibiotiques depuis au moins 10 jours.",
         "Ne pas uriner pendant au moins 4 heures avant l'examen.",
@@ -88,9 +88,9 @@
     },
     {
       "title": "Spermogramme",
-      "acronym": "spermogramme",
+      "acronym": "Spermogramme",
       "price": 10500,
-      "image": "",
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/Spermogramme.jpg",
       "conditions": [
         "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
       ],
@@ -106,7 +106,7 @@
       "title": "Spermogramme + Culture",
       "acronym": "Spermogramme + Culture",
       "price": 22000,
-      "image": "",
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/Spermogramme-culture.jpg",
       "conditions": [
         "Pas de prise d'antibiotiques depuis au moins 10 jours.",
         "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
@@ -123,7 +123,7 @@
       "title": "Test de migration et de survie",
       "acronym": "TMS",
       "price": 50000,
-      "image": "",
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/survie-des-spermatozoides.jpg",
       "conditions": [
         "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
       ],
@@ -139,7 +139,7 @@
       "title": "TMS + Spermogramme",
       "acronym": "TMS + Spermogramme",
       "price": 55000,
-      "image": "",
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/TMS-SPERMOGRAMMe.jpg",
       "conditions": [
         "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
       ],
@@ -155,7 +155,7 @@
       "title": "TMS + Spermoculture",
       "acronym": "TMS + Spermoculture",
       "price": 61500,
-      "image": "",
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/TMS-SPERMOCULTURe.jpg",
       "conditions": [
         "Pas de prise d'antibiotiques depuis au moins 10 jours.",
         "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
@@ -172,7 +172,7 @@
       "title": "Test de capacitation / Traitement",
       "acronym": "Test de capacitation",
       "price": 40000,
-      "image": "",
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/TEST-DE-CAPACITATION.jpg",
       "conditions": [
         "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
       ],
@@ -188,7 +188,7 @@
       "title": "TMS + Spermogramme + Culture",
       "acronym": "TMS + Spermogramme + Culture",
       "price": 66500,
-      "image": "",
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/Spermogramme-1.jpg",
       "conditions": [
         "Pas de prise d'antibiotiques depuis au moins 10 jours.",
         "Pas de rapport pendant au moins 3 jours et au plus 5 jours."

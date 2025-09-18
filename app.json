@@ -4,6 +4,7 @@
     "slug": "cerrhud-lab",
     "version": "1.0.0",
     "orientation": "portrait",
+    "icon": "./assets/icons/icon.png",
     "scheme": "cerrhudlab",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -16,12 +17,17 @@
     },
     "android": {
       "package": "com.zase.cerrhudlab",
+      "adaptiveIcon": {
+        "foregroundImage": "assets/icons/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
     "web": {
       "output": "static",
-      "bundler": "metro"
+      "bundler": "metro",
+      "favicon": "./assets/favicon/favicon.ico"
     },
     "plugins": [
       "expo-router",
@@ -30,8 +36,6 @@
         {
           "fonts": [
             "node_modules/@expo-google-fonts/poppins/400Regular/Poppins_400Regular.ttf",
-            "node_modules/@expo-google-fonts/poppins/500Medium/Poppins_500Medium.ttf",
-            "node_modules/@expo-google-fonts/roboto-serif/600SemiBold/RobotoSerif_600SemiBold.ttf",
             "node_modules/@expo-google-fonts/roboto-serif/700Bold/RobotoSerif_700Bold.ttf"
           ]
         }
@@ -40,8 +44,9 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#d9d5e8",
-          "image": "./assets/images/cerrhud-logo-cropped.png",
-          "imageWidth": 200
+          "image": "./assets/icons/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain"
         }
       ],
       [

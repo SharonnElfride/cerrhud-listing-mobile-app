@@ -70,14 +70,14 @@ function CTimePickerInput<T extends FieldValues>({
   label,
   required = false,
 }: CTimePickerInputProps<T>) {
-  const [hour, setHour] = useState(8);
+  const [hour, setHour] = useState(7);
   const [minute, setMinute] = useState(0);
 
-  const availableHours = Array.from({ length: 8 }, (_, i) => i + 8); // 8 → 15
+  const availableHours = Array.from({ length: 9 }, (_, i) => i + 7); // 7 → 15
   const availableMinutes = [0, 15, 30, 45];
   // const availableMinutes =
   //   hour === 15
-  //     ? [0, 15, 30, 45] // last slot ends at 15:45
+  //     ? [0, 15, 30, 45] // last slot ends at 15:45 (Might be 16:15)
   //     : Array.from({ length: 60 }, (_, i) => i);
 
   return (
@@ -98,7 +98,6 @@ function CTimePickerInput<T extends FieldValues>({
                   if (val) {
                     setHour(val);
                     onChange(
-                      // `${val.toString().padStart(2, "0")}:${minute
                       `${val.toString().padStart(2, "0")}h${minute
                         .toString()
                         .padStart(2, "0")}`

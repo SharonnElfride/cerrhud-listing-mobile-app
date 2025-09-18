@@ -6,23 +6,25 @@ module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}", "./src/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
-    // aria: {
-    //   busy: 'busy="true"',
-    //   checked: 'checked="true"',
-    //   disabled: 'disabled="true"',
-    //   expanded: 'expanded="true"',
-    //   hidden: 'hidden="true"',
-    //   pressed: 'pressed="true"',
-    //   readonly: 'readonly="true"',
-    //   required: 'required="true"',
-    //   selected: 'selected="true"',
-    // },
     extend: {
       colors: colors,
       backgroundColor: colors.background.DEFAULT,
       fontFamily: {
-        title: ["Roboto Serif", "RobotoSerif_700Bold", "Georgia", "Times New Roman", "serif"],
-        body: ["Poppins", "Poppins_400Regular", "Helvetica", "Arial", "Lucida", "sans-serif"],
+        title: [
+          "Roboto Serif",
+          "RobotoSerif_700Bold",
+          "Georgia",
+          "Times New Roman",
+          "serif",
+        ],
+        body: [
+          "Poppins",
+          "Poppins_400Regular",
+          "Helvetica",
+          "Arial",
+          "Lucida",
+          "sans-serif",
+        ],
       },
       animation: {
         bounce: "bounce 1s infinite",
@@ -32,11 +34,5 @@ module.exports = {
       },
     },
   },
-  // corePlugins: {
-  //   aspectRatio: false,
-  // },
-  plugins: [
-    // require('@tailwindcss/forms'),
-    // require('@tailwindcss/aspect-ratio'),
-  ],
+  plugins: [],
 };

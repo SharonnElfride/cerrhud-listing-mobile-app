@@ -4,6 +4,7 @@ import { Image } from "expo-image";
 import { ExternalPathString, useRouter } from "expo-router";
 import { View } from "react-native";
 import IconTextButton from "../components/buttons/IconTextButton";
+import CScreenFooter from "../components/CScreenFooter";
 import ExternalLink from "../components/ExternalLink";
 import MapPreview from "../components/MapPreview";
 import CDivider from "../components/ui/CDivider";
@@ -52,22 +53,7 @@ const CerrhudLabScreen = () => {
         <MapPreview />
       </View>
 
-      <View className="gap-2 mt-2 mb-1">
-        <View className="flex flex-row items-center gap-2">
-          <Ionicons
-            name="alarm-outline"
-            size={IconButtonSize}
-            color={colors.accent}
-          />
-          <CText className="text-lg capitalize w-full font-medium text-primary underline underline-offset-8">
-            Horaires d'ouverture
-          </CText>
-        </View>
-
-        <View>
-          <CText className="text-justify">Lun 10:00 - 12:00</CText>
-        </View>
-      </View>
+      <OpeningHours />
 
       <View className="gap-2 my-2">
         <View className="flex flex-row items-center gap-2">
@@ -146,19 +132,74 @@ const CerrhudLabScreen = () => {
           }}
         />
       </View>
-      <View className="justify-center items-center w-full mt-5">
-        <Image
-          style={{
-            width: 150,
-            height: 150,
-          }}
-          source={CerrhudLabData.logo}
-          placeholder={{ blurhash: Blurhash }}
-          contentFit="cover"
-          transition={1000}
-        />
-      </View>
+
+      <CScreenFooter />
     </CView>
+  );
+};
+
+const OpeningHours = () => {
+  const openingHours = [
+    { day: "Lundi", hours: "07h00 – 16h30" },
+    { day: "Mardi", hours: "07h00 – 16h30" },
+    { day: "Mercredi", hours: "07h00 – 16h30" },
+    { day: "Jeudi", hours: "07h00 – 16h30" },
+    { day: "Vendredi", hours: "07h00 – 16h30" },
+    { day: "Samedi", hours: "Fermé" },
+    { day: "Dimanche", hours: "Fermé" },
+  ];
+
+  const todayIndex = new Date().getDay();
+  const days = [
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi",
+  ];
+
+  return (
+    <View className="gap-2 mt-2 mb-1">
+      <View className="flex flex-row items-center gap-2">
+        <Ionicons
+          name="alarm-outline"
+          size={IconButtonSize}
+          color={colors.accent}
+        />
+        <CText className="text-lg capitalize w-full font-medium text-primary underline underline-offset-8">
+          Horaires d'ouverture
+        </CText>
+      </View>
+
+      <View className="mt-1">
+        {openingHours.map((item) => {
+          const isToday = item.day === days[todayIndex];
+          return (
+            <View
+              key={item.day}
+              className="flex flex-row justify-between py-0.5"
+            >
+              <CText
+                className={`${
+                  isToday ? "font-bold text-primary" : "text-gray-800"
+                }`}
+              >
+                {item.day}
+              </CText>
+              <CText
+                className={`${
+                  isToday ? "font-extrabold text-primary" : "text-gray-600"
+                }`}
+              >
+                {item.hours}
+              </CText>
+            </View>
+          );
+        })}
+      </View>
+    </View>
   );
 };
 
