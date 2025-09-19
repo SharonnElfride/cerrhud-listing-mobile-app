@@ -39,7 +39,18 @@
           ]
         }
       ],
-      "whatsappId": "ecbu_atb"
+      "whatsappId": "ecbu_atb",
+      "description": "Analyse des urines pour rechercher une infection urinaire et identifier l'antibiotique le plus efficace.",
+      "keywords": [
+        "urines",
+        "infection",
+        "bactérie",
+        "antibiogramme",
+        "analyse",
+        "ECBU",
+        "cystite",
+        "antibiotiques"
+      ]
     },
     {
       "title": "Spermoculture",
@@ -56,7 +67,17 @@
         "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte."
       ],
       "customDetails": [],
-      "whatsappId": "spermoculture"
+      "whatsappId": "spermoculture",
+      "description": "Recherche d'infections ou de bactéries présentes dans le sperme.",
+      "keywords": [
+        "sperme",
+        "infection",
+        "bactérie",
+        "fertilité",
+        "analyse",
+        "culture",
+        "spermoculture"
+      ]
     },
     {
       "title": "Prélèvement vaginal & Antibiogramme",
@@ -70,7 +91,18 @@
       ],
       "sampleInstructions": [],
       "customDetails": [],
-      "whatsappId": "pv_atb"
+      "whatsappId": "pv_atb",
+      "description": "Prélèvement vaginal pour détecter une infection et tester la sensibilité aux antibiotiques.",
+      "keywords": [
+        "vaginal",
+        "infection",
+        "femme",
+        "antibiogramme",
+        "analyse",
+        "mycose",
+        "bactérie",
+        "prélèvement"
+      ]
     },
     {
       "title": "Prélèvement urétral & Antibiogramme",
@@ -84,7 +116,18 @@
       ],
       "sampleInstructions": [],
       "customDetails": [],
-      "whatsappId": "pu_atb"
+      "whatsappId": "pu_atb",
+      "description": "Prélèvement au niveau de l'urètre (homme ou femme) pour rechercher une infection sexuellement transmissible et réaliser un antibiogramme.",
+      "keywords": [
+        "urètre",
+        "infection",
+        "IST",
+        "antibiogramme",
+        "analyse",
+        "prélèvement",
+        "homme",
+        "femme"
+      ]
     },
     {
       "title": "Spermogramme",
@@ -100,7 +143,17 @@
         "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
       ],
       "customDetails": [],
-      "whatsappId": "spermogramme"
+      "whatsappId": "spermogramme",
+      "description": "Analyse du sperme pour évaluer la fertilité masculine (nombre, mobilité et morphologie des spermatozoïdes).",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "spermatozoïdes",
+        "mobilité",
+        "morphologie",
+        "analyse",
+        "homme"
+      ]
     },
     {
       "title": "Spermogramme + Culture",
@@ -117,7 +170,17 @@
         "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
       ],
       "customDetails": [],
-      "whatsappId": "spermogramme_culture"
+      "whatsappId": "spermogramme_culture",
+      "description": "Analyse de la qualité du sperme avec recherche d'infections (spermogramme + spermoculture).",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "infection",
+        "culture",
+        "spermatozoïdes",
+        "analyse",
+        "homme"
+      ]
     },
     {
       "title": "Test de migration et de survie",
@@ -133,7 +196,17 @@
         "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
       ],
       "customDetails": [],
-      "whatsappId": "tms"
+      "whatsappId": "tms",
+      "description": "Test mesurant la capacité des spermatozoïdes à survivre et à migrer, utilisé dans le cadre d'un bilan de fertilité.",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "spermatozoïdes",
+        "migration",
+        "survie",
+        "analyse",
+        "TMS"
+      ]
     },
     {
       "title": "TMS + Spermogramme",
@@ -149,7 +222,17 @@
         "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
       ],
       "customDetails": [],
-      "whatsappId": "tms_spermogramme"
+      "whatsappId": "tms_spermogramme",
+      "description": "Évaluation complète de la qualité et de la capacité des spermatozoïdes (TMS + spermogramme).",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "spermatozoïdes",
+        "analyse",
+        "TMS",
+        "spermogramme",
+        "homme"
+      ]
     },
     {
       "title": "TMS + Spermoculture",
@@ -166,7 +249,17 @@
         "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
       ],
       "customDetails": [],
-      "whatsappId": "tms_spermoculture"
+      "whatsappId": "tms_spermoculture",
+      "description": "Analyse de la qualité des spermatozoïdes et recherche d'infection (TMS + spermoculture).",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "infection",
+        "TMS",
+        "spermatozoïdes",
+        "culture",
+        "analyse"
+      ]
     },
     {
       "title": "Test de capacitation / Traitement",
@@ -182,7 +275,17 @@
         "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
       ],
       "customDetails": [],
-      "whatsappId": "test_capacitation"
+      "whatsappId": "test_capacitation",
+      "description": "Préparation des spermatozoïdes pour la fécondation assistée (insémination intra-utérine ou FIV).",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "FIV",
+        "insémination",
+        "capacitation",
+        "traitement",
+        "homme"
+      ]
     },
     {
       "title": "TMS + Spermogramme + Culture",
@@ -199,7 +302,17 @@
         "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
       ],
       "customDetails": [],
-      "whatsappId": "tms_spermogramme_culture"
+      "whatsappId": "tms_spermogramme_culture",
+      "description": "Bilan complet : qualité, survie et mobilité des spermatozoïdes avec recherche d'infection.",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "infection",
+        "culture",
+        "spermogramme",
+        "TMS",
+        "analyse"
+      ]
     },
     {
       "title": "Test post coïtal",
@@ -213,7 +326,18 @@
       ],
       "sampleInstructions": [],
       "customDetails": [],
-      "whatsappId": "tpc"
+      "whatsappId": "tpc",
+      "description": "Analyse de la glaire cervicale après un rapport sexuel pour évaluer la survie des spermatozoïdes.",
+      "keywords": [
+        "fertilité",
+        "glaire cervicale",
+        "sperme",
+        "post-coïtal",
+        "analyse",
+        "TPC",
+        "femme",
+        "homme"
+      ]
     }
   ]
 }

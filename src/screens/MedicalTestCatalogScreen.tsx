@@ -1,29 +1,30 @@
 import colors from "@/colors";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { router } from "expo-router";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
-import { Chip, TextInput } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import CScreenFooter from "../components/CScreenFooter";
+import KeywordAccordion from "../components/KeywordAccordion";
 import MedicalTestCard from "../components/MedicalTestCard";
 import CDivider from "../components/ui/CDivider";
 import CText from "../components/ui/CText";
 import CTitleText from "../components/ui/CTitleText";
 import { MedicalTestCatalogScreenData } from "../constants/screens-data";
-import { FormatPrice } from "../constants/shared";
 import { useMedicalTests } from "../context/MedicalTestsContext";
 import { MedicalTest } from "../models/MedicalTest";
-import MedicalTestDetailsScreen from "./MedicalTestDetailsScreen";
-import { router } from "expo-router";
-import { sendMessageOnWhatsapp } from "../utils/phone";
 import { medicalTestsInfoMessage } from "../utils/messages/more-information-message-template";
+import { sendMessageOnWhatsapp } from "../utils/phone";
+import MedicalTestDetailsScreen from "./MedicalTestDetailsScreen";
 
 const MedicalTestCatalogScreen = () => {
   const { medicalTests, loading, error } = useMedicalTests();
   const [filteredData, setFilteredData] = useState<MedicalTest[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [prices, setPrices] = useState(new Set<number>());
-  const [selectedPrices, setSelectedPrices] = useState<number[]>([]);
   const [selectedMedicalTest, setSelectedMedicalTest] = useState<MedicalTest>();
+
+  const [keywords, setKeywords] = useState(new Set<string>());
+  const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ["50%", "90%"], []);
@@ -32,28 +33,36 @@ const MedicalTestCatalogScreen = () => {
     if (!medicalTests.length) return;
 
     setFilteredData(medicalTests);
-    const currentPrices = new Set(
-      medicalTests.map((test) => test.price).sort((a, b) => a - b)
-    );
-    setPrices(currentPrices);
+
+    const arr = Array.from(
+      medicalTests.flatMap((test) => test.keywords)
+    ).sort();
+    const distinctKeywords = new Set(arr);
+    setKeywords(distinctKeywords);
   }, [medicalTests]);
 
   useEffect(() => {
     let data = medicalTests;
 
-    const lowerQuery = searchQuery.toLowerCase();
-    data = data.filter(
-      (test) =>
-        test.title.toLowerCase().includes(lowerQuery) ||
-        test.acronym.toLowerCase().includes(lowerQuery)
-    );
+    const lowerQuery = searchQuery.trim().toLowerCase();
+    if (lowerQuery) {
+      data = data.filter(
+        (test) =>
+          test.title.toLowerCase().includes(lowerQuery) ||
+          test.acronym.toLowerCase().includes(lowerQuery) ||
+          test.description.toLowerCase().includes(lowerQuery) ||
+          test.keywords.some((kw) => kw.toLowerCase().includes(lowerQuery))
+      );
+    }
 
-    if (selectedPrices.length > 0) {
-      data = data.filter((test) => selectedPrices.includes(test.price));
+    if (selectedKeywords.length > 0) {
+      data = data.filter((test) =>
+        selectedKeywords.some((keyword) => test.keywords.includes(keyword))
+      );
     }
 
     setFilteredData(data);
-  }, [searchQuery, selectedPrices, medicalTests]);
+  }, [searchQuery, medicalTests, selectedKeywords]);
 
   function onBookAppointmentPress(medicalTestWhatsappId: string) {
     bottomSheetRef.current?.close();
@@ -79,11 +88,18 @@ const MedicalTestCatalogScreen = () => {
     setSearchQuery(query);
   };
 
-  const togglePrice = (price: number) => {
-    setSelectedPrices((prev) =>
-      prev.includes(price) ? prev.filter((p) => p !== price) : [...prev, price]
+  const toggleKeyword = (keyword: string) => {
+    setSelectedKeywords((prev) =>
+      prev.includes(keyword)
+        ? prev.filter((kw) => kw !== keyword)
+        : [...prev, keyword]
     );
   };
+
+  const handleMoreDetails = useCallback(
+    (test: MedicalTest) => openSheet(test),
+    [openSheet]
+  );
 
   const LoadingData = () => {
     return (
@@ -92,9 +108,9 @@ const MedicalTestCatalogScreen = () => {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           handleSearch={handleSearch}
-          prices={prices}
-          selectedPrices={selectedPrices}
-          togglePrice={togglePrice}
+          keywords={keywords}
+          selectedKeywords={selectedKeywords}
+          toggleKeyword={toggleKeyword}
         />
 
         <View className="mb-24 flex-grow justify-center items-center">
@@ -114,9 +130,9 @@ const MedicalTestCatalogScreen = () => {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           handleSearch={handleSearch}
-          prices={prices}
-          selectedPrices={selectedPrices}
-          togglePrice={togglePrice}
+          keywords={keywords}
+          selectedKeywords={selectedKeywords}
+          toggleKeyword={toggleKeyword}
         />
         <View className="mb-24 flex-grow justify-center items-center">
           <CText className="text-red-600 text-center">{error}</CText>
@@ -132,9 +148,9 @@ const MedicalTestCatalogScreen = () => {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           handleSearch={handleSearch}
-          prices={prices}
-          selectedPrices={selectedPrices}
-          togglePrice={togglePrice}
+          keywords={keywords}
+          selectedKeywords={selectedKeywords}
+          toggleKeyword={toggleKeyword}
         />
         <View className="mb-24 flex-grow justify-center items-center">
           <CText className="text-gray-500 text-center">
@@ -156,7 +172,7 @@ const MedicalTestCatalogScreen = () => {
         renderItem={({ item }) => (
           <MedicalTestCard
             medicalTest={item}
-            onMoreDetailsClick={(test) => openSheet(test)}
+            onMoreDetailsClick={handleMoreDetails}
           />
         )}
         keyExtractor={(item) => item.id}
@@ -170,9 +186,9 @@ const MedicalTestCatalogScreen = () => {
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             handleSearch={handleSearch}
-            prices={prices}
-            selectedPrices={selectedPrices}
-            togglePrice={togglePrice}
+            keywords={keywords}
+            selectedKeywords={selectedKeywords}
+            toggleKeyword={toggleKeyword}
           />
         }
       />
@@ -218,16 +234,16 @@ const CatalogHeader = ({
   searchQuery,
   setSearchQuery,
   handleSearch,
-  prices,
-  selectedPrices,
-  togglePrice,
+  keywords,
+  selectedKeywords,
+  toggleKeyword,
 }: {
   searchQuery: string;
   setSearchQuery: (value: React.SetStateAction<string>) => void;
   handleSearch: (query: string) => void;
-  prices: Set<number>;
-  selectedPrices: number[];
-  togglePrice: (price: number) => void;
+  keywords: Set<string>;
+  selectedKeywords: string[];
+  toggleKeyword: (keyword: string) => void;
 }) => {
   return (
     <View className="gap-5 mb-5">
@@ -244,7 +260,7 @@ const CatalogHeader = ({
         left={<TextInput.Icon icon="magnify" />}
         style={{
           backgroundColor: "#fff",
-          fontSize: 12,
+          fontSize: 14,
         }}
         contentStyle={{
           fontFamily: "Poppins_400Regular",
@@ -257,31 +273,11 @@ const CatalogHeader = ({
         submitBehavior="blurAndSubmit"
       />
 
-      <View className="flex-row flex-wrap gap-2 mt-3 mb-2">
-        {Array.from(prices).map((price) => {
-          const isSelected = selectedPrices.includes(price);
-          return (
-            <Chip
-              key={price}
-              icon="cash"
-              selected={isSelected}
-              onPress={() => togglePrice(price)}
-              style={{
-                backgroundColor: isSelected
-                  ? "rgba(249, 76, 175, 0.15)"
-                  : "#f5f5f5",
-                borderColor: isSelected ? colors.accent : "#fff",
-              }}
-              textStyle={{
-                color: "#000",
-                fontFamily: "Poppins_400Regular",
-              }}
-            >
-              {FormatPrice(price)} FCFA
-            </Chip>
-          );
-        })}
-      </View>
+      <KeywordAccordion
+        keywords={keywords}
+        selectedKeywords={selectedKeywords}
+        toggleKeyword={toggleKeyword}
+      />
     </View>
   );
 };
