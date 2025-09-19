@@ -43,13 +43,13 @@ export function CCheckboxGroup<T extends FieldValues>({
                       ? onChange(currentValue.filter((v) => v !== opt.value))
                       : onChange([...currentValue, opt.value])
                   }
-                  className="flex-row items-center gap-2"
+                  className="flex-row items-start gap-2 flex-wrap"
                 >
                   <Checkbox.Android
                     status={checked ? "checked" : "unchecked"}
                     color={colors.primary.DEFAULT}
                   />
-                  <CText>{opt.label}</CText>
+                  <CText className="flex-1 flex-wrap">{opt.label}</CText>
                 </Pressable>
               );
             })}

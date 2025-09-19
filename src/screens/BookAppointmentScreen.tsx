@@ -23,8 +23,8 @@ const BookAppointmentScreen = ({
     <CView viewData={BookAppointmentScreenData}>
       <CCallout type="accent">
         Vos informations seront envoyées via WhatsApp si l'application est
-        disponible sur votre téléphone. Si WhatsApp n'est pas installé ou
-        disponible, nous utiliserons automatiquement un SMS. Veuillez vérifier
+        disponible sur votre téléphone. Si WhatsApp n'est pas installé, 
+        nous utiliserons votre application de SMS. Veuillez vérifier
         que votre numéro de téléphone est correct afin que nous puissions vous
         répondre rapidement.
       </CCallout>

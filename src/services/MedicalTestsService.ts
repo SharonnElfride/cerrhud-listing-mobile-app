@@ -6,6 +6,7 @@ function fromDatabase(row: any) {
     id: row.id,
     title: row.title,
     acronym: row.acronym,
+    description: row.description,
     price: row.price,
     image: row.image,
     conditions: row.conditions ? JSON.parse(row.conditions) : [],
@@ -14,6 +15,7 @@ function fromDatabase(row: any) {
       : [],
     customDetails: row.custom_details ? JSON.parse(row.custom_details) : [],
     whatsappId: row.whatsapp_id,
+    keywords: row.keywords ? JSON.parse(row.keywords) : [],
   } as MedicalTest;
 }
 
@@ -35,18 +37,20 @@ export async function getMedicalTestById(
 export async function insertMedicalTest(test: MedicalTest) {
   await db.runAsync(
     `INSERT OR REPLACE INTO ${MedicalTestsTableName} 
-     (id, title, acronym, price, image, conditions, sample_instructions, custom_details, whatsapp_id) 
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+     (id, title, acronym, description, price, image, conditions, sample_instructions, custom_details, whatsapp_id, keywords) 
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       test.id,
       test.title,
       test.acronym,
+      test.description,
       test.price,
       test.image,
       JSON.stringify(test.conditions),
       JSON.stringify(test.sampleInstructions),
       JSON.stringify(test.customDetails),
       test.whatsappId,
+      JSON.stringify(test.keywords),
     ]
   );
 }

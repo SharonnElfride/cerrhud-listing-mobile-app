@@ -16,7 +16,7 @@ const MapPreview = () => {
         height: 200,
         borderRadius: 10,
       }}
-      mapStyle={`https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_API_KEY}`}
+      mapStyle={`https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_API_KEY}&compat=mobile`}
       logoEnabled={false}
       attributionPosition={{ bottom: 8, right: 8 }}
     >

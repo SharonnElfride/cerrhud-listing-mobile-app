@@ -28,6 +28,6 @@ export const FormErrorMessages = {
 
 export const FormatPrice = (price: number) =>
   new Intl.NumberFormat("fr-FR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(price);
