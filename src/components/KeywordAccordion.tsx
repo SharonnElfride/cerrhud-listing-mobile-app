@@ -36,8 +36,8 @@ const KeywordAccordion = ({
     : orderedKeywords.slice(0, limit);
 
   return (
-    <View className="gap-2">
-      <View className="flex-row flex-wrap justify-between gap-2 mt-3 mb-2">
+    <View>
+      <View className="flex-row flex-wrap justify-start gap-2 my-2">
         {visibleKeywords.map((keyword) => (
           <CChip
             key={keyword.toLowerCase()}
@@ -49,11 +49,11 @@ const KeywordAccordion = ({
       </View>
 
       {orderedKeywords.length > limit && (
-        <View className="w-full">
+        <View className="w-full justify-end items-end">
           <TouchableOpacity
             onPress={() => setExpanded((prev) => !prev)}
             accessibilityRole="button"
-            className="flex-row w-fit justify-end gap-2 items-center"
+            className="flex-row justify-end gap-2 items-center"
           >
             <CText
               className="text-sm underline"
