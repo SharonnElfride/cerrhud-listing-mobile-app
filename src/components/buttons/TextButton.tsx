@@ -1,15 +1,24 @@
-import CButton from "../ui/CButton";
+import CButton, { CButtonProps } from "../ui/CButton";
 
 const TextButton = ({
   label,
   onPress,
-  className
-}: {
+  buttonClassName,
+  textClassName,
+  disabled,
+}: CButtonProps & {
   label: string;
-  onPress: () => void;
-  className?: string;
 }) => {
-  return <CButton variant="text" label={label} onPress={onPress} className={className} />;
+  return (
+    <CButton
+      variant="text"
+      label={label}
+      onPress={onPress}
+      buttonClassName={buttonClassName}
+      textClassName={textClassName}
+      disabled={disabled}
+    />
+  );
 };
 
 export default TextButton;

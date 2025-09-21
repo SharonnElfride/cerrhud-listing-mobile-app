@@ -5,12 +5,11 @@ import CText from "./CText";
 
 type ButtonVariant = "text" | "icon" | "iconText";
 
-type CButtonProps = {
-  variant: ButtonVariant;
-  label?: string;
-  icon?: IoniconName;
+export type CButtonProps = {
   onPress?: () => void;
-  className?: string;
+  buttonClassName?: string;
+  textClassName?: string;
+  disabled?: boolean;
 };
 
 const textVariantStyles = {
@@ -24,14 +23,21 @@ const CButton = ({
   label,
   icon,
   onPress,
-  className,
-}: CButtonProps) => {
+  buttonClassName,
+  textClassName,
+  disabled = false,
+}: CButtonProps & {
+  variant: ButtonVariant;
+  label?: string;
+  icon?: IoniconName;
+}) => {
   return (
     <Pressable
       onPress={onPress}
-      className={`rounded-xl px-4 py-2 ${variant === "icon" ? "" : "w-3/4 bg-accent"}`}
+      className={`rounded-xl px-4 py-2 ${variant === "icon" ? "" : "w-3/4 bg-accent"} ${buttonClassName}`}
       accessibilityLabel={`${label} button`}
       style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
+      disabled={disabled}
     >
       <View className="flex-row items-center justify-center gap-2">
         {(variant === "icon" || variant === "iconText") && icon && (
@@ -40,7 +46,7 @@ const CButton = ({
 
         {(variant === "text" || variant === "iconText") && label && (
           <CText
-            className={`${textVariantStyles.default} ${textVariantStyles[variant]} ${className}`}
+            className={`${textVariantStyles.default} ${textVariantStyles[variant]} ${textClassName}`}
           >
             {label}
           </CText>

@@ -1,4 +1,5 @@
 import colors from "@/colors";
+import { CapitalizeFirst } from "@/src/constants/shared";
 import { Chip } from "react-native-paper";
 
 type CChipProps = {
@@ -24,7 +25,7 @@ const CChip = ({ content, isSelected, onToggle }: CChipProps) => {
         fontSize: 12,
       }}
     >
-      {content}
+      {CapitalizeFirst(content)}
     </Chip>
   );
 };

@@ -31,3 +31,8 @@ export const FormatPrice = (price: number) =>
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(price);
+
+export function CapitalizeFirst(str?: string) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
