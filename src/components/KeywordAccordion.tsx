@@ -16,7 +16,7 @@ const KeywordAccordion = ({
   keywords,
   selectedKeywords,
   toggleKeyword,
-  limit = 5,
+  limit = 6,
 }: KeywordAccordionProps) => {
   const [expanded, setExpanded] = useState(false);
 
