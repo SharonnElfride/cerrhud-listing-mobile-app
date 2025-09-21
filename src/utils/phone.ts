@@ -22,7 +22,7 @@ export function callNumber() {
 }
 
 export function sendMessageOnWhatsapp(message: string = "") {
-  const url = `https://api.whatsapp.com/send?phone=${CerrhudLabData.phoneNumber}&text=${encodeURIComponent(message)}`;
+  const url = `https://wa.me/${CerrhudLabData.phoneNumber}?text=${encodeURIComponent(message)}`;
 
   Linking.openURL(url).catch((err) => {
     console.error("Failed to open WhatsApp:", err);

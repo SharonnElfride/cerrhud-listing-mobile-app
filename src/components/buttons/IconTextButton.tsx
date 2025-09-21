@@ -1,19 +1,27 @@
 import { IoniconName } from "@/src/constants/shared";
-import CButton from "../ui/CButton";
+import CButton, { CButtonProps } from "../ui/CButton";
 
 const IconTextButton = ({
   label,
   icon,
   onPress,
-  className
-}: {
+  buttonClassName,
+  textClassName,
+  disabled,
+}: CButtonProps & {
   label: string;
   icon: IoniconName;
-  onPress?: () => void;
-  className?: string;
 }) => {
   return (
-    <CButton variant="iconText" label={label} icon={icon} onPress={onPress} className={className} />
+    <CButton
+      variant="iconText"
+      label={label}
+      icon={icon}
+      onPress={onPress}
+      textClassName={textClassName}
+      buttonClassName={buttonClassName}
+      disabled={disabled}
+    />
   );
 };
 
