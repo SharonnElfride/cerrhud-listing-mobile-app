@@ -1,0 +1,343 @@
+{
+  "medicalTests": [
+    {
+      "title": "Examen Cyto Bactériologique des Urines & Antibiogramme",
+      "acronym": "E.C.B.U + ATB",
+      "price": 8000,
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/05/ECBU-scaled.jpg",
+      "conditions": [
+        "Pas de prise d'antibiotiques depuis au moins 10 jours.",
+        "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
+      ],
+      "sampleInstructions": [
+        "Passer au laboratoire pour récupérer le matériel nécessaire avant le prélèvement.",
+        "Le prélèvement de sperme peut être effectué à domicile, à condition de pouvoir l'apporter au laboratoire dans les 30 à 45 minutes suivant la collecte.",
+        "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
+      ],
+      "customDetails": [
+        {
+          "title": "Matériels nécessaires",
+          "values": [
+            "Un flacon d'urine stérile (à obtenir au laboratoire ou en pharmacie)."
+          ]
+        },
+        {
+          "title": "Avant de venir",
+          "values": [
+            "Conserver les urines dans la vessie pendant 3 à 4 heures (ne pas uriner pendant au moins 4 heures avant le prélèvement)."
+          ]
+        },
+        {
+          "title": "3 toilettes intimes à faire soigneusement",
+          "values": [
+            "Faire une première toilette à l'eau simple.",
+            "Effectuer une deuxième toilette avec une solution de permanganate.",
+            "Écarter les lèvres et nettoyer avec des cotons imbibés de la solution.",
+            "Commencez à uriner dans les toilettes.",
+            "Après le début de l'écoulement (le “premier jet”), interrompez et recueillez le milieu du jet dans le flacon stérile.",
+            "Apporter immédiatement l'échantillon au laboratoire."
+          ]
+        }
+      ],
+      "whatsappId": "ecbu_atb",
+      "description": "Analyse des urines pour rechercher une infection urinaire et identifier l'antibiotique le plus efficace.",
+      "keywords": [
+        "urines",
+        "infection",
+        "bactérie",
+        "antibiogramme",
+        "analyse",
+        "ECBU",
+        "cystite",
+        "antibiotiques"
+      ]
+    },
+    {
+      "title": "Spermoculture",
+      "acronym": "Spermoculture",
+      "price": 11500,
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/Spermoculture.jpg",
+      "conditions": [
+        "Pas de prise d'antibiotiques depuis au moins 10 jours.",
+        "Pas de rapport sexuel pendant au moins 3 jours."
+      ],
+      "sampleInstructions": [
+        "Passer au laboratoire pour récupérer le matériel nécessaire avant le prélèvement.",
+        "Le prélèvement de sperme peut être effectué à domicile, à condition de pouvoir l'apporter au laboratoire dans les 30 à 45 minutes suivant la collecte.",
+        "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte."
+      ],
+      "customDetails": [],
+      "whatsappId": "spermoculture",
+      "description": "Recherche d'infections ou de bactéries présentes dans le sperme.",
+      "keywords": [
+        "sperme",
+        "infection",
+        "bactérie",
+        "fertilité",
+        "analyse",
+        "culture",
+        "spermoculture"
+      ]
+    },
+    {
+      "title": "Prélèvement vaginal & Antibiogramme",
+      "acronym": "PV + ATB",
+      "price": 11500,
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/05/PV-ATB-scaled.jpg",
+      "conditions": [
+        "Pas de prise d'antibiotiques depuis au moins 10 jours.",
+        "Pas de rapport sexuel la veille de l'examen.",
+        "Pas de toilette intime le jour du prélèvement."
+      ],
+      "sampleInstructions": [],
+      "customDetails": [],
+      "whatsappId": "pv_atb",
+      "description": "Prélèvement vaginal pour détecter une infection et tester la sensibilité aux antibiotiques.",
+      "keywords": [
+        "vaginal",
+        "infection",
+        "femme",
+        "antibiogramme",
+        "analyse",
+        "mycose",
+        "bactérie",
+        "prélèvement"
+      ]
+    },
+    {
+      "title": "Prélèvement urétral & Antibiogramme",
+      "acronym": "PU + ATB",
+      "price": 11500,
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/05/PU-ATB-scaled.jpg",
+      "conditions": [
+        "Pas de prise d'antibiotiques depuis au moins 10 jours.",
+        "Ne pas uriner pendant au moins 4 heures avant l'examen.",
+        "Pas de rapport sexuel la veille de l'examen."
+      ],
+      "sampleInstructions": [],
+      "customDetails": [],
+      "whatsappId": "pu_atb",
+      "description": "Prélèvement au niveau de l'urètre (homme ou femme) pour rechercher une infection sexuellement transmissible et réaliser un antibiogramme.",
+      "keywords": [
+        "urètre",
+        "infection",
+        "IST",
+        "antibiogramme",
+        "analyse",
+        "prélèvement",
+        "homme",
+        "femme"
+      ]
+    },
+    {
+      "title": "Spermogramme",
+      "acronym": "Spermogramme",
+      "price": 10500,
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/Spermogramme.jpg",
+      "conditions": [
+        "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
+      ],
+      "sampleInstructions": [
+        "Passer au laboratoire pour récupérer le matériel nécessaire avant le prélèvement.",
+        "Le prélèvement de sperme peut être effectué à domicile, à condition de pouvoir l'apporter au laboratoire dans les 30 à 45 minutes suivant la collecte.",
+        "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
+      ],
+      "customDetails": [],
+      "whatsappId": "spermogramme",
+      "description": "Analyse du sperme pour évaluer la fertilité masculine (nombre, mobilité et morphologie des spermatozoïdes).",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "spermatozoïdes",
+        "mobilité",
+        "morphologie",
+        "analyse",
+        "homme"
+      ]
+    },
+    {
+      "title": "Spermogramme + Culture",
+      "acronym": "Spermogramme + Culture",
+      "price": 22000,
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/Spermogramme-culture.jpg",
+      "conditions": [
+        "Pas de prise d'antibiotiques depuis au moins 10 jours.",
+        "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
+      ],
+      "sampleInstructions": [
+        "Passer au laboratoire pour récupérer le matériel nécessaire avant le prélèvement.",
+        "Le prélèvement de sperme peut être effectué à domicile, à condition de pouvoir l'apporter au laboratoire dans les 30 à 45 minutes suivant la collecte.",
+        "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
+      ],
+      "customDetails": [],
+      "whatsappId": "spermogramme_culture",
+      "description": "Analyse de la qualité du sperme avec recherche d'infections (spermogramme + spermoculture).",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "infection",
+        "culture",
+        "spermatozoïdes",
+        "analyse",
+        "homme"
+      ]
+    },
+    {
+      "title": "Test de migration et de survie",
+      "acronym": "TMS",
+      "price": 50000,
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/survie-des-spermatozoides.jpg",
+      "conditions": [
+        "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
+      ],
+      "sampleInstructions": [
+        "Passer au laboratoire pour récupérer le matériel nécessaire avant le prélèvement.",
+        "Le prélèvement de sperme peut être effectué à domicile, à condition de pouvoir l'apporter au laboratoire dans les 30 à 45 minutes suivant la collecte.",
+        "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
+      ],
+      "customDetails": [],
+      "whatsappId": "tms",
+      "description": "Test mesurant la capacité des spermatozoïdes à survivre et à migrer, utilisé dans le cadre d'un bilan de fertilité.",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "spermatozoïdes",
+        "migration",
+        "survie",
+        "analyse",
+        "TMS"
+      ]
+    },
+    {
+      "title": "TMS + Spermogramme",
+      "acronym": "TMS + Spermogramme",
+      "price": 55000,
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/TMS-SPERMOGRAMMe.jpg",
+      "conditions": [
+        "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
+      ],
+      "sampleInstructions": [
+        "Passer au laboratoire pour récupérer le matériel nécessaire avant le prélèvement.",
+        "Le prélèvement de sperme peut être effectué à domicile, à condition de pouvoir l'apporter au laboratoire dans les 30 à 45 minutes suivant la collecte.",
+        "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
+      ],
+      "customDetails": [],
+      "whatsappId": "tms_spermogramme",
+      "description": "Évaluation complète de la qualité et de la capacité des spermatozoïdes (TMS + spermogramme).",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "spermatozoïdes",
+        "analyse",
+        "TMS",
+        "spermogramme",
+        "homme"
+      ]
+    },
+    {
+      "title": "TMS + Spermoculture",
+      "acronym": "TMS + Spermoculture",
+      "price": 61500,
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/TMS-SPERMOCULTURe.jpg",
+      "conditions": [
+        "Pas de prise d'antibiotiques depuis au moins 10 jours.",
+        "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
+      ],
+      "sampleInstructions": [
+        "Passer au laboratoire pour récupérer le matériel nécessaire avant le prélèvement.",
+        "Le prélèvement de sperme peut être effectué à domicile, à condition de pouvoir l'apporter au laboratoire dans les 30 à 45 minutes suivant la collecte.",
+        "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
+      ],
+      "customDetails": [],
+      "whatsappId": "tms_spermoculture",
+      "description": "Analyse de la qualité des spermatozoïdes et recherche d'infection (TMS + spermoculture).",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "infection",
+        "TMS",
+        "spermatozoïdes",
+        "culture",
+        "analyse"
+      ]
+    },
+    {
+      "title": "Test de capacitation / Traitement",
+      "acronym": "Test de capacitation",
+      "price": 40000,
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/TEST-DE-CAPACITATION.jpg",
+      "conditions": [
+        "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
+      ],
+      "sampleInstructions": [
+        "Passer au laboratoire pour récupérer le matériel nécessaire avant le prélèvement.",
+        "Le prélèvement de sperme peut être effectué à domicile, à condition de pouvoir l'apporter au laboratoire dans les 30 à 45 minutes suivant la collecte.",
+        "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
+      ],
+      "customDetails": [],
+      "whatsappId": "test_capacitation",
+      "description": "Préparation des spermatozoïdes pour la fécondation assistée (insémination intra-utérine ou FIV).",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "FIV",
+        "insémination",
+        "capacitation",
+        "traitement",
+        "homme"
+      ]
+    },
+    {
+      "title": "TMS + Spermogramme + Culture",
+      "acronym": "TMS + Spermogramme + Culture",
+      "price": 66500,
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/Spermogramme-1.jpg",
+      "conditions": [
+        "Pas de prise d'antibiotiques depuis au moins 10 jours.",
+        "Pas de rapport pendant au moins 3 jours et au plus 5 jours."
+      ],
+      "sampleInstructions": [
+        "Passer au laboratoire pour récupérer le matériel nécessaire avant le prélèvement.",
+        "Le prélèvement de sperme peut être effectué à domicile, à condition de pouvoir l'apporter au laboratoire dans les 30 à 45 minutes suivant la collecte.",
+        "Le prélèvement du sperme peut se faire soit par masturbation, soit par coït interrompu. Il est important de recueillir la totalité du sperme dans le flacon stérile et de noter l'heure de la collecte. Le prélèvement doit correspondre à un seul éjaculat."
+      ],
+      "customDetails": [],
+      "whatsappId": "tms_spermogramme_culture",
+      "description": "Bilan complet : qualité, survie et mobilité des spermatozoïdes avec recherche d'infection.",
+      "keywords": [
+        "sperme",
+        "fertilité",
+        "infection",
+        "culture",
+        "spermogramme",
+        "TMS",
+        "analyse"
+      ]
+    },
+    {
+      "title": "Test post coïtal",
+      "acronym": "TPC",
+      "price": 11500,
+      "image": "https://n.cerrhud.net/wp-content/uploads/2025/06/test.jpg",
+      "conditions": [
+        "Pas de prise d'antibiotiques depuis au moins 10 jours.",
+        "Ne pas uriner pendant au moins 4 heures avant l'examen.",
+        "Pas de rapport sexuel la veille de l'examen."
+      ],
+      "sampleInstructions": [],
+      "customDetails": [],
+      "whatsappId": "tpc",
+      "description": "Analyse de la glaire cervicale après un rapport sexuel pour évaluer la survie des spermatozoïdes.",
+      "keywords": [
+        "fertilité",
+        "glaire cervicale",
+        "sperme",
+        "post-coïtal",
+        "analyse",
+        "TPC",
+        "femme",
+        "homme"
+      ]
+    }
+  ]
+}
