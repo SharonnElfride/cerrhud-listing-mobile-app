@@ -67,6 +67,12 @@
           }
         }
       ],
+      [
+        "expo-document-picker",
+        {
+          "iCloudContainerEnvironment": "Production"
+        }
+      ],
       "@maplibre/maplibre-react-native"
     ],
     "experiments": {
