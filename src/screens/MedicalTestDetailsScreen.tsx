@@ -1,13 +1,14 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { View } from "react-native";
 import TextButton from "../components/buttons/TextButton";
+import CScreenFooter from "../components/CScreenFooter";
 import CBulletList from "../components/ui/CBulletList";
+import CChip from "../components/ui/CChip";
 import CDivider from "../components/ui/CDivider";
 import CText from "../components/ui/CText";
 import CTitleText from "../components/ui/CTitleText";
 import { FormatPrice } from "../constants/shared";
 import { MedicalTest } from "../models/MedicalTest";
-import CScreenFooter from "../components/CScreenFooter";
 
 const MedicalTestDetailsScreen = ({
   medicalTest,
@@ -38,6 +39,8 @@ const MedicalTestDetailsScreen = ({
 
       <CDivider />
 
+      <CText>{medicalTest.description}</CText>
+
       <DetailSection
         title={"Conditions à respecter"}
         items={medicalTest.conditions}
@@ -60,6 +63,19 @@ const MedicalTestDetailsScreen = ({
           />
         ))}
 
+      <View className="flex-row flex-wrap justify-between gap-2">
+        {medicalTest.keywords.map((kw, idx) => (
+          <CChip
+            key={`${medicalTest.whatsappId}-${kw.replace(" ", "")}-${idx}`}
+            content={kw}
+            isSelected={false}
+            onToggle={() => {}}
+          />
+        ))}
+      </View>
+
+      <CDivider />
+
       <View className="items-center gap-2">
         <TextButton
           label={"Prendre un rdv pour cet examen"}
@@ -68,7 +84,7 @@ const MedicalTestDetailsScreen = ({
         <TextButton
           label={"Demander plus d'informations sur cet examen"}
           onPress={() => onMoreInfoPress(medicalTest.title)}
-          className="h-full"
+          textClassName="h-full"
         />
       </View>
 

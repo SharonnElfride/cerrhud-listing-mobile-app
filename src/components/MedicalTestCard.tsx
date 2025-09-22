@@ -28,15 +28,20 @@ const MedicalTestCard = ({
         >
           {medicalTest.title}
         </CText>
-        <View className="flex-row gap-1 items-center">
-          <Ionicons name="cash-outline" color={"white"} size={22} />
-          <CText
-            className="text-white text-sm font-semibold"
-            style={{
-              fontFamily: "Poppins_400Regular",
-            }}
-          >
-            {FormatPrice(medicalTest.price)} FCFA
+        <View className="flex-row justify-between items-center">
+          <View className="flex-row gap-1 items-center">
+            <Ionicons name="cash-outline" color={"white"} size={22} />
+            <CText
+              className="text-white text-sm font-semibold"
+              style={{
+                fontFamily: "Poppins_400Regular",
+              }}
+            >
+              {FormatPrice(medicalTest.price)} FCFA
+            </CText>
+          </View>
+          <CText className="font-extrabold text-white">
+            ({medicalTest.acronym})
           </CText>
         </View>
       </View>

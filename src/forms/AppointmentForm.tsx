@@ -39,13 +39,14 @@ export const AppointmentForm = ({
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<AppointmentFormData>({
     resolver: zodResolver(appointmentSchema),
     defaultValues: {
       medicalTests: selectedTestId ? [selectedTestId] : [],
       hasPrescription: false,
     },
+    reValidateMode: "onChange",
   });
 
   const onSubmit = (data: AppointmentFormData) => {
@@ -137,12 +138,19 @@ export const AppointmentForm = ({
       />
 
       <View className="w-full items-center mt-5">
-        {/* {errors.root && <CText>{errors.root.message}</CText>} */}
-        {errors.root && <CFormInputError errorMessage={errors.root.message} />}
+        {!isValid && Object.keys(errors).length > 0 && (
+          <CFormInputError
+            errorMessage={`⚠️ Veuillez corriger les erreurs dans le formulaire.`}
+          />
+        )}
         <TextButton
           label="Prendre un rendez-vous"
           onPress={handleSubmit(onSubmit)}
-          className="uppercase"
+          textClassName="uppercase"
+          buttonClassName={
+            !isValid && Object.keys(errors).length > 0 ? "opacity-50" : ""
+          }
+          disabled={!isValid && Object.keys(errors).length > 0}
         />
       </View>
     </View>
