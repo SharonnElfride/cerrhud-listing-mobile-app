@@ -1,8 +1,8 @@
 # Politique de Confidentialité
 
-Dernière mise à jour : ***Septembre 2025***
+Dernière mise à jour : **_Septembre 2025_**
 
-Cette application mobile **Cerrhud Lab** est proposée par le **Centre de Recherche en Reproduction Humaine et en Démographie (CERRHUD)** basé à Cotonou, Bénin. 
+Cette application mobile **Cerrhud Lab** est proposée par le **Centre de Recherche en Reproduction Humaine et en Démographie (CERRHUD)** basé à Cotonou, Bénin.
 Nous respectons votre vie privée et nous engageons à protéger vos informations personnelles.
 
 ## 1. Données collectées
@@ -44,5 +44,5 @@ Conformément aux bonnes pratiques de protection des données, vous pouvez à to
 ## 6. Contact
 
 Pour toute question concernant la confidentialité :  
-📧 **info@cerrhud.org**
+📧 **[info@cerrhud.org](mailto:info@cerrhud.org)**  
 📞 **+229 01 99 88 60 01**
