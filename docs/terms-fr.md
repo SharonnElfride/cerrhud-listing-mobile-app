@@ -1,6 +1,6 @@
 # Conditions Générales d’Utilisation
 
-Dernière mise à jour : ***Septembre 2025***
+Dernière mise à jour : **_Septembre 2025_**
 
 Bienvenue sur l’application mobile **CERRHUD**.  
 En utilisant cette application, vous acceptez les présentes conditions.
@@ -36,5 +36,5 @@ Le CERRHUD peut mettre à jour ces conditions à tout moment. Les modifications 
 ## 6. Contact
 
 Pour toute question concernant l’utilisation de l’application :  
-📧 **info@cerrhud.org**  
+📧 **[info@cerrhud.org](mailto:info@cerrhud.org)**  
 📞 **+229 01 99 88 60 01**
