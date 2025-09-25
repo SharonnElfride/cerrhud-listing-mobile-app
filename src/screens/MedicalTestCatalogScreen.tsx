@@ -246,7 +246,7 @@ const CatalogHeader = ({
   toggleKeyword: (keyword: string) => void;
 }) => {
   return (
-    <View className="gap-5 mb-5">
+    <View className="gap-5 pb-5">
       <CatalogTitle />
 
       <TextInput
