@@ -75,18 +75,3 @@ export function CDateInput<T extends FieldValues>({
     />
   );
 }
-
-/*
-Change main colour in: android/app/src/main/res/values/styles.xml
-
-<resources>
-  <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-    <item name="android:datePickerStyle">@style/CustomDatePicker</item>
-  </style>
-
-  <style name="CustomDatePicker" parent="@android:style/Widget.DeviceDefault.DatePicker">
-    <item name="android:accentColor">#FF6347</item> <!-- tomato -->
-  </style>
-</resources>
-
-*/

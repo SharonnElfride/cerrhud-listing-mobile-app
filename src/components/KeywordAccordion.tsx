@@ -26,7 +26,6 @@ const KeywordAccordion = ({
       ...Array.from(keywords)
         .filter((k) => !selectedKeywords.includes(k))
         .sort(),
-      // .sort((a, b) => a.localeCompare(b)),
     ];
     return arr;
   }, [keywords, selectedKeywords]);
