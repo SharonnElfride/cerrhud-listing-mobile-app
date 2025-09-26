@@ -20,7 +20,7 @@ const CerrhudLabScreen = () => {
 
   return (
     <CView viewData={CerrhudLabScreenData}>
-      <ExternalLink href={"https://n.cerrhud.net/"} className="my-2">
+      <ExternalLink href={CerrhudLabData.website as ExternalPathString} className="my-2">
         <CText className="font-medium text-sm text-accent underline underline-offset-8">
           Visiter notre site web
         </CText>
@@ -33,7 +33,6 @@ const CerrhudLabScreen = () => {
             color={colors.accent}
           />
           <CText className="text-lg capitalize w-full font-medium text-primary underline underline-offset-8">
-            {/* Localisation */}
             Accès au laboratoire
           </CText>
         </View>

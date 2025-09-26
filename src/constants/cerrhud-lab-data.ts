@@ -33,11 +33,11 @@ export const CerrhudLabData = {
   logo: require("@/assets/images/cerrhud-logo-cropped.png"),
   teamImg: require("@/assets/images/cerrhud-team.jpg"),
   phoneNumber: "2290199886001",
+  email: "info@cerrhud.org",
+  website: "https://cerrhud.net/",
   coordinates: {
     latitude: 6.359887,
     longitude: 2.407297,
-    // latitude: 6.360366826115449,
-    // longitude: 2.4072755423278482,
   },
   socials: Object.values(socials) as SocialItem[],
 };

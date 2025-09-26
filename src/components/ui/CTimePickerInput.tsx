@@ -73,12 +73,8 @@ function CTimePickerInput<T extends FieldValues>({
   const [hour, setHour] = useState(7);
   const [minute, setMinute] = useState(0);
 
-  const availableHours = Array.from({ length: 9 }, (_, i) => i + 7); // 7 → 15
+  const availableHours = Array.from({ length: 9 }, (_, i) => i + 7);
   const availableMinutes = [0, 15, 30, 45];
-  // const availableMinutes =
-  //   hour === 15
-  //     ? [0, 15, 30, 45] // last slot ends at 15:45 (Might be 16:15)
-  //     : Array.from({ length: 60 }, (_, i) => i);
 
   return (
     <Controller
@@ -90,7 +86,6 @@ function CTimePickerInput<T extends FieldValues>({
             <CFormInputLabel label={label} required={required} />
 
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              {/* Hour Picker */}
               <TimePickerPart
                 selectedValue={hour}
                 setValue={setHour}
@@ -109,7 +104,6 @@ function CTimePickerInput<T extends FieldValues>({
 
               <CText className="mx-1 font-bold text-lg">:</CText>
 
-              {/* Minute Picker */}
               <TimePickerPart
                 selectedValue={minute}
                 setValue={setMinute}

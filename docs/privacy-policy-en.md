@@ -44,5 +44,4 @@ In accordance with best practices for data protection, you may at any time:
 ## 6. Contact
 
 For any questions regarding privacy:  
-📧 **[info@cerrhud.org](mailto:info@cerrhud.org)**  
-📞 **+229 01 99 88 60 01**
+📧 **[info@cerrhud.org](mailto:info@cerrhud.org)**
