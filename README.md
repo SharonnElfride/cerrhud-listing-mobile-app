@@ -56,7 +56,7 @@ npm run android
 
 ## 📖 Documentation
 
-The full **specifications** are available in `docs/cerrhud-specifications-v1.pdf`.
+The full **specifications** are available in `docs/cerrhud-specifications.pdf`.
 
 ## 📜 License
 

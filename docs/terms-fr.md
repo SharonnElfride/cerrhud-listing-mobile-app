@@ -36,5 +36,4 @@ Le CERRHUD peut mettre à jour ces conditions à tout moment. Les modifications 
 ## 6. Contact
 
 Pour toute question concernant l’utilisation de l’application :  
-📧 **[info@cerrhud.org](mailto:info@cerrhud.org)**  
-📞 **+229 01 99 88 60 01**
+📧 **[info@cerrhud.org](mailto:info@cerrhud.org)**
