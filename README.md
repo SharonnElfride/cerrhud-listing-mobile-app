@@ -28,6 +28,7 @@ It allows clients to browse the catalog of biomedical analyses, view description
 /src          -> App source code
 /components   -> UI components
 /database     -> SQLite schema & helpers
+/forms        -> Form related files
 /hooks        -> custom React hooks
 /models       -> data models / interfaces
 /screens      -> Screens / UI rendering (Medical Tests Catalog, Medical Tests Details, Booking)
@@ -55,7 +56,7 @@ npm run android
 
 ## 📖 Documentation
 
-The full **specifications** are available in `docs/cerrhud-specifications-v1.pdf`.
+The full **specifications** are available in `docs/cerrhud-specifications.pdf`.
 
 ## 📜 License
 

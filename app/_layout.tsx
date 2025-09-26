@@ -21,18 +21,13 @@ SplashScreen.setOptions({
 });
 
 SplashScreen.preventAutoHideAsync();
+NavigationBar.setVisibilityAsync("hidden");
 
 export default function RootLayout() {
   const [fontsLoaded, error] = useFonts({
     RobotoSerif_700Bold,
     Poppins_400Regular,
   });
-
-  useEffect(() => {
-    if (Platform.OS === "android") {
-      NavigationBar.setVisibilityAsync("hidden");
-    }
-  }, []);
 
   useEffect(() => {
     if (!fontsLoaded) return;
@@ -58,9 +53,6 @@ export default function RootLayout() {
                 android: "RobotoSerif_700Bold",
                 ios: "RobotoSerif-Bold",
               }),
-            },
-            contentStyle: {
-              // backgroundColor: colors.background.DEFAULT,
             },
           }}
         >

@@ -4,15 +4,7 @@ import { Tabs } from "expo-router";
 
 export default function TabLayout() {
   return (
-    <Tabs
-      tabBar={(props) => <CTabBottomBar {...props} />}
-      screenOptions={{
-        tabBarActiveTintColor: "white",
-        sceneStyle: {
-          // backgroundColor: colors.background.DEFAULT,
-        },
-      }}
-    >
+    <Tabs tabBar={(props) => <CTabBottomBar {...props} />}>
       {BottomBarItems.map((item) => {
         return (
           <Tabs.Screen

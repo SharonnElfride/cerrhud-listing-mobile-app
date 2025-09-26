@@ -2,15 +2,11 @@ import colors from "@/colors";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { router } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ActivityIndicator, FlatList, View } from "react-native";
-import { TextInput } from "react-native-paper";
+import { ActivityIndicator, FlatList, View, ViewProps } from "react-native";
+import CatalogHeader from "../components/catalog/CatalogHeader";
 import CScreenFooter from "../components/CScreenFooter";
-import KeywordAccordion from "../components/KeywordAccordion";
 import MedicalTestCard from "../components/MedicalTestCard";
-import CDivider from "../components/ui/CDivider";
 import CText from "../components/ui/CText";
-import CTitleText from "../components/ui/CTitleText";
-import { MedicalTestCatalogScreenData } from "../constants/screens-data";
 import { useMedicalTests } from "../context/MedicalTestsContext";
 import { MedicalTest } from "../models/MedicalTest";
 import { medicalTestsInfoMessage } from "../utils/messages/more-information-message-template";
@@ -101,9 +97,16 @@ const MedicalTestCatalogScreen = () => {
     [openSheet]
   );
 
-  const LoadingData = () => {
+  const HandlingData = ({
+    text,
+    children,
+    className,
+    ...rest
+  }: ViewProps & {
+    text?: string;
+  }) => {
     return (
-      <View className="flex h-full gap-2 py-5 px-3">
+      <View className="flex h-full gap-2 py-5 px-3" {...rest}>
         <CatalogHeader
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -114,50 +117,28 @@ const MedicalTestCatalogScreen = () => {
         />
 
         <View className="mb-24 flex-grow justify-center items-center">
-          <ActivityIndicator size="large" color={colors.primary.DEFAULT} />
-          <CText className="text-primary text-center">
-            Chargement des examens...
-          </CText>
+          {children}
+          <CText className={`text-center ${className}`}>{text}</CText>
         </View>
       </View>
+    );
+  };
+
+  const LoadingData = () => {
+    return (
+      <HandlingData text="Chargement des examens..." className="text-primary">
+        <ActivityIndicator size="large" color={colors.primary.DEFAULT} />
+      </HandlingData>
     );
   };
 
   const ErrorWhileLoadingData = ({ error }: { error?: string }) => {
-    return (
-      <View className="flex h-full gap-2 py-5 px-3">
-        <CatalogHeader
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          handleSearch={handleSearch}
-          keywords={keywords}
-          selectedKeywords={selectedKeywords}
-          toggleKeyword={toggleKeyword}
-        />
-        <View className="mb-24 flex-grow justify-center items-center">
-          <CText className="text-red-600 text-center">{error}</CText>
-        </View>
-      </View>
-    );
+    return <HandlingData text={error} className="text-red-600" />;
   };
 
   const NoData = () => {
     return (
-      <View className="flex h-full gap-2 py-5 px-3">
-        <CatalogHeader
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          handleSearch={handleSearch}
-          keywords={keywords}
-          selectedKeywords={selectedKeywords}
-          toggleKeyword={toggleKeyword}
-        />
-        <View className="mb-24 flex-grow justify-center items-center">
-          <CText className="text-gray-500 text-center">
-            Aucun examen trouvé.
-          </CText>
-        </View>
-      </View>
+      <HandlingData text="Aucun examen trouvé." className="text-gray-500" />
     );
   };
 
@@ -214,70 +195,6 @@ const MedicalTestCatalogScreen = () => {
           )}
         </BottomSheetScrollView>
       </BottomSheet>
-    </View>
-  );
-};
-
-const CatalogTitle = () => {
-  return (
-    <View className="gap-2">
-      <CTitleText>{MedicalTestCatalogScreenData.title}</CTitleText>
-      <CDivider />
-      <CText className="font-body text-base text-justify">
-        {MedicalTestCatalogScreenData.subTitle}
-      </CText>
-    </View>
-  );
-};
-
-const CatalogHeader = ({
-  searchQuery,
-  setSearchQuery,
-  handleSearch,
-  keywords,
-  selectedKeywords,
-  toggleKeyword,
-}: {
-  searchQuery: string;
-  setSearchQuery: (value: React.SetStateAction<string>) => void;
-  handleSearch: (query: string) => void;
-  keywords: Set<string>;
-  selectedKeywords: string[];
-  toggleKeyword: (keyword: string) => void;
-}) => {
-  return (
-    <View className="gap-5 mb-5">
-      <CatalogTitle />
-
-      <TextInput
-        mode="outlined"
-        dense
-        value={searchQuery}
-        // onChangeText={handleSearch}
-        onChangeText={setSearchQuery}
-        onEndEditing={(e) => handleSearch(e.nativeEvent.text)}
-        placeholder="Rechercher un examen..."
-        left={<TextInput.Icon icon="magnify" />}
-        style={{
-          backgroundColor: "#fff",
-          fontSize: 14,
-        }}
-        contentStyle={{
-          fontFamily: "Poppins_400Regular",
-          paddingVertical: 0,
-        }}
-        theme={{
-          roundness: 50,
-        }}
-        returnKeyType="search"
-        submitBehavior="blurAndSubmit"
-      />
-
-      <KeywordAccordion
-        keywords={keywords}
-        selectedKeywords={selectedKeywords}
-        toggleKeyword={toggleKeyword}
-      />
     </View>
   );
 };

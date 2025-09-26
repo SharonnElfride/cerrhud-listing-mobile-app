@@ -13,10 +13,9 @@ const CView = ({
   viewData: ScreenData;
 }) => {
   return (
-    // <SafeAreaView className="flex-1">
     <ScrollView
       contentContainerStyle={{
-        paddingVertical: 20,
+        paddingTop: 20,
         paddingHorizontal: 10,
         gap: 10,
         flexGrow: 1,
@@ -48,7 +47,6 @@ const CView = ({
 
       {children}
     </ScrollView>
-    // </SafeAreaView>
   );
 };
 

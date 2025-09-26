@@ -74,9 +74,6 @@ const MedicalTestCard = ({
               borderRadius: 5,
             }}
           />
-          {/* <CText className="text-center text-lg text-black font-bold uppercase">
-            {medicalTest.acronym}
-          </CText> */}
 
           <CText className="text-justify text-base px-2 text-black font-bold">
             {medicalTest.description}
@@ -87,16 +84,4 @@ const MedicalTestCard = ({
   );
 };
 
-// export default MedicalTestCard;
 export default React.memo(MedicalTestCard);
-
-/*
-export default React.memo(MedicalTestCard, (prev, next) => {
-  return (
-    prev.medicalTest.id === next.medicalTest.id &&
-    prev.medicalTest.price === next.medicalTest.price &&
-    prev.medicalTest.title === next.medicalTest.title &&
-    prev.medicalTest.acronym === next.medicalTest.acronym
-  );
-});
-*/
