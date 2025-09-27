@@ -1,18 +1,24 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import * as DocumentPicker from "expo-document-picker";
+import { useEffect, useState } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { View } from "react-native";
+import { Button } from "react-native-paper";
 import { z } from "zod";
 import TextButton from "../components/buttons/TextButton";
 import { CCheckboxGroup } from "../components/ui/CCheckboxGroup";
 import { CDateInput } from "../components/ui/CDateInput";
 import CFormInputError from "../components/ui/CFormInputError";
+import CFormInputLabel from "../components/ui/CFormInputLabel";
 import { CRadioGroup } from "../components/ui/CRadioGroup";
+import CText from "../components/ui/CText";
 import CTextInput from "../components/ui/CTextInput";
 import CTimePickerInput from "../components/ui/CTimePickerInput";
 import { MedicalTest } from "../models/MedicalTest";
+import { sendPrescriptionViaMail } from "../utils/email";
 import { appointmentBookingMessage } from "../utils/messages/appointment-booking-message-template";
-import { sendMessageOnWhatsapp } from "../utils/phone";
 import { appointmentSchema } from "./appointment-schema";
+import colors from "@/colors";
 
 export type AppointmentFormData = z.infer<typeof appointmentSchema>;
 export const OtherMedicalTestsCheckbox = {
@@ -27,6 +33,8 @@ export const AppointmentForm = ({
   medicalTests: MedicalTest[];
   selectedTestId?: string;
 }) => {
+  const [prescriptionFileUri, setPrescriptionFileUri] = useState<string>();
+
   const medicalTestsCheckboxes = medicalTests.map((test) => {
     return {
       label: `${test.title} (${test.acronym})`,
@@ -49,6 +57,17 @@ export const AppointmentForm = ({
     reValidateMode: "onChange",
   });
 
+  const hasPrescription = useWatch({
+    control,
+    name: "hasPrescription",
+  });
+
+  useEffect(() => {
+    if (!hasPrescription) {
+      setPrescriptionFileUri(undefined);
+    }
+  }, [hasPrescription]);
+
   const onSubmit = (data: AppointmentFormData) => {
     const chosenMedicalTests = data.medicalTests.map(
       (id) =>
@@ -60,7 +79,7 @@ export const AppointmentForm = ({
 
     data.medicalTests = chosenMedicalTests;
     const message = appointmentBookingMessage(data);
-    sendMessageOnWhatsapp(message);
+    sendPrescriptionViaMail(message, prescriptionFileUri);
   };
 
   return (
@@ -128,6 +147,47 @@ export const AppointmentForm = ({
         ]}
         required
       />
+
+      {hasPrescription && (
+        <View className={`gap-2 ${hasPrescription ? "" : "hidden"}`}>
+          <CFormInputLabel label={"Ordonnance"} />
+          <Controller
+            control={control}
+            name={"prescriptionFile"}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <>
+                <Button
+                  mode="contained"
+                  buttonColor={
+                    prescriptionFileUri
+                      ? "rgb(110 69 150 / 0.7)"
+                      : colors.primary.DEFAULT
+                  }
+                  onPress={async () => {
+                    const result = await DocumentPicker.getDocumentAsync({
+                      type: ["application/pdf", "image/jpeg", "image/png"],
+                    });
+
+                    if (!result.canceled && result.assets.length === 1) {
+                      const file = result.assets[0];
+                      setPrescriptionFileUri(file.uri);
+                      onChange(file);
+                    }
+                  }}
+                >
+                  {value ? value.name : "Joindre l'ordonnance"}
+                </Button>
+                {!error && (
+                  <CText className="text-gray-600 text-sm">
+                    Seuls les fichiers pdf, jpg, jpeg et png sont autorisés.
+                  </CText>
+                )}
+                {error && <CFormInputError errorMessage={error.message} />}
+              </>
+            )}
+          />
+        </View>
+      )}
 
       <CTextInput<AppointmentFormData>
         control={control}

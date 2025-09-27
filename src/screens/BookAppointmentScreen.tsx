@@ -10,7 +10,7 @@ import { BookAppointmentScreenData } from "../constants/screens-data";
 import { useMedicalTests } from "../context/MedicalTestsContext";
 import { AppointmentForm } from "../forms/AppointmentForm";
 import { AppointmentInfoMessage } from "../utils/messages/more-information-message-template";
-import { sendMessageOnWhatsapp } from "../utils/phone";
+import { sendTextMessageOnWhatsapp } from "../utils/whatsapp";
 
 const BookAppointmentScreen = ({
   selectedTestId,
@@ -47,7 +47,7 @@ const BookAppointmentScreen = ({
           <IconTextButton
             label={"Nous contacter"}
             icon={"chatbubbles-outline"}
-            onPress={() => sendMessageOnWhatsapp(AppointmentInfoMessage)}
+            onPress={() => sendTextMessageOnWhatsapp(AppointmentInfoMessage)}
           />
         </View>
       </View>
