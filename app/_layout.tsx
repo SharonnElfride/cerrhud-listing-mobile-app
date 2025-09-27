@@ -21,13 +21,21 @@ SplashScreen.setOptions({
 });
 
 SplashScreen.preventAutoHideAsync();
-NavigationBar.setVisibilityAsync("hidden");
 
 export default function RootLayout() {
   const [fontsLoaded, error] = useFonts({
     RobotoSerif_700Bold,
     Poppins_400Regular,
   });
+
+  useEffect(() => {
+    if (Platform.OS === "android") {
+      (async () => {
+        await NavigationBar.setVisibilityAsync("hidden");
+        // await NavigationBar.setBehaviorAsync("overlay-swipe");
+      })();
+    }
+  }, []);
 
   useEffect(() => {
     if (!fontsLoaded) return;
