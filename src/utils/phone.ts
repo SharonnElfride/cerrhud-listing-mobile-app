@@ -21,15 +21,6 @@ export function callNumber() {
     );
 }
 
-export function sendMessageOnWhatsapp(message: string = "") {
-  const url = `https://wa.me/${CerrhudLabData.phoneNumber}?text=${encodeURIComponent(message)}`;
-
-  Linking.openURL(url).catch((err) => {
-    console.error("Failed to open WhatsApp:", err);
-    sendSms(message);
-  });
-}
-
 export function sendSms(message: string = "") {
   // On iOS, sms: opens Messages; sms:&body= works only on some versions
   const separator = Platform.OS === "ios" ? "&" : "?";

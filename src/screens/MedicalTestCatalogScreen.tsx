@@ -10,7 +10,7 @@ import CText from "../components/ui/CText";
 import { useMedicalTests } from "../context/MedicalTestsContext";
 import { MedicalTest } from "../models/MedicalTest";
 import { medicalTestsInfoMessage } from "../utils/messages/more-information-message-template";
-import { sendMessageOnWhatsapp } from "../utils/phone";
+import { sendTextMessageOnWhatsapp } from "../utils/whatsapp";
 import MedicalTestDetailsScreen from "./MedicalTestDetailsScreen";
 
 const MedicalTestCatalogScreen = () => {
@@ -72,7 +72,7 @@ const MedicalTestCatalogScreen = () => {
   }
 
   function onMoreInfoPress(medicalTestTitle: string) {
-    sendMessageOnWhatsapp(medicalTestsInfoMessage([medicalTestTitle]));
+    sendTextMessageOnWhatsapp(medicalTestsInfoMessage([medicalTestTitle]));
   }
 
   const openSheet = (test: MedicalTest) => {
