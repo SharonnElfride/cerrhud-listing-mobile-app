@@ -16,7 +16,7 @@
       }
     },
     "android": {
-      "package": "com.zase.cerrhudlab",
+      "package": "com.zase.cerrhudlab.version",
       "adaptiveIcon": {
         "foregroundImage": "assets/icons/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -55,12 +55,10 @@
           "enableFTS": true,
           "useSQLCipher": true,
           "android": {
-            // Override the shared configuration for Android
             "enableFTS": false,
             "useSQLCipher": false
           },
           "ios": {
-            // Override the shared configurations for iOS
             "customBuildFlags": [
               "-DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_SNAPSHOT=1"
             ]
@@ -73,7 +71,8 @@
           "iCloudContainerEnvironment": "Production"
         }
       ],
-      "@maplibre/maplibre-react-native"
+      "@maplibre/maplibre-react-native",
+      "expo-mail-composer"
     ],
     "experiments": {
       "typedRoutes": true,
