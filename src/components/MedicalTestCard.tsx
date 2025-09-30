@@ -1,10 +1,9 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { ImageBackground } from "expo-image";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { FormatPrice } from "../constants/shared";
 import { MedicalTest } from "../models/MedicalTest";
-import IconTextButton from "./buttons/IconTextButton";
 import CText from "./ui/CText";
 
 interface MedicalTestCardProps {
@@ -18,7 +17,12 @@ const MedicalTestCard = ({
   onMoreDetailsClick: (medicalTest: MedicalTest) => void;
 }) => {
   return (
-    <View className="bg-card-background rounded-lg p-3">
+    <Pressable
+      className="bg-card-background rounded-lg p-3 gap-3"
+      onPress={() => {
+        onMoreDetailsClick(medicalTest);
+      }}
+    >
       <View className="bg-primary border border-white rounded-lg gap-2 p-2">
         <CText
           className="text-white text-lg capitalize w-full text-justify"
@@ -46,19 +50,9 @@ const MedicalTestCard = ({
         </View>
       </View>
 
-      <View className="w-full items-center p-2">
-        <IconTextButton
-          icon="albums-outline"
-          label={"Voir plus de détails"}
-          onPress={() => {
-            onMoreDetailsClick(medicalTest);
-          }}
-        ></IconTextButton>
-      </View>
-
       <View className="w-full">
         <ImageBackground
-          source={medicalTest.image}
+          source={{ uri: medicalTest.image }}
           style={{
             width: "100%",
             height: 100,
@@ -80,7 +74,7 @@ const MedicalTestCard = ({
           </CText>
         </ImageBackground>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
