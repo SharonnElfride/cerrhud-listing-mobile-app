@@ -9,7 +9,7 @@ const CTabBottomBar = ({
   navigation,
 }: BottomTabBarProps) => {
   return (
-    <View className="flex flex-row bg-card-background/30 justify-between items-center py-[10]">
+    <View className="flex flex-row bg-card-background/30 justify-between items-center pb-[10] pt-[20]">
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =

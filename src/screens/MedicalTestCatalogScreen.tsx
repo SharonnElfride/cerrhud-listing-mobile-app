@@ -1,8 +1,13 @@
 import colors from "@/colors";
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { router } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ActivityIndicator, FlatList, View, ViewProps } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  View,
+  ViewProps
+} from "react-native";
 import CatalogHeader from "../components/catalog/CatalogHeader";
 import CScreenFooter from "../components/CScreenFooter";
 import MedicalTestCard from "../components/MedicalTestCard";
@@ -22,8 +27,9 @@ const MedicalTestCatalogScreen = () => {
   const [keywords, setKeywords] = useState(new Set<string>());
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["50%", "90%"], []);
+  // const bottomSheetRef = useRef<BottomSheet>(null);
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const snapPoints = useMemo(() => ["25%", "50%", "75%", "95%"], []);
 
   useEffect(() => {
     if (!medicalTests.length) return;
@@ -61,7 +67,8 @@ const MedicalTestCatalogScreen = () => {
   }, [searchQuery, medicalTests, selectedKeywords]);
 
   function onBookAppointmentPress(medicalTestWhatsappId: string) {
-    bottomSheetRef.current?.close();
+    // bottomSheetRef.current?.close();
+    bottomSheetRef.current?.dismiss();
 
     setTimeout(() => {
       router.navigate({
@@ -75,11 +82,6 @@ const MedicalTestCatalogScreen = () => {
     sendTextMessageOnWhatsapp(medicalTestsInfoMessage([medicalTestTitle]));
   }
 
-  const openSheet = (test: MedicalTest) => {
-    setSelectedMedicalTest(test);
-    bottomSheetRef.current?.snapToIndex(0);
-  };
-
   const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
@@ -92,10 +94,11 @@ const MedicalTestCatalogScreen = () => {
     );
   };
 
-  const handleMoreDetails = useCallback(
-    (test: MedicalTest) => openSheet(test),
-    [openSheet]
-  );
+  const openSheet = useCallback((test: MedicalTest) => {
+    setSelectedMedicalTest(test);
+    bottomSheetRef.current?.present();
+    // bottomSheetRef.current?.snapToIndex(2);
+  }, []);
 
   const HandlingData = ({
     text,
@@ -151,10 +154,7 @@ const MedicalTestCatalogScreen = () => {
       <FlatList
         data={filteredData}
         renderItem={({ item }) => (
-          <MedicalTestCard
-            medicalTest={item}
-            onMoreDetailsClick={handleMoreDetails}
-          />
+          <MedicalTestCard medicalTest={item} onMoreDetailsClick={openSheet} />
         )}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
@@ -174,16 +174,22 @@ const MedicalTestCatalogScreen = () => {
         }
       />
 
-      <BottomSheet
+      {/* <BottomSheet */}
+      <BottomSheetModal
         ref={bottomSheetRef}
-        index={-1}
+        index={2}
         snapPoints={snapPoints}
         enablePanDownToClose
         onChange={(index) => {
           if (index === -1) setSelectedMedicalTest(undefined);
         }}
       >
-        <BottomSheetScrollView style={{ flex: 1, padding: 20 }}>
+        {/* <BottomSheetScrollView style={{ flex: 1, padding: 20 }}> */}
+        <BottomSheetScrollView
+          contentContainerStyle={{
+            padding: 20,
+          }}
+        >
           {selectedMedicalTest ? (
             <MedicalTestDetailsScreen
               medicalTest={selectedMedicalTest}
@@ -194,7 +200,8 @@ const MedicalTestCatalogScreen = () => {
             <CText>No card selected</CText>
           )}
         </BottomSheetScrollView>
-      </BottomSheet>
+      </BottomSheetModal>
+      {/* </BottomSheet> */}
     </View>
   );
 };
