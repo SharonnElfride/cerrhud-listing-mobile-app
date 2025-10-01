@@ -31,6 +31,7 @@ const MedicalTestCatalogScreen = () => {
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["25%", "50%", "75%", "95%"], []);
+  const [isTestSheetOpen, setIsTestSheetOpen] = useState(false);
 
   useEffect(() => {
     if (!medicalTests.length) return;
@@ -68,8 +69,8 @@ const MedicalTestCatalogScreen = () => {
   }, [searchQuery, medicalTests, selectedKeywords]);
 
   useEffect(() => {
-    const backAction = () => {
-      if (bottomSheetRef.current) {
+    const onBackPress = () => {
+      if (isTestSheetOpen) {
         bottomSheetRef.current?.dismiss();
         return true;
       }
@@ -78,11 +79,11 @@ const MedicalTestCatalogScreen = () => {
 
     const subscription = BackHandler.addEventListener(
       "hardwareBackPress",
-      backAction
+      onBackPress
     );
 
     return () => subscription.remove();
-  }, []);
+  }, [isTestSheetOpen]);
 
   function onBookAppointmentPress(medicalTestWhatsappId: string) {
     bottomSheetRef.current?.dismiss();
@@ -196,6 +197,7 @@ const MedicalTestCatalogScreen = () => {
         snapPoints={snapPoints}
         enablePanDownToClose
         onChange={(index) => {
+          setIsTestSheetOpen(index >= 0);
           if (index === -1) setSelectedMedicalTest(undefined);
         }}
       >
