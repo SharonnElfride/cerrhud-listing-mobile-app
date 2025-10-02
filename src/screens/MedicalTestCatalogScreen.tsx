@@ -28,6 +28,7 @@ const MedicalTestCatalogScreen = () => {
 
   const [keywords, setKeywords] = useState(new Set<string>());
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
+  const [selectedKeyword, setSelectedKeyword] = useState<string>();
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["25%", "50%", "75%", "95%"], []);
@@ -65,8 +66,12 @@ const MedicalTestCatalogScreen = () => {
       );
     }
 
+    if (selectedKeyword) {
+      data = data.filter((test) => test.keywords.includes(selectedKeyword));
+    }
+
     setFilteredData(data);
-  }, [searchQuery, medicalTests, selectedKeywords]);
+  }, [searchQuery, medicalTests, selectedKeywords, selectedKeyword]);
 
   useEffect(() => {
     const onBackPress = () => {
@@ -105,11 +110,13 @@ const MedicalTestCatalogScreen = () => {
   };
 
   const toggleKeyword = (keyword: string) => {
-    setSelectedKeywords((prev) =>
-      prev.includes(keyword)
-        ? prev.filter((kw) => kw !== keyword)
-        : [...prev, keyword]
-    );
+    // setSelectedKeywords((prev) =>
+    //   prev.includes(keyword)
+    //     ? prev.filter((kw) => kw !== keyword)
+    //     : [...prev, keyword]
+    // );
+
+    setSelectedKeyword((prev) => prev === keyword ? undefined : keyword);
   };
 
   const openSheet = useCallback((test: MedicalTest) => {
@@ -133,6 +140,7 @@ const MedicalTestCatalogScreen = () => {
           handleSearch={handleSearch}
           keywords={keywords}
           selectedKeywords={selectedKeywords}
+          selectedKeyword={selectedKeyword}
           toggleKeyword={toggleKeyword}
         />
 
@@ -186,6 +194,7 @@ const MedicalTestCatalogScreen = () => {
             handleSearch={handleSearch}
             keywords={keywords}
             selectedKeywords={selectedKeywords}
+            selectedKeyword={selectedKeyword}
             toggleKeyword={toggleKeyword}
           />
         }
