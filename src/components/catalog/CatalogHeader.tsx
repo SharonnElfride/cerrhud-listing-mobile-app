@@ -9,6 +9,7 @@ const CatalogHeader = ({
   handleSearch,
   keywords,
   selectedKeywords,
+  selectedKeyword,
   toggleKeyword,
 }: {
   searchQuery: string;
@@ -16,6 +17,7 @@ const CatalogHeader = ({
   handleSearch: (query: string) => void;
   keywords: Set<string>;
   selectedKeywords: string[];
+  selectedKeyword?: string;
   toggleKeyword: (keyword: string) => void;
 }) => {
   return (
@@ -48,6 +50,7 @@ const CatalogHeader = ({
       <KeywordAccordion
         keywords={keywords}
         selectedKeywords={selectedKeywords}
+        selectedKeyword={selectedKeyword}
         toggleKeyword={toggleKeyword}
       />
     </View>
