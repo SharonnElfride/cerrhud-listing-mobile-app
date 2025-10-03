@@ -11,10 +11,11 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { Link, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { Platform, Text } from "react-native";
+import { Platform, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import "../global.css";
+import { contactByMail } from "@/src/utils/email";
 
 SplashScreen.setOptions({
   duration: 500,
@@ -97,10 +98,10 @@ export default function RootLayout() {
                     fontFamily: "RobotoSerif_700Bold",
                   },
                   headerRight: () => (
-                    <IconButton
-                      icon="call-outline"
-                      onPress={() => callNumber()}
-                    />
+                    <View className="flex-row">
+                      <IconButton icon="call" onPress={() => callNumber()} />
+                      <IconButton icon="mail" onPress={() => contactByMail()} />
+                    </View>
                   ),
                 }}
               />
