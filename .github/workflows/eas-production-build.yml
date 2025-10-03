@@ -27,6 +27,7 @@ jobs:
         with:
           expo-version: latest
           eas-version: latest
+          package-manager: npm
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Run EAS build (production)
