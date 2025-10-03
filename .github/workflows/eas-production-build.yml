@@ -13,14 +13,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js with yarn
+      - name: Setup Node.js with npm
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: yarn
+          cache: "npm"
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Setup Expo
         uses: expo/expo-github-action@v8
@@ -30,4 +30,4 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Run EAS build (production)
-        run: eas build --platform android --profile production --non-interactive
+        run: eas build --platform android --profile production --non-interactive --package-manager=npm
