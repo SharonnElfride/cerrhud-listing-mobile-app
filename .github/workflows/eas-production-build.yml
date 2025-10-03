@@ -16,19 +16,18 @@ jobs:
       - name: Setup Node.js with npm
         uses: actions/setup-node@v4
         with:
-          node-version: 18
-          cache: "npm"
+          node-version: 18.x
+          cache: yarn
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Setup Expo
+      - name: Setup Expo/EAS
         uses: expo/expo-github-action@v8
         with:
           expo-version: latest
           eas-version: latest
-          package-manager: npm
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Run EAS build (production)
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run EAS build (production - Android)
         run: eas build --platform android --profile production --non-interactive --package-manager=npm
