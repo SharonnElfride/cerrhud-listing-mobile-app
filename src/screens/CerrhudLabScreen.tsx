@@ -20,7 +20,10 @@ const CerrhudLabScreen = () => {
 
   return (
     <CView viewData={CerrhudLabScreenData}>
-      <ExternalLink href={CerrhudLabData.website as ExternalPathString} className="my-2">
+      <ExternalLink
+        href={CerrhudLabData.website as ExternalPathString}
+        className="my-2"
+      >
         <CText className="font-medium text-sm text-accent underline underline-offset-8">
           Visiter notre site web
         </CText>
@@ -28,7 +31,7 @@ const CerrhudLabScreen = () => {
       <View className="gap-2">
         <View className="flex flex-row items-center gap-2">
           <Ionicons
-            name="location"
+            name="location-outline"
             size={IconButtonSize}
             color={colors.accent}
           />
@@ -70,7 +73,7 @@ const CerrhudLabScreen = () => {
           <Image
             style={{
               width: "100%",
-              height: 150,
+              height: 300,
             }}
             source={CerrhudLabData.teamImg}
             placeholder={{ blurhash: Blurhash }}
@@ -90,7 +93,7 @@ const CerrhudLabScreen = () => {
       <View className="gap-2 my-2">
         <View className="flex flex-row items-center gap-2">
           <Ionicons
-            name="people-circle-outline"
+            name="chatbubbles-outline"
             size={IconButtonSize}
             color={colors.accent}
           />

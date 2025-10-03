@@ -1,147 +1,73 @@
 import colors from "@/colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useMemo, useState } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { LayoutChangeEvent, TouchableOpacity, View } from "react-native";
 import CChip from "./ui/CChip";
 import CText from "./ui/CText";
 
 type KeywordAccordionProps = {
   keywords: Set<string>;
   selectedKeywords: string[];
-  selectedKeyword?: string;
-  toggleKeyword: (keyword: string) => void;
+  setSelectedKeywords: React.Dispatch<React.SetStateAction<string[]>>;
   multipleSelection?: boolean;
-  limit?: number;
 };
-
-const KeywordsLimit = 6;
 
 const KeywordAccordion = ({
   keywords,
   selectedKeywords,
-  selectedKeyword,
-  toggleKeyword,
+  setSelectedKeywords,
   multipleSelection = false,
-  limit = KeywordsLimit,
 }: KeywordAccordionProps) => {
   const [expanded, setExpanded] = useState(false);
+  const [rowLimit, setRowLimit] = useState<number | null>(null);
 
-  return (
-    <>
-      {multipleSelection ? (
-        <MultipleSelection
-          keywords={keywords}
-          selectedKeywords={selectedKeywords}
-          selectedKeyword={selectedKeyword}
-          toggleKeyword={toggleKeyword}
-          expanded={expanded}
-          setExpanded={setExpanded}
-        />
-      ) : (
-        <SingleSelection
-          keywords={keywords}
-          selectedKeyword={selectedKeyword}
-          toggleKeyword={toggleKeyword}
-          limit={limit}
-          expanded={expanded}
-          setExpanded={setExpanded}
-        />
-      )}
-    </>
-  );
-};
+  const toggleKeyword = (keyword: string) => {
+    setSelectedKeywords((prev) =>
+      prev.includes(keyword)
+        ? prev.filter((kw) => kw !== keyword)
+        : multipleSelection
+          ? [...prev, keyword]
+          : [keyword]
+    );
+  };
 
-const SingleSelection = ({
-  keywords,
-  selectedKeyword,
-  toggleKeyword,
-  limit = KeywordsLimit,
-  expanded,
-  setExpanded,
-}: {
-  keywords: Set<string>;
-  selectedKeyword?: string;
-  toggleKeyword: (keyword: string) => void;
-  limit: number;
-  expanded: boolean;
-  setExpanded: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  const orderedKeywords = useMemo(
-    () => Array.from(keywords).sort(),
-    [keywords]
-  );
-
-  const visibleKeywords = expanded
-    ? orderedKeywords
-    : orderedKeywords.slice(0, limit);
-
-  return (
-    <View>
-      <View className="flex-row flex-wrap justify-start gap-2 my-2">
-        {visibleKeywords.map((keyword) => (
-          <CChip
-            key={keyword.toLowerCase()}
-            content={keyword}
-            isSelected={
-              selectedKeyword !== undefined && selectedKeyword === keyword
-            }
-            onToggle={() => toggleKeyword(keyword)}
-          />
-        ))}
-      </View>
-
-      {orderedKeywords.length > limit && (
-        <View className="w-full justify-end items-end">
-          <TouchableOpacity
-            onPress={() => setExpanded((prev) => !prev)}
-            className="flex-row justify-end gap-2 items-center"
-          >
-            <CText
-              className="text-sm underline"
-              style={{ color: expanded ? colors.primary.DEFAULT : "#000" }}
-            >
-              {expanded ? "Voir moins" : "Voir plus"}
-            </CText>
-            <Ionicons
-              name={expanded ? "caret-up-outline" : "caret-down-outline"}
-              color={expanded ? colors.primary.DEFAULT : "#000"}
-              size={12}
-            />
-          </TouchableOpacity>
-        </View>
-      )}
-    </View>
-  );
-};
-
-const MultipleSelection = ({
-  keywords,
-  selectedKeywords,
-  toggleKeyword,
-  limit = KeywordsLimit,
-  expanded,
-  setExpanded,
-}: KeywordAccordionProps & {
-  expanded: boolean;
-  setExpanded: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
   const orderedKeywords = useMemo(() => {
-    const arr = [
+    return [
       ...selectedKeywords,
       ...Array.from(keywords)
         .filter((k) => !selectedKeywords.includes(k))
         .sort(),
     ];
-    return arr;
   }, [keywords, selectedKeywords]);
 
+  const handleLayout = (event: LayoutChangeEvent) => {
+    if (rowLimit !== null) return;
+
+    const { width } = event.nativeEvent.layout;
+    let total = 0;
+    let rowCount = 0;
+
+    for (const keyword of orderedKeywords) {
+      const approxWidth = keyword.length * 10 + 32;
+      if (total + approxWidth > width) break;
+      total += approxWidth + 8;
+      rowCount++;
+    }
+
+    setRowLimit(rowCount);
+  };
+
+  const limit = rowLimit ?? orderedKeywords.length;
   const visibleKeywords = expanded
     ? orderedKeywords
     : orderedKeywords.slice(0, limit);
 
   return (
     <View>
-      <View className="flex-row flex-wrap justify-start gap-2 my-2">
+      <View
+        className="flex-row flex-wrap justify-between gap-2 my-2"
+        onLayout={handleLayout}
+      >
         {visibleKeywords.map((keyword) => (
           <CChip
             key={keyword.toLowerCase()}
@@ -152,7 +78,7 @@ const MultipleSelection = ({
         ))}
       </View>
 
-      {orderedKeywords.length > limit && (
+      {rowLimit !== null && orderedKeywords.length > rowLimit && (
         <View className="w-full justify-end items-end">
           <TouchableOpacity
             onPress={() => setExpanded((prev) => !prev)}

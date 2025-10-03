@@ -28,7 +28,6 @@ const MedicalTestCatalogScreen = () => {
 
   const [keywords, setKeywords] = useState(new Set<string>());
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
-  const [selectedKeyword, setSelectedKeyword] = useState<string>();
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["25%", "50%", "75%", "95%"], []);
@@ -66,12 +65,8 @@ const MedicalTestCatalogScreen = () => {
       );
     }
 
-    if (selectedKeyword) {
-      data = data.filter((test) => test.keywords.includes(selectedKeyword));
-    }
-
     setFilteredData(data);
-  }, [searchQuery, medicalTests, selectedKeywords, selectedKeyword]);
+  }, [searchQuery, medicalTests, selectedKeywords]);
 
   useEffect(() => {
     const onBackPress = () => {
@@ -109,16 +104,6 @@ const MedicalTestCatalogScreen = () => {
     setSearchQuery(query);
   };
 
-  const toggleKeyword = (keyword: string) => {
-    // setSelectedKeywords((prev) =>
-    //   prev.includes(keyword)
-    //     ? prev.filter((kw) => kw !== keyword)
-    //     : [...prev, keyword]
-    // );
-
-    setSelectedKeyword((prev) => prev === keyword ? undefined : keyword);
-  };
-
   const openSheet = useCallback((test: MedicalTest) => {
     setSelectedMedicalTest(test);
     bottomSheetRef.current?.present();
@@ -138,10 +123,11 @@ const MedicalTestCatalogScreen = () => {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           handleSearch={handleSearch}
+          medicalTestsTotal={medicalTests.length}
+          filteredMedicalTestsTotal={filteredData.length}
           keywords={keywords}
           selectedKeywords={selectedKeywords}
-          selectedKeyword={selectedKeyword}
-          toggleKeyword={toggleKeyword}
+          setSelectedKeywords={setSelectedKeywords}
         />
 
         <View className="mb-24 flex-grow justify-center items-center">
@@ -192,10 +178,11 @@ const MedicalTestCatalogScreen = () => {
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             handleSearch={handleSearch}
+            medicalTestsTotal={medicalTests.length}
+            filteredMedicalTestsTotal={filteredData.length}
             keywords={keywords}
             selectedKeywords={selectedKeywords}
-            selectedKeyword={selectedKeyword}
-            toggleKeyword={toggleKeyword}
+            setSelectedKeywords={setSelectedKeywords}
           />
         }
       />
