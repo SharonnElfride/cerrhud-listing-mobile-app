@@ -2,6 +2,14 @@ import * as MailComposer from "expo-mail-composer";
 import { CerrhudLabData } from "../constants/cerrhud-lab-data";
 import { sendTextMessageOnWhatsapp } from "./whatsapp";
 
+export async function contactByMail() {
+  const options: MailComposer.MailComposerOptions = {
+    recipients: [CerrhudLabData.email],
+  };
+
+  await MailComposer.composeAsync(options);
+}
+
 export async function sendPrescriptionViaMail(
   message: string,
   prescriptionFileUri?: string
@@ -17,7 +25,5 @@ export async function sendPrescriptionViaMail(
     };
 
     await MailComposer.composeAsync(options);
-    // const result = await MailComposer.composeAsync(options);
-    // console.log("MailComposer result:", result.status);
   }
 }

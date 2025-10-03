@@ -1,42 +1,73 @@
 import colors from "@/colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useMemo, useState } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { LayoutChangeEvent, TouchableOpacity, View } from "react-native";
 import CChip from "./ui/CChip";
 import CText from "./ui/CText";
 
 type KeywordAccordionProps = {
   keywords: Set<string>;
   selectedKeywords: string[];
-  toggleKeyword: (keyword: string) => void;
-  limit?: number;
+  setSelectedKeywords: React.Dispatch<React.SetStateAction<string[]>>;
+  multipleSelection?: boolean;
 };
 
 const KeywordAccordion = ({
   keywords,
   selectedKeywords,
-  toggleKeyword,
-  limit = 6,
+  setSelectedKeywords,
+  multipleSelection = false,
 }: KeywordAccordionProps) => {
   const [expanded, setExpanded] = useState(false);
+  const [rowLimit, setRowLimit] = useState<number | null>(null);
+
+  const toggleKeyword = (keyword: string) => {
+    setSelectedKeywords((prev) =>
+      prev.includes(keyword)
+        ? prev.filter((kw) => kw !== keyword)
+        : multipleSelection
+          ? [...prev, keyword]
+          : [keyword]
+    );
+  };
 
   const orderedKeywords = useMemo(() => {
-    const arr = [
+    return [
       ...selectedKeywords,
       ...Array.from(keywords)
         .filter((k) => !selectedKeywords.includes(k))
         .sort(),
     ];
-    return arr;
   }, [keywords, selectedKeywords]);
 
+  const handleLayout = (event: LayoutChangeEvent) => {
+    if (rowLimit !== null) return;
+
+    const { width } = event.nativeEvent.layout;
+    let total = 0;
+    let rowCount = 0;
+
+    for (const keyword of orderedKeywords) {
+      const approxWidth = keyword.length * 10 + 32;
+      if (total + approxWidth > width) break;
+      total += approxWidth + 8;
+      rowCount++;
+    }
+
+    setRowLimit(rowCount);
+  };
+
+  const limit = rowLimit ?? orderedKeywords.length;
   const visibleKeywords = expanded
     ? orderedKeywords
     : orderedKeywords.slice(0, limit);
 
   return (
     <View>
-      <View className="flex-row flex-wrap justify-start gap-2 my-2">
+      <View
+        className="flex-row flex-wrap justify-between gap-2 my-2"
+        onLayout={handleLayout}
+      >
         {visibleKeywords.map((keyword) => (
           <CChip
             key={keyword.toLowerCase()}
@@ -47,7 +78,7 @@ const KeywordAccordion = ({
         ))}
       </View>
 
-      {orderedKeywords.length > limit && (
+      {rowLimit !== null && orderedKeywords.length > rowLimit && (
         <View className="w-full justify-end items-end">
           <TouchableOpacity
             onPress={() => setExpanded((prev) => !prev)}

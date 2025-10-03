@@ -1,8 +1,15 @@
 import colors from "@/colors";
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { router } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ActivityIndicator, FlatList, View, ViewProps } from "react-native";
+import {
+  ActivityIndicator,
+  BackHandler,
+  FlatList,
+  View,
+  ViewProps,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import CatalogHeader from "../components/catalog/CatalogHeader";
 import CScreenFooter from "../components/CScreenFooter";
 import MedicalTestCard from "../components/MedicalTestCard";
@@ -22,8 +29,9 @@ const MedicalTestCatalogScreen = () => {
   const [keywords, setKeywords] = useState(new Set<string>());
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["50%", "90%"], []);
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const snapPoints = useMemo(() => ["25%", "50%", "75%", "95%"], []);
+  const [isTestSheetOpen, setIsTestSheetOpen] = useState(false);
 
   useEffect(() => {
     if (!medicalTests.length) return;
@@ -60,8 +68,25 @@ const MedicalTestCatalogScreen = () => {
     setFilteredData(data);
   }, [searchQuery, medicalTests, selectedKeywords]);
 
+  useEffect(() => {
+    const onBackPress = () => {
+      if (isTestSheetOpen) {
+        bottomSheetRef.current?.dismiss();
+        return true;
+      }
+      return false;
+    };
+
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      onBackPress
+    );
+
+    return () => subscription.remove();
+  }, [isTestSheetOpen]);
+
   function onBookAppointmentPress(medicalTestWhatsappId: string) {
-    bottomSheetRef.current?.close();
+    bottomSheetRef.current?.dismiss();
 
     setTimeout(() => {
       router.navigate({
@@ -75,27 +100,14 @@ const MedicalTestCatalogScreen = () => {
     sendTextMessageOnWhatsapp(medicalTestsInfoMessage([medicalTestTitle]));
   }
 
-  const openSheet = (test: MedicalTest) => {
-    setSelectedMedicalTest(test);
-    bottomSheetRef.current?.snapToIndex(0);
-  };
-
   const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
 
-  const toggleKeyword = (keyword: string) => {
-    setSelectedKeywords((prev) =>
-      prev.includes(keyword)
-        ? prev.filter((kw) => kw !== keyword)
-        : [...prev, keyword]
-    );
-  };
-
-  const handleMoreDetails = useCallback(
-    (test: MedicalTest) => openSheet(test),
-    [openSheet]
-  );
+  const openSheet = useCallback((test: MedicalTest) => {
+    setSelectedMedicalTest(test);
+    bottomSheetRef.current?.present();
+  }, []);
 
   const HandlingData = ({
     text,
@@ -111,9 +123,11 @@ const MedicalTestCatalogScreen = () => {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           handleSearch={handleSearch}
+          medicalTestsTotal={medicalTests.length}
+          filteredMedicalTestsTotal={filteredData.length}
           keywords={keywords}
           selectedKeywords={selectedKeywords}
-          toggleKeyword={toggleKeyword}
+          setSelectedKeywords={setSelectedKeywords}
         />
 
         <View className="mb-24 flex-grow justify-center items-center">
@@ -151,10 +165,7 @@ const MedicalTestCatalogScreen = () => {
       <FlatList
         data={filteredData}
         renderItem={({ item }) => (
-          <MedicalTestCard
-            medicalTest={item}
-            onMoreDetailsClick={handleMoreDetails}
-          />
+          <MedicalTestCard medicalTest={item} onMoreDetailsClick={openSheet} />
         )}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
@@ -167,34 +178,44 @@ const MedicalTestCatalogScreen = () => {
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             handleSearch={handleSearch}
+            medicalTestsTotal={medicalTests.length}
+            filteredMedicalTestsTotal={filteredData.length}
             keywords={keywords}
             selectedKeywords={selectedKeywords}
-            toggleKeyword={toggleKeyword}
+            setSelectedKeywords={setSelectedKeywords}
           />
         }
       />
 
-      <BottomSheet
+      <BottomSheetModal
         ref={bottomSheetRef}
-        index={-1}
+        index={2}
         snapPoints={snapPoints}
         enablePanDownToClose
         onChange={(index) => {
+          setIsTestSheetOpen(index >= 0);
           if (index === -1) setSelectedMedicalTest(undefined);
         }}
       >
-        <BottomSheetScrollView style={{ flex: 1, padding: 20 }}>
-          {selectedMedicalTest ? (
-            <MedicalTestDetailsScreen
-              medicalTest={selectedMedicalTest}
-              onBookAppointmentPress={onBookAppointmentPress}
-              onMoreInfoPress={onMoreInfoPress}
-            />
-          ) : (
-            <CText>No card selected</CText>
-          )}
-        </BottomSheetScrollView>
-      </BottomSheet>
+        <SafeAreaView className="flex-1">
+          <BottomSheetScrollView
+            contentContainerStyle={{
+              paddingVertical: 10,
+              paddingHorizontal: 20,
+            }}
+          >
+            {selectedMedicalTest ? (
+              <MedicalTestDetailsScreen
+                medicalTest={selectedMedicalTest}
+                onBookAppointmentPress={onBookAppointmentPress}
+                onMoreInfoPress={onMoreInfoPress}
+              />
+            ) : (
+              <CText>No card selected</CText>
+            )}
+          </BottomSheetScrollView>
+        </SafeAreaView>
+      </BottomSheetModal>
     </View>
   );
 };

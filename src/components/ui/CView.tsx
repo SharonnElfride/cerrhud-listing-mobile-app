@@ -16,7 +16,7 @@ const CView = ({
     <ScrollView
       contentContainerStyle={{
         paddingTop: 20,
-        paddingHorizontal: 10,
+        paddingHorizontal: 20,
         gap: 10,
         flexGrow: 1,
       }}

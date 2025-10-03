@@ -1,22 +1,30 @@
 import { View } from "react-native";
 import { TextInput } from "react-native-paper";
 import KeywordAccordion from "../KeywordAccordion";
+import CText from "../ui/CText";
 import CatalogTitle from "./CatalogTitle";
 
 const CatalogHeader = ({
   searchQuery,
   setSearchQuery,
   handleSearch,
+  filteredMedicalTestsTotal,
+  medicalTestsTotal,
   keywords,
   selectedKeywords,
-  toggleKeyword,
+  setSelectedKeywords,
+  multipleSelection,
 }: {
   searchQuery: string;
   setSearchQuery: (value: React.SetStateAction<string>) => void;
   handleSearch: (query: string) => void;
+  filteredMedicalTestsTotal: number;
+  medicalTestsTotal: number;
   keywords: Set<string>;
   selectedKeywords: string[];
-  toggleKeyword: (keyword: string) => void;
+  setSelectedKeywords: React.Dispatch<React.SetStateAction<string[]>>;
+  multipleSelection?: boolean;
+  limit?: number;
 }) => {
   return (
     <View className="gap-5 pb-5">
@@ -45,11 +53,20 @@ const CatalogHeader = ({
         submitBehavior="blurAndSubmit"
       />
 
-      <KeywordAccordion
-        keywords={keywords}
-        selectedKeywords={selectedKeywords}
-        toggleKeyword={toggleKeyword}
-      />
+      <View className="gap-1 mb-2">
+        <CText className="text-base underline">Filtres</CText>
+
+        <KeywordAccordion
+          keywords={keywords}
+          selectedKeywords={selectedKeywords}
+          setSelectedKeywords={setSelectedKeywords}
+          multipleSelection={multipleSelection}
+        />
+      </View>
+
+      <CText className="text-sm">
+        Total: {filteredMedicalTestsTotal} / {medicalTestsTotal}
+      </CText>
     </View>
   );
 };
