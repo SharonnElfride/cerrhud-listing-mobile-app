@@ -5,6 +5,7 @@ import { sendTextMessageOnWhatsapp } from "./whatsapp";
 export async function contactByMail() {
   const options: MailComposer.MailComposerOptions = {
     recipients: [CerrhudLabData.email],
+    body: ""
   };
 
   await MailComposer.composeAsync(options);
