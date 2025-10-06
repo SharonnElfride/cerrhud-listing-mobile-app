@@ -21,7 +21,7 @@
     "@react-native-community/datetimepicker": "8.4.4",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "date-fns": "^4.1.0",
-    "expo": "^54.0.8",
+    "expo": "^54.0.12",
     "expo-constants": "~18.0.9",
     "expo-dev-client": "~6.0.12",
     "expo-document-picker": "~14.0.7",
