@@ -64,7 +64,7 @@ const MedicalTestDetailsScreen = ({
         ))}
 
       <View className="flex-row flex-wrap justify-between gap-2">
-        {medicalTest.keywords.map((kw, idx) => (
+        {medicalTest.keywords.sort().map((kw, idx) => (
           <CChip
             key={`${medicalTest.whatsappId}-${kw.replace(" ", "")}-${idx}`}
             content={kw}

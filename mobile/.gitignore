@@ -1,0 +1,67 @@
+# Environment variable files
+.env
+.env.*
+!.env.example
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# macOS
+.DS_Store
+*.pem
+
+# IDEs
+.idea
+.vscode
+
+# Generated native folders
+/ios
+/android
+**/*.properties
+
+# Xcode
+ios/build/
+ios/Pods/
+ios/*.xcodeproj/project.xcworkspace/
+ios/*.xcworkspace
+ios/*.xcodeproj/xcuserdata/
+ios/*.xcworkspace/xcuserdata/
+
+# Android
+android/.gradle/
+android/app/build/
+android/build/
+*.iml
+.gradle
+/local.properties
+/.idea
+
+# Logs
+logs
+*.log
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# Expo
+.expo/
+.expo-shared/
+dist/
+web-build/
+expo-env.d.ts
+nativewind-env.d.ts
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# TypeScript cache
+*.tsbuildinfo
