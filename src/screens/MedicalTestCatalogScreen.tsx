@@ -197,7 +197,7 @@ const MedicalTestCatalogScreen = () => {
           if (index === -1) setSelectedMedicalTest(undefined);
         }}
       >
-        <SafeAreaView className="flex-1" edges={{ top: "off" }}>
+        <SafeAreaView className="flex-1" edges={{ top: "off", bottom: "maximum" }}>
           <BottomSheetScrollView
             contentContainerStyle={{
               paddingVertical: 10,
