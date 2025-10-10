@@ -7,7 +7,6 @@ import "./index.css";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      {/* import { BrowserRouter } from "react-router-dom"; */}
       {/* <ScrollToTop /> */}
       {/* <ThemeProvider> */}
       <App />
