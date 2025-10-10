@@ -19,7 +19,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 
     <QueryClientProvider client={queryClient}>
-      <AppInitializer>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -46,7 +45,6 @@ import { motion } from "framer-motion";
       </Routes>
           </main>
         </motion.div>
-      </AppInitializer>
     </QueryClientProvider>
 */
 
