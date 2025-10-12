@@ -1,14 +1,16 @@
 type UserRole = "user" | "admin" | "super_admin";
 
 interface BasePermission {
+  create: boolean;
   read: boolean;
-  edit: boolean;
+  update: boolean;
   delete: boolean;
 }
 
 interface UserPermissions {
   users: BasePermission;
   medicalTests: BasePermission;
+  // medical_tests: BasePermission;
 }
 
 interface User {
@@ -27,5 +29,5 @@ interface User {
   username?: string;
 }
 
-export { type User, type UserPermissions, type UserRole };
+export { type UserPermissions, type UserRole };
 

@@ -1,19 +1,9 @@
 import { supabase } from "@/lib/supabase/client";
-import type { User } from "@/models/User";
-import type { User as SupabaseUser } from "@supabase/supabase-js";
+import type { Tables } from "@/lib/supabase/supabase";
 import { createContext, useContext, useEffect, useState } from "react";
 
-interface UserData {
-  id: string;
-  email: string;
-  username: string;
-  role: "user" | "admin" | "super_admin";
-  permissions: string[];
-}
-
 interface AuthContextType {
-  //   user: UserData | null;
-  user: User | null;
+  user: Tables<{ schema: "public" }, "profiles"> | null;
   loading: boolean;
   logout: () => Promise<void>;
 }
@@ -25,22 +15,23 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  //   const [user, setUser] = useState<UserData | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<Tables<
+    { schema: "public" },
+    "profiles"
+  > | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const initSession = async () => {
       const { data } = await supabase.auth.getSession();
       if (data.session?.user) {
-        await loadUserData(data.session.user.id, data.session.user);
+        await loadUserData(data.session.user.id);
       } else {
         setUser(null);
         setLoading(false);
       }
     };
 
-    // listen to login/logout changes
     const { data: listener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         if (session?.user) {
@@ -58,24 +49,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  const loadUserData = async (userId: string, user?: SupabaseUser) => {
-    console.log("Session user");
-    console.log(user);
-
+  const loadUserData = async (userId: string) => {
     const { data, error } = await supabase
-      .from("users")
-      //   .select("id, email, username, role, permissions")
+      .from("profiles")
       .select("*")
-      .eq("id", userId);
-    //   .single();
-
-    console.log("data");
-    console.log(data);
-    console.log("error");
-    console.log(error);
+      .eq("id", userId)
+      .single();
 
     if (!error && data) {
-      setUser(data[0]);
+      setUser(data);
     }
     setLoading(false);
   };

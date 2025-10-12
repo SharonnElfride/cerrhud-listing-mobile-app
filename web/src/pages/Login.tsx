@@ -12,31 +12,23 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { supabase } from "@/lib/supabase/client";
-import { InfoIcon, KeyRoundIcon, MailIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  EyeIcon,
+  EyeOffIcon,
+  InfoIcon,
+  KeyRoundIcon,
+  MailIcon,
+} from "lucide-react";
+import { useState } from "react";
+import logo from "/src/assets/adaptive-icon.png";
 
 const Login = () => {
-  const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    const checkSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (session) {
-        navigate("/dashboard", { replace: true });
-      }
-    };
-
-    checkSession();
-  }, [navigate]);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -61,9 +53,11 @@ const Login = () => {
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-br from-primary via-secondary to-accent">
-      <div className="min-h-[80vh] md:min-h-[60vh] p-5 bg-white/10 backdrop-blur-md border border-white rounded-md shadow-xl m-5 min-w-2xs w-full max-w-2/3 grid grid-cols-1 md:grid-cols-2 overflow-hidden">
-        <div className="hidden md:flex rounded-l-md bg-primary/50 items-center justify-center text-white text-3xl font-bold">
-          Welcome Back
+      <div className="min-h-[80vh] md:min-h-[60vh] p-3 bg-white/10 backdrop-blur-md border border-white rounded-md shadow-xl m-5 min-w-2xs w-full max-w-2/3 grid grid-cols-1 md:grid-cols-2 overflow-hidden">
+        <div className="hidden md:flex rounded-l-md bg-primary/20 items-center justify-center text-white text-3xl font-bold">
+          <div className="flex flex-col gap-2">
+            <img src={logo} alt="Lab" className="w-52 h-52" />
+          </div>
         </div>
 
         <div className="p-5 md:px-12 flex rounded-r-md max-sm:rounded-md flex-col h-full justify-between bg-white">
@@ -115,15 +109,29 @@ const Login = () => {
                 <InputGroup>
                   <InputGroupInput
                     id="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
+
                   <InputGroupAddon>
                     <KeyRoundIcon />
                   </InputGroupAddon>
+
                   <InputGroupAddon align="inline-end">
+                    <InputGroupButton
+                      variant="ghost"
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
+                      size="icon-xs"
+                      className="ml-1"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    </InputGroupButton>
+
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <InputGroupButton

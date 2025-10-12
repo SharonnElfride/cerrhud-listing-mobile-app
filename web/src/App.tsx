@@ -1,8 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { ProtectedRoute } from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import Unauthorized from "./pages/Unauthorized";
 
 function App() {
   return (
@@ -38,44 +39,19 @@ function App() {
             }
           />
 
-          {/* <Route path="*" element={<NotFoundPage />} /> */}
+          {/* 
+            <Route path={"/medical-tests"} element={<MedicalTests />} />
+            <Route path={"/medical-tests/:id"} element={<MedicalTests />} />
+            <Route path={"/users"} element={<MedicalTests />} />
+            <Route path={"/users/:id"} element={<MedicalTests />} />
+            <Route path={"/profile OR /profile/:id"} element={<MedicalTests />} />
+          */}
+
+          <Route path="*" element={<Unauthorized />} />
         </Routes>
       </main>
     </div>
   );
 }
-/*
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { motion } from "framer-motion";
-
-    <QueryClientProvider client={queryClient}>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="min-h-screen flex flex-col select-none animate-fade-in-scale overflow-x-hidden"
-        >
-          <PageTitleSetter />
-          <Navbar />
-          <main className="grow">
-            <Routes>
-        // {AllNavigationItems.map((item) => (
-          <Route path={"/"} element={<Login />} />
-          <Route path={"/dashboard"} element={<MedicalTests />} />
-          <Route path={"/medical-tests"} element={<MedicalTests />} />
-          <Route path={"/medical-tests/:id"} element={<MedicalTests />} />
-          <Route path={"/users"} element={<MedicalTests />} />
-          <Route path={"/users/:id"} element={<MedicalTests />} />
-          <Route path={"/profile OR /profile/:id"} element={<MedicalTests />} />
-          // <Route path={item.url} element={<item.route />} />
-        // ))}
-
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-          </main>
-        </motion.div>
-    </QueryClientProvider>
-*/
 
 export default App;
