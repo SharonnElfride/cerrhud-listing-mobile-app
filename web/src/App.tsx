@@ -1,8 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { ProtectedRoute } from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import Unauthorized from "./pages/Unauthorized";
 
 function App() {
   return (
@@ -38,7 +39,15 @@ function App() {
             }
           />
 
-          {/* <Route path="*" element={<NotFoundPage />} /> */}
+          {/* 
+            <Route path={"/medical-tests"} element={<MedicalTests />} />
+            <Route path={"/medical-tests/:id"} element={<MedicalTests />} />
+            <Route path={"/users"} element={<MedicalTests />} />
+            <Route path={"/users/:id"} element={<MedicalTests />} />
+            <Route path={"/profile OR /profile/:id"} element={<MedicalTests />} />
+          */}
+
+          <Route path="*" element={<Unauthorized />} />
         </Routes>
       </main>
     </div>
