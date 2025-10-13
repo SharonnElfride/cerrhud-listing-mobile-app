@@ -1,10 +1,12 @@
 import { useAuth } from "@/context/AuthContext";
-import type { UserRole } from "@/models/User";
+import type { Enums } from "@/lib/supabase/supabase";
+import type { UserPermissions } from "@/models/UserPermissions";
 import { Navigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requiredRoles?: UserRole[];
+  requiredRoles?: Enums<"user_role">[];
+  // requiredPermissions?: UserPermissions;
 }
 
 const ProtectedRoute = ({ children, requiredRoles }: ProtectedRouteProps) => {
@@ -14,7 +16,7 @@ const ProtectedRoute = ({ children, requiredRoles }: ProtectedRouteProps) => {
   if (!user) return <Navigate to="/" replace />;
 
   if (requiredRoles && !requiredRoles.includes(user.role)) {
-    return <div className="p-10 text-center text-red-500">Access Denied</div>;
+    return <Navigate to="/unauthorized" replace />;
   }
 
   return <>{children}</>;
