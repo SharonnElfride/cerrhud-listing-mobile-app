@@ -1,7 +1,7 @@
 const Unauthorized = ({}) => {
   return (
     <div>
-      <p>Unauthorized access!</p>
+      <p className="p-10 text-center text-red-500">Access Denied</p>;
     </div>
   );
 };
