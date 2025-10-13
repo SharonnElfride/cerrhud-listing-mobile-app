@@ -99,14 +99,14 @@ export type Database = {
             foreignKeyName: "medical_tests_created_by_fkey"
             columns: ["created_by"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "medical_tests_updated_by_fkey"
             columns: ["updated_by"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -138,7 +138,7 @@ export type Database = {
             foreignKeyName: "medical_tests_changes_changed_by_fkey"
             columns: ["changed_by"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
@@ -191,59 +191,6 @@ export type Database = {
           surname?: string | null
         }
         Relationships: []
-      }
-      users: {
-        Row: {
-          created_at: string | null
-          created_by: string | null
-          email: string
-          first_name: string
-          hidden: boolean | null
-          id: string
-          permissions: Json | null
-          profile_color: string | null
-          profile_pic: string | null
-          role: Database["public"]["Enums"]["user_role"]
-          surname: string | null
-          username: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          created_by?: string | null
-          email: string
-          first_name: string
-          hidden?: boolean | null
-          id: string
-          permissions?: Json | null
-          profile_color?: string | null
-          profile_pic?: string | null
-          role?: Database["public"]["Enums"]["user_role"]
-          surname?: string | null
-          username?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          created_by?: string | null
-          email?: string
-          first_name?: string
-          hidden?: boolean | null
-          id?: string
-          permissions?: Json | null
-          profile_color?: string | null
-          profile_pic?: string | null
-          role?: Database["public"]["Enums"]["user_role"]
-          surname?: string | null
-          username?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "users_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
       }
     }
     Views: {
