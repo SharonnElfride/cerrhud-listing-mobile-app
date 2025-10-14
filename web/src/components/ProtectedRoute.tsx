@@ -12,6 +12,9 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children, requiredRoles }: ProtectedRouteProps) => {
   const { user, loading } = useAuth();
 
+  console.log("USER")
+  console.log(user)
+
   if (loading) return <div className="text-center p-5">Loading...</div>;
   if (!user) return <Navigate to="/" replace />;
 
