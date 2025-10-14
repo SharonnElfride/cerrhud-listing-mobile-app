@@ -1,10 +1,13 @@
+import { Users } from "lucide-react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
-import Unauthorized from "./pages/Unauthorized";
+import MedicalTests from "./pages/MedicalTests";
 import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
+import Unauthorized from "./pages/Unauthorized";
 
 function App() {
   return (
@@ -14,7 +17,7 @@ function App() {
           <Route path={"/"} element={<Login />} />
 
           <Route
-            path="/dashboard"
+            path={"/dashboard"}
             element={
               <ProtectedRoute>
                 <Dashboard />
@@ -23,29 +26,29 @@ function App() {
           />
 
           <Route
-            path="/admin"
+            path={"/medical-tests"}
             element={
-              <ProtectedRoute requiredRoles={["admin", "super_admin"]}>
-                <div>Admin Page</div>
+              <ProtectedRoute requiredRoles={["user", "admin", "super_admin"]}>
+                <MedicalTests />
               </ProtectedRoute>
             }
           />
 
           <Route
-            path="/super"
+            path={"/users"}
             element={
-              <ProtectedRoute requiredRoles={["super_admin"]}>
-                <div>Super Admin Panel</div>
+              <ProtectedRoute requiredRoles={["admin", "super_admin"]}>
+                <Users />
               </ProtectedRoute>
             }
           />
 
+          <Route path={"/profile"} element={<Profile />} />
+          {/* <Route path={"/profile OR /profile/:id"} element={<Profile />} /> */}
+
           {/* 
-            <Route path={"/medical-tests"} element={<MedicalTests />} />
             <Route path={"/medical-tests/:id"} element={<MedicalTests />} />
-            <Route path={"/users"} element={<MedicalTests />} />
             <Route path={"/users/:id"} element={<MedicalTests />} />
-            <Route path={"/profile OR /profile/:id"} element={<MedicalTests />} />
           */}
 
           <Route path="/unauthorized" element={<Unauthorized />} />
