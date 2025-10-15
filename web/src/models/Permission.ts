@@ -7,4 +7,11 @@ interface BasePermission {
 
 type PermissionMap<T extends string> = Record<T, BasePermission>;
 
-export { type PermissionMap };
+const DefaultBasePermission: BasePermission = {
+  create: false,
+  read: false,
+  update: false,
+  delete: false,
+};
+
+export { type PermissionMap, type BasePermission, DefaultBasePermission };

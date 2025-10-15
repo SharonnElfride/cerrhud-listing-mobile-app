@@ -6,15 +6,15 @@ export const RolePermissions: Record<
   UserPermissions
 > = {
   user: {
-    profiles: { create: false, read: false, update: false, delete: false },
+    users: { create: false, read: false, update: false, delete: false },
     medical_tests: { create: false, read: true, update: false, delete: false },
   },
   admin: {
-    profiles: { create: false, read: true, update: false, delete: false },
+    users: { create: false, read: true, update: false, delete: false },
     medical_tests: { create: true, read: true, update: true, delete: true },
   },
   super_admin: {
-    profiles: { create: true, read: true, update: true, delete: true },
+    users: { create: true, read: true, update: true, delete: true },
     medical_tests: { create: true, read: true, update: true, delete: true },
   },
 };

@@ -3,7 +3,7 @@ import type { Tables } from "@/lib/supabase/supabase";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextType {
-  user: Tables<{ schema: "public" }, "profiles"> | null;
+  user: Tables<"profiles"> | null;
   loading: boolean;
   logout: () => Promise<void>;
 }
@@ -15,10 +15,7 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<Tables<
-    { schema: "public" },
-    "profiles"
-  > | null>(null);
+  const [user, setUser] = useState<Tables<"profiles"> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
