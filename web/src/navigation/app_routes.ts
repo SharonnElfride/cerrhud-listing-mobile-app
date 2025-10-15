@@ -24,6 +24,8 @@ import {
 } from "lucide-react";
 import type { JSX } from "react";
 
+type RouteType = "auth" | "public" | "protected";
+
 export interface AppRoute {
   path: string;
   label: string;
@@ -31,6 +33,8 @@ export interface AppRoute {
     Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
   >;
   route: ({}: {}) => JSX.Element;
+  type: RouteType;
+  redirectTo?: string;
   requiredRoles?: Enums<"user_role">[];
   requiredPermissions?: PermissionKey[];
   children?: AppRoute[];
@@ -41,19 +45,28 @@ export const appRoutes: AppRoute[] = [
     path: "/",
     label: "Login",
     route: Login,
+    type: "auth",
+    redirectTo: "/dashboard"
   },
+  // {
+  //   path: "/forgot-password",
+  //   label: "Forgot Password",
+  //   route: ForgotPassword,
+  //   type: "auth",
+  // },
   {
     path: "/dashboard",
     label: "Dashboard",
     route: Dashboard,
     icon: HomeIcon,
-    requiredRoles: ["user", "admin", "super_admin"],
+    type: "protected",
   },
   {
     path: "/medical-tests",
     label: "Medical Tests",
     icon: TestTubesIcon,
     route: MedicalTests,
+    type: "protected",
     requiredRoles: ["user", "admin", "super_admin"],
     requiredPermissions: ["medical_tests.read"],
     children: [
@@ -62,6 +75,7 @@ export const appRoutes: AppRoute[] = [
         label: "Add a medical test",
         icon: PlusSquareIcon,
         route: AddMedicalTest,
+        type: "protected",
         requiredRoles: ["admin", "super_admin"],
         requiredPermissions: ["medical_tests.create"],
       },
@@ -70,6 +84,7 @@ export const appRoutes: AppRoute[] = [
         label: "Medical Test Details",
         icon: EyeIcon,
         route: ViewMedicalTest,
+        type: "protected",
         requiredRoles: ["user", "admin", "super_admin"],
         requiredPermissions: ["medical_tests.read"],
       },
@@ -78,6 +93,7 @@ export const appRoutes: AppRoute[] = [
         label: "Edit Medical Test Details",
         icon: EditIcon,
         route: EditMedicalTest,
+        type: "protected",
         requiredRoles: ["admin", "super_admin"],
         requiredPermissions: ["medical_tests.update"],
       },
@@ -88,6 +104,7 @@ export const appRoutes: AppRoute[] = [
     label: "Users",
     icon: UsersIcon,
     route: Users,
+    type: "protected",
     requiredRoles: ["admin", "super_admin"],
     requiredPermissions: ["users.read"],
     children: [
@@ -96,6 +113,7 @@ export const appRoutes: AppRoute[] = [
         label: "Add a user",
         icon: PlusSquareIcon,
         route: AddUser,
+        type: "protected",
         requiredRoles: ["super_admin"],
         requiredPermissions: ["users.create"],
       },
@@ -104,6 +122,7 @@ export const appRoutes: AppRoute[] = [
         label: "User's Details",
         icon: EyeIcon,
         route: ViewUser,
+        type: "protected",
         requiredRoles: ["admin", "super_admin"],
         requiredPermissions: ["users.read"],
       },
@@ -112,6 +131,7 @@ export const appRoutes: AppRoute[] = [
         label: "Edit User's Details",
         icon: EditIcon,
         route: EditUser,
+        type: "protected",
         requiredRoles: ["super_admin"],
         requiredPermissions: ["users.update"],
       },
@@ -121,16 +141,18 @@ export const appRoutes: AppRoute[] = [
     path: "/profile",
     label: "Profile",
     route: Profile,
-    requiredRoles: ["user", "admin", "super_admin"],
+    type: "protected",
   },
   {
     path: "/unauthorized",
     label: "Unauthorised",
     route: Unauthorized,
+    type: "public",
   },
   {
     path: "*",
     label: "Not found",
     route: NotFound,
+    type: "public",
   },
 ];
