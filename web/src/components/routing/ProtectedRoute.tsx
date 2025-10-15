@@ -1,21 +1,20 @@
 import { useAuth } from "@/context/AuthContext";
-import type { Enums } from "@/lib/supabase/supabase";
-import type { UserPermissions } from "@/models/UserPermissions";
+import type { AppRoute } from "@/navigation/app_routes";
+import { canAccessRoute } from "@/navigation/guards";
 import { Navigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requiredRoles?: Enums<"user_role">[];
-  // requiredPermissions?: UserPermissions;
+  route: AppRoute;
 }
 
-const ProtectedRoute = ({ children, requiredRoles }: ProtectedRouteProps) => {
+const ProtectedRoute = ({ children, route }: ProtectedRouteProps) => {
   const { user, loading } = useAuth();
 
   if (loading) return <div className="text-center p-5">Loading...</div>;
   if (!user) return <Navigate to="/" replace />;
 
-  if (requiredRoles && !requiredRoles.includes(user.role)) {
+  if (!canAccessRoute(route, user)) {
     return <Navigate to="/unauthorized" replace />;
   }
 

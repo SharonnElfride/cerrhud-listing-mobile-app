@@ -1,92 +1,38 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
-import Unauthorized from "./pages/Unauthorized";
-import NotFound from "./pages/NotFound";
+import AuthRoute from "./components/routing/AuthRoute";
+import ProtectedRoute from "./components/routing/ProtectedRoute";
+import { appRoutes } from "./navigation/app_routes";
 
 function App() {
   return (
     <div className="min-h-screen flex flex-col animate-in overflow-x-hidden">
       <main className="grow">
         <Routes>
-          <Route path={"/"} element={<Login />} />
+          {appRoutes.map((rte) => {
+            const Element = <rte.route />;
 
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute requiredRoles={["admin", "super_admin"]}>
-                <div>Admin Page</div>
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/super"
-            element={
-              <ProtectedRoute requiredRoles={["super_admin"]}>
-                <div>Super Admin Panel</div>
-              </ProtectedRoute>
-            }
-          />
-
-          {/* 
-            <Route path={"/medical-tests"} element={<MedicalTests />} />
-            <Route path={"/medical-tests/:id"} element={<MedicalTests />} />
-            <Route path={"/users"} element={<MedicalTests />} />
-            <Route path={"/users/:id"} element={<MedicalTests />} />
-            <Route path={"/profile OR /profile/:id"} element={<MedicalTests />} />
-          */}
-
-          <Route path="/unauthorized" element={<Unauthorized />} />
-          <Route path="*" element={<NotFound />} />
+            return (
+              <Route
+                key={rte.path}
+                index={rte.path === "/"}
+                path={rte.path}
+                element={
+                  rte.type === "auth" ? (
+                    <AuthRoute redirectTo={rte.redirectTo}>{Element}</AuthRoute>
+                  ) : rte.type === "protected" ? (
+                    <ProtectedRoute route={rte}>{Element}</ProtectedRoute>
+                  ) : (
+                    Element
+                  )
+                }
+              />
+            );
+          })}
         </Routes>
       </main>
     </div>
   );
 }
-/*
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { motion } from "framer-motion";
-
-    <QueryClientProvider client={queryClient}>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="min-h-screen flex flex-col select-none animate-fade-in-scale overflow-x-hidden"
-        >
-          <PageTitleSetter />
-          <Navbar />
-          <main className="grow">
-            <Routes>
-        // {AllNavigationItems.map((item) => (
-          <Route path={"/"} element={<Login />} />
-          <Route path={"/dashboard"} element={<MedicalTests />} />
-          <Route path={"/medical-tests"} element={<MedicalTests />} />
-          <Route path={"/medical-tests/:id"} element={<MedicalTests />} />
-          <Route path={"/users"} element={<MedicalTests />} />
-          <Route path={"/users/:id"} element={<MedicalTests />} />
-          <Route path={"/profile OR /profile/:id"} element={<MedicalTests />} />
-          // <Route path={item.url} element={<item.route />} />
-        // ))}
-
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-          </main>
-        </motion.div>
-    </QueryClientProvider>
-*/
 
 export default App;
