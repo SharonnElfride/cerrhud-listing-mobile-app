@@ -1,4 +1,5 @@
 import { useAuth } from "@/context/AuthContext";
+import { LoginRoute } from "@/navigation/app_routes";
 import { Navigate } from "react-router-dom";
 
 interface AuthRouteProps {
@@ -6,7 +7,10 @@ interface AuthRouteProps {
   redirectTo?: string;
 }
 
-const AuthRoute = ({ children, redirectTo = "/" }: AuthRouteProps) => {
+const AuthRoute = ({
+  children,
+  redirectTo = LoginRoute.path,
+}: AuthRouteProps) => {
   const { user, loading } = useAuth();
 
   if (loading) return <div className="text-center p-5">Loading...</div>;

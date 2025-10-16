@@ -1,35 +1,37 @@
-import { Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Routes, useLocation } from "react-router-dom";
 import "./App.css";
-import AuthRoute from "./components/routing/AuthRoute";
-import ProtectedRoute from "./components/routing/ProtectedRoute";
+import Navbar from "./components/navigation/Navbar";
+import RenderRoutes from "./components/routing/RenderRoutes";
 import { appRoutes } from "./navigation/app_routes";
 
 function App() {
-  return (
-    <div className="min-h-screen flex flex-col animate-in overflow-x-hidden">
-      <main className="grow">
-        <Routes>
-          {appRoutes.map((rte) => {
-            const Element = <rte.route />;
+  const location = useLocation();
+  const [hideNavbar, setHideNavbar] = useState(false);
 
-            return (
-              <Route
-                key={rte.path}
-                index={rte.path === "/"}
-                path={rte.path}
-                element={
-                  rte.type === "auth" ? (
-                    <AuthRoute redirectTo={rte.redirectTo}>{Element}</AuthRoute>
-                  ) : rte.type === "protected" ? (
-                    <ProtectedRoute route={rte}>{Element}</ProtectedRoute>
-                  ) : (
-                    Element
-                  )
-                }
-              />
-            );
-          })}
-        </Routes>
+  useEffect(() => {
+    const pathname = location.pathname;
+    let currentRoute = appRoutes.find((r) => r.path === pathname);
+
+    if (!currentRoute) {
+      currentRoute = appRoutes.find((r) => {
+        if (r.path.includes("/:")) {
+          const basePath = r.path.split("/:")[0];
+          return pathname.startsWith(basePath);
+        }
+        return false;
+      });
+    }
+
+    // const hideNavbar = ["auth", "public"].includes(currentRoute?.type ?? "");
+    setHideNavbar(currentRoute?.hideNavbar ?? false);
+  }, [location]);
+
+  return (
+    <div className="min-h-screen bg-muted flex flex-col animate-in overflow-x-hidden">
+      {!hideNavbar && <Navbar />}
+      <main className="grow">
+        <Routes>{RenderRoutes(appRoutes)}</Routes>
       </main>
     </div>
   );
