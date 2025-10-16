@@ -29,7 +29,7 @@ const Dashboard = ({}) => {
         <Link to={"/profile"}>Go to Profile</Link>
       </div>
 
-      <Button onClick={logout}>Logout</Button>
+      <Button onClick={logout} className="cursor-pointer">Logout</Button>
     </div>
   );
 };

@@ -1,7 +1,11 @@
 import { useAuth } from "@/context/AuthContext";
-import type { AppRoute } from "@/navigation/app_routes";
+import {
+  LoginRoute,
+  UnauthorizedRoute,
+  type AppRoute,
+} from "@/navigation/app_routes";
 import { canAccessRoute } from "@/navigation/guards";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -10,12 +14,21 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children, route }: ProtectedRouteProps) => {
   const { user, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) return <div className="text-center p-5">Loading...</div>;
-  if (!user) return <Navigate to="/" replace />;
+  if (!user) {
+    return (
+      <Navigate
+        to={LoginRoute.path}
+        replace
+        state={{ from: location.pathname }}
+      />
+    );
+  }
 
   if (!canAccessRoute(route, user)) {
-    return <Navigate to="/unauthorized" replace />;
+    return <Navigate to={UnauthorizedRoute.path} replace />;
   }
 
   return <>{children}</>;
