@@ -1,16 +1,18 @@
+import type { Tables } from "@/lib/supabase/supabase";
 import {
-    DashboardRoute,
-    MedicalTestsRoute,
-    UsersRoute,
-    type AppRoute,
+  DashboardRoute,
+  MedicalTestsRoute,
+  UsersRoute,
+  type AppRoute,
 } from "@/navigation/app_routes";
+import { canAccessRoute } from "@/navigation/guards";
 import { cva } from "class-variance-authority";
 import { Link, useLocation } from "react-router-dom";
 import {
-    NavigationMenu,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
 } from "../ui/navigation-menu";
 
 const customNavigationMenuLinkStyle = cva(
@@ -18,9 +20,9 @@ const customNavigationMenuLinkStyle = cva(
   {
     variants: {
       active: {
-        true: "bg-accent text-accent-foreground [&_svg:not([class*='text-'])]:text-white",
+        true: "bg-primary text-primary-foreground [&_svg:not([class*='text-'])]:text-primary-foreground",
         false:
-          "text-white/70 hover:bg-white/10 hover:text-white focus:bg-accent focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-white/70 hover:[&_svg:not([class*='text-'])]:text-white",
+          "text-primary/70 hover:bg-primary/10 hover:text-primary focus:bg-primary focus:text-primary-foreground [&_svg:not([class*='text-'])]:text-primary/70 hover:[&_svg:not([class*='text-'])]:text-primary focus:[&_svg:not([class*='text-'])]:text-primary-foreground",
       },
     },
     defaultVariants: {
@@ -29,15 +31,21 @@ const customNavigationMenuLinkStyle = cva(
   }
 );
 
-const NavMenuItem = ({ route }: { route: AppRoute }) => {
+const NavMenuItem = ({
+  route,
+  user,
+}: {
+  route: AppRoute;
+  user?: Tables<"profiles">;
+}) => {
   const { pathname } = useLocation();
   const isActive =
     pathname === route.path ||
     (route.path.includes("/:") &&
       pathname.startsWith(route.path.split("/:")[0]));
 
-  return (
-    <NavigationMenuItem>
+  return canAccessRoute(route, user) ? (
+    <NavigationMenuItem className="items-start">
       <NavigationMenuLink
         asChild
         className={customNavigationMenuLinkStyle({ active: isActive })}
@@ -52,16 +60,16 @@ const NavMenuItem = ({ route }: { route: AppRoute }) => {
         </Link>
       </NavigationMenuLink>
     </NavigationMenuItem>
-  );
+  ) : null;
 };
 
-const NavMenu = ({}) => {
+const NavMenu = ({ user }: { user?: Tables<"profiles"> }) => {
   return (
-    <NavigationMenu className="px-10">
-      <NavigationMenuList>
-        <NavMenuItem route={DashboardRoute} />
-        <NavMenuItem route={MedicalTestsRoute} />
-        <NavMenuItem route={UsersRoute} />
+    <NavigationMenu className="w-full">
+      <NavigationMenuList className="flex flex-col items-start">
+        <NavMenuItem route={DashboardRoute} user={user} />
+        <NavMenuItem route={MedicalTestsRoute} user={user} />
+        <NavMenuItem route={UsersRoute} user={user} />
       </NavigationMenuList>
     </NavigationMenu>
   );
