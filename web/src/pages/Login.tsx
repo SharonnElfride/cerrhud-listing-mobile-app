@@ -12,6 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { supabase } from "@/lib/supabase/client";
+import { LoginRoute, MedicalTestsRoute } from "@/navigation/app_routes";
 import {
   EyeIcon,
   EyeOffIcon,
@@ -20,6 +21,7 @@ import {
   MailIcon,
 } from "lucide-react";
 import { useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import logo from "/src/assets/adaptive-icon.png";
 
 const Login = () => {
@@ -29,6 +31,8 @@ const Login = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const location = useLocation();
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -43,7 +47,10 @@ const Login = () => {
 
       if (authError) throw authError;
 
-      window.location.href = "/dashboard";
+      const redirectTo =
+        location.state?.from ?? LoginRoute.redirectTo ?? MedicalTestsRoute.path;
+
+      return <Navigate to={redirectTo} replace />;
     } catch (err: any) {
       setError(err.message || "Login failed");
     } finally {

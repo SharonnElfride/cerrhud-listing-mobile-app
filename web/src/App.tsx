@@ -1,35 +1,29 @@
-import { Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Routes, useLocation } from "react-router-dom";
 import "./App.css";
-import AuthRoute from "./components/routing/AuthRoute";
-import ProtectedRoute from "./components/routing/ProtectedRoute";
+import Navbar from "./components/navigation/Navbar";
+import RenderRoutes from "./components/routing/RenderRoutes";
 import { appRoutes } from "./navigation/app_routes";
+import { findCurrentRoute } from "./navigation/find_current_route";
 
 function App() {
-  return (
-    <div className="min-h-screen flex flex-col animate-in overflow-x-hidden">
-      <main className="grow">
-        <Routes>
-          {appRoutes.map((rte) => {
-            const Element = <rte.route />;
+  const { pathname } = useLocation();
+  const [hideNavbar, setHideNavbar] = useState(false);
 
-            return (
-              <Route
-                key={rte.path}
-                index={rte.path === "/"}
-                path={rte.path}
-                element={
-                  rte.type === "auth" ? (
-                    <AuthRoute redirectTo={rte.redirectTo}>{Element}</AuthRoute>
-                  ) : rte.type === "protected" ? (
-                    <ProtectedRoute route={rte}>{Element}</ProtectedRoute>
-                  ) : (
-                    Element
-                  )
-                }
-              />
-            );
-          })}
-        </Routes>
+  useEffect(() => {
+    let currentRoute = findCurrentRoute(appRoutes, pathname);
+    setHideNavbar(currentRoute?.hideNavbar ?? false);
+  }, [pathname]);
+
+  return (
+    <div
+      className={`bg-muted flex animate-in overflow-x-hidden gap-2 ${
+        hideNavbar ? "" : "p-2"
+      }`}
+    >
+      {!hideNavbar && <Navbar />}
+      <main className="grow bg-routes-bg shadow rounded-xl">
+        <Routes>{RenderRoutes(appRoutes)}</Routes>
       </main>
     </div>
   );
