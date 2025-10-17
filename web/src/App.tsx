@@ -16,9 +16,13 @@ function App() {
   }, [pathname]);
 
   return (
-    <div className="min-h-screen bg-muted flex flex-col animate-in overflow-x-hidden">
+    <div
+      className={`bg-muted flex animate-in overflow-x-hidden gap-2 ${
+        hideNavbar ? "" : "p-2"
+      }`}
+    >
       {!hideNavbar && <Navbar />}
-      <main className="grow">
+      <main className="grow bg-routes-bg shadow rounded-xl">
         <Routes>{RenderRoutes(appRoutes)}</Routes>
       </main>
     </div>

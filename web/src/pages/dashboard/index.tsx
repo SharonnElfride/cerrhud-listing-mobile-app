@@ -6,7 +6,7 @@ const Dashboard = ({}) => {
   const { user, logout } = useAuth();
 
   return (
-    <div className="p-10">
+    <div>
       <h1 className="text-2xl font-semibold mb-4">
         Welcome, {user?.first_name + " - " + user?.email}
       </h1>

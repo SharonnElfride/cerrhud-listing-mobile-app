@@ -41,12 +41,18 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   --color-app-bg: var(--app-bg);
+  --color-routes-bg: var(--routes-bg);
 }
 
 :root {
   --radius: 0.625rem;
   --nav-bar-height: 100px;
   --app-bg: #d9d5e8;
+
+  /* #CAC4DE - Darken */
+  /* #E8E5F0 - Lighten */
+  /* #F6F5F9 - Lighten ++ */
+  --routes-bg: #e8e5f0;
 
   /* Base */
   --background: oklch(1 0 0); /* white background */

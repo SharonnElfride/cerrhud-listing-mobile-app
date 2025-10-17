@@ -13,7 +13,7 @@ function RenderRoutes(routes: AppRoute[]): React.ReactNode {
       ) : rte.type === "protected" ? (
         <ProtectedRoute route={rte}>{Element}</ProtectedRoute>
       ) : (
-        Element
+        <div className="p-5">{Element}</div>
       );
 
     const routeKey =

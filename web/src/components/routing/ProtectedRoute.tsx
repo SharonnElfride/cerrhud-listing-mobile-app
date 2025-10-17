@@ -31,7 +31,7 @@ const ProtectedRoute = ({ children, route }: ProtectedRouteProps) => {
     return <Navigate to={UnauthorizedRoute.path} replace />;
   }
 
-  return <>{children}</>;
+  return (<div className="p-5">{children}</div>);
 };
 
 export default ProtectedRoute;
