@@ -1,8 +1,7 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Spinner } from "@/components/ui/spinner";
 import { useAuth } from "@/context/AuthContext";
-import { ProfileRoute } from "@/navigation/app_routes";
-import { Link } from "react-router-dom";
+import { LabLinks } from "@/shared/cerrhud_data";
+import NavbarProfile from "../profile/NavbarProfile";
+import NavbarLink from "./NavbarLink";
 import NavMenu from "./NavMenu";
 import logoIcon from "/src/assets/adaptive-icon.png";
 
@@ -19,41 +18,24 @@ const Navbar = ({}) => {
           </h2>
         </div>
 
-        <hr className="border-primary/50 mb-5" />
+        <hr className="border-primary/50 mb-2" />
 
-        <NavMenu user={user ?? undefined} />
+        <NavMenu user={user} />
       </div>
 
       <div className="flex flex-col gap-2 w-full text-primary">
-        <div>
-          <div>Cerrhud Lab mobile</div>
-          <div>Cerrhud</div>
+        <div className="flex flex-col gap-2">
+          {LabLinks.map((item, idx) => (
+            <NavbarLink
+              key={`${item.title.toKeyCase(idx)}`}
+              linkItem={item}
+            />
+          ))}
         </div>
 
         <hr className="border-primary/50 mt-5" />
 
-        <Link
-          to={ProfileRoute.path}
-          className="flex gap-2 items-center group p-2 bg-primary/50 shadow-2xs rounded-md"
-        >
-          <Avatar className="w-8 h-8">
-            <AvatarImage src={user?.avatar ?? ""} alt="@shadcn" />
-            <AvatarFallback
-              style={{
-                backgroundColor: user?.profile_color ?? "var(--color-primary)",
-                color: "white",
-                fontWeight: 500,
-              }}
-            >
-              {loading ? <Spinner /> : user?.first_name.charAt(0) ?? "X"}
-            </AvatarFallback>
-          </Avatar>
-
-          <div className="group-hover:cursor-pointer">
-            <p className="capitalize text-sm text-white">{user?.first_name}</p>
-            <p className="lowercase text-gray-50 text-[10px]">{user?.email}</p>
-          </div>
-        </Link>
+        <NavbarProfile user={user} loading={loading} />
       </div>
     </div>
   );

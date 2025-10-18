@@ -23,6 +23,16 @@ declare global {
      * Returns <code>true</code> if the string is empty, and false otherwise.
      */
     isEmpty(): boolean;
+
+    /**
+     * Converts the string to a lowercased kebab-case like string.
+     * If an index is provided, it's added at the end of the formed string.
+     *
+     * @example
+     * "MuCh (toto) à lIké".toKeyCase() // => "much-a-like"
+     * "MuCh (toto) à lIké".toKeyCase(34) // => "much-a-like-34"
+     */
+    toKeyCase(index?: number): string;
   }
 }
 
@@ -41,6 +51,11 @@ String.prototype.toKebabCase = function (): string {
 
 String.prototype.isEmpty = function (): boolean {
   return this.trim().replace(/\s+/g, "").length === 0;
-}
+};
+
+String.prototype.toKeyCase = function (index?: number): string {
+  const base = this.toKebabCase().toLowerCase();
+  return index !== undefined ? `${base}-${index}` : base;
+};
 
 export {};
