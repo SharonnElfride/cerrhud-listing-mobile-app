@@ -1,25 +1,5 @@
 /*
-{
-  "profiles": { "create": false, "read": true, "update": false, "delete": false },
-  "medical_tests": { "create": true, "read": true, "update": true, "delete": false }
-}
-
 - Profile
-
-function getColorFromName(name: string) {
-  const colors = ['#6e4596', '#f94caf', '#d9d5e8', '#62c3e3', '#f5b945'];
-  const index = name.charCodeAt(0) % colors.length;
-  return colors[index];
-}
-
-const profile_color = getColorFromName(first_name + surname);
-await supabase.from("users").insert({ first_name, surname, email, profile_color });
-
-const themeColor = user.profile_color ?? '#6e4596';
-const secondary = tinycolor(themeColor).lighten(10).toHexString();
-const tertiary = tinycolor(themeColor).darken(15).toHexString();
-
-- Profile 2
 
 npm install tinycolor2
 

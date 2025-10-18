@@ -6,7 +6,7 @@ const Dashboard = ({}) => {
   const { user, logout } = useAuth();
 
   return (
-    <div>
+    <div className="p-5">
       <h1 className="text-2xl font-semibold mb-4">
         Welcome, {user?.first_name + " - " + user?.email}
       </h1>
@@ -29,7 +29,7 @@ const Dashboard = ({}) => {
         <Link to={"/profile"}>Go to Profile</Link>
       </div>
 
-      <Button onClick={logout} className="cursor-pointer">Logout</Button>
+      <Button onClick={logout}>Logout</Button>
     </div>
   );
 };

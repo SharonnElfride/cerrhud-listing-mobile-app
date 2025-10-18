@@ -5,6 +5,7 @@ import Navbar from "./components/navigation/Navbar";
 import RenderRoutes from "./components/routing/RenderRoutes";
 import { appRoutes } from "./navigation/app_routes";
 import { findCurrentRoute } from "./navigation/find_current_route";
+import { Toaster } from "./components/ui/sonner";
 
 function App() {
   const { pathname } = useLocation();
@@ -17,14 +18,15 @@ function App() {
 
   return (
     <div
-      className={`bg-muted flex animate-in overflow-x-hidden gap-2 ${
+      className={`min-h-screen bg-muted flex animate-in overflow-x-hidden gap-2 ${
         hideNavbar ? "" : "p-2"
       }`}
     >
       {!hideNavbar && <Navbar />}
-      <main className="grow bg-routes-bg shadow rounded-xl">
+      <main className="grow bg-routes-bg shadow rounded-md">
         <Routes>{RenderRoutes(appRoutes)}</Routes>
       </main>
+      <Toaster />
     </div>
   );
 }
