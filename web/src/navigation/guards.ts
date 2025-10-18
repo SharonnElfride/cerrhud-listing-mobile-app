@@ -1,6 +1,10 @@
 import type { Enums, Tables } from "@/lib/supabase/supabase";
 import type { BasePermission } from "@/models/Permission";
-import { FromJson, type PermissionKey, type UserPermissions } from "@/models/UserPermissions";
+import {
+  FromJson,
+  type PermissionKey,
+  type UserPermissions,
+} from "@/models/UserPermissions";
 import type { AppRoute } from "./app_routes";
 
 const hasRequiredRole = (
@@ -29,8 +33,11 @@ const hasRequiredPermissions = (
   return hasPermission;
 };
 
-function canAccessRoute(route: AppRoute, user?: Tables<"profiles">): boolean {
-  if (!user) return false;
+function canAccessRoute(
+  route: AppRoute,
+  user?: Tables<"profiles"> | null
+): boolean {
+  if (!user || Object.keys(user).length === 0) return false;
   if (!route.requiredRoles && !route.requiredPermissions) return true;
 
   let userPermissions = FromJson(user.permissions, user.role);
