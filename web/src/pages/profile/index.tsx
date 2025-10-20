@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/context/AuthContext";
+import { displayUserRole } from "@/helpers/user_role_helper";
 import { BadgeCheckIcon, LogOutIcon } from "lucide-react";
 
 const Profile = () => {
@@ -25,11 +26,13 @@ const Profile = () => {
       </div>
 
       <div className="flex items-center justify-end gap-2">
-        <Badge variant="primary-outline">{user?.role.toUpperCase()}</Badge>
+        {user?.role && (
+          <Badge variant="primary-outline">{displayUserRole(user?.role)}</Badge>
+        )}
 
         <Badge variant="secondary" className="bg-accent text-accent-foreground">
           <BadgeCheckIcon />
-          Verified
+          Vérifié
         </Badge>
 
         <Separator
