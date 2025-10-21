@@ -11,7 +11,6 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -39,8 +38,9 @@ const ProfileForm = ({
 
   const {
     register,
+    setValue,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, touchedFields },
     reset,
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -56,32 +56,36 @@ const ProfileForm = ({
     if (!user) return;
 
     try {
-      let updated = false;
+      const touchedData: Partial<ProfileFormValues> = {};
+      (Object.keys(data) as (keyof ProfileFormValues)[]).forEach((key) => {
+        if (touchedFields[key]) {
+          touchedData[key as keyof ProfileFormValues] =
+            data[key as keyof ProfileFormValues];
+        }
+      });
 
-      if (data.password || data.email) {
-        let userData: SupabaseAuthUser = {};
-        if (data.email) userData = { email: data.email };
-        if (data.password) userData = { password: data.password, ...userData };
+      if (touchedData.email || touchedData.password) {
+        const userData: SupabaseAuthUser = {};
+        if (touchedData.email) userData.email = touchedData.email;
+        if (touchedData.password) userData.password = touchedData.password;
 
-        updated = await updateSupabaseAuthUser(userData);
+        if (Object.keys(userData).length > 0) {
+          await updateSupabaseAuthUser(userData);
+          logout();
+        }
       }
 
-      const updates = {
-        first_name: data.first_name,
-        surname: data.surname,
-        email: data.email,
-        profile_color: data.profile_color,
-        updated_at: new Date().toISOString(),
-      };
+      const {
+        ["password"]: rmv,
+        ["confirm_password"]: rmv2,
+        ...profileData
+      } = touchedData;
+      if (Object.keys(profileData).length > 0) {
+        await updateSingleProfile(user.id, profileData);
+      }
 
-      await updateSingleProfile(user?.id, updates);
-
-      toast.success("Profile updated");
+      toast.success("Profile updated!");
       reset(data);
-
-      if (updated) {
-        logout();
-      }
     } catch (err: any) {
       toast.error(err.message ?? "Update failed");
     }
@@ -134,12 +138,12 @@ const ProfileForm = ({
           <FieldGroup className="gap-3">
             <Field className={fieldClassName}>
               <ProfileFormFieldInfo>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
+                <FieldLabel htmlFor="mail">Email</FieldLabel>
               </ProfileFormFieldInfo>
 
               <div>
                 <Input
-                  id="email"
+                  id="mail"
                   type="email"
                   defaultValue={user?.email}
                   className="border-gray-400"
@@ -161,8 +165,12 @@ const ProfileForm = ({
                 id="profile_tint"
                 className="rounded-md border bg-background p-4 shadow-sm"
                 defaultValue={user?.profile_color ?? "#6e4596"}
-                //   {...register("profile_color")}
-                //   onChange={(value) => { }}
+                onChange={(value) => {
+                  setValue("profile_color", value.toString(), {
+                    shouldDirty: true,
+                    shouldTouch: value.toString() !== user?.profile_color,
+                  });
+                }}
               >
                 <ColorPickerSelection />
                 <div className="flex items-center">
@@ -178,6 +186,7 @@ const ProfileForm = ({
 
           <FieldSeparator />
 
+          {/*
           <FieldGroup className="gap-3">
             <Field className={fieldClassName}>
               <ProfileFormFieldInfo
@@ -226,16 +235,23 @@ const ProfileForm = ({
               </div>
             </Field>
           </FieldGroup>
-
           <FieldSeparator />
+          */}
         </FieldSet>
 
         <Field orientation="horizontal">
-          <Button type="submit" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            disabled={isSubmitting || Object.keys(touchedFields).length === 0}
+          >
             {isSubmitting ? <Spinner /> : "Save changes"}
           </Button>
 
-          <Button variant="outline" type="button" disabled={isSubmitting}>
+          <Button
+            variant="outline"
+            type="button"
+            disabled={isSubmitting || Object.keys(touchedFields).length === 0}
+          >
             Cancel
           </Button>
         </Field>

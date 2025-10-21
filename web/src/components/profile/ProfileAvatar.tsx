@@ -32,14 +32,11 @@ const ProfileAvatar = ({ user, loading }: AuthProps) => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<AvatarUploadFormValues>({
     resolver: zodResolver(avatarUploadSchema),
   });
-
-  const avatarFileList = watch("avatar");
 
   const handlePreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -78,12 +75,7 @@ const ProfileAvatar = ({ user, loading }: AuthProps) => {
         <div className="relative w-full h-full rounded-full border-4 border-white shadow-lg overflow-hidden">
           <Avatar className="w-full h-full rounded-full pointer-events-none">
             <AvatarImage
-              src={
-                preview ??
-                (user?.avatar && user?.avatar?.isEmpty()
-                  ? user?.avatar
-                  : undefined)
-              }
+              src={preview ?? user?.avatar ?? undefined}
               alt="avatar"
             />
             <AvatarFallback
