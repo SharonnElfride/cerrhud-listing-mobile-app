@@ -1,5 +1,7 @@
+import { useProfileSubscription } from "@/hooks/useProfileSubscription";
 import { supabase } from "@/lib/supabase/client";
 import type { Tables } from "@/lib/supabase/supabase";
+import { PROFILES_TABLENAME } from "@/utils/constants";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextType {
@@ -17,6 +19,17 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<Tables<"profiles"> | null>(null);
   const [loading, setLoading] = useState(true);
+
+  useProfileSubscription({
+    userId: user?.id,
+    onProfileUpdate: (updated) => {
+      setUser((prev) => ({
+        ...prev,
+        ...updated,
+        avatar: updated.avatar ? `${updated.avatar}?v=${Date.now()}` : null,
+      }));
+    },
+  });
 
   useEffect(() => {
     let mounted = true;
@@ -57,13 +70,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const loadUserData = async (userId: string) => {
     const { data, error } = await supabase
-      .from("profiles")
+      .from(PROFILES_TABLENAME)
       .select("*")
       .eq("id", userId)
       .single();
 
     if (!error && data) {
-      setUser(data);
+      setUser({
+        ...data,
+        avatar: data.avatar ? `${data.avatar}?v=${Date.now()}` : null,
+      });
     }
     setLoading(false);
   };

@@ -58,7 +58,7 @@ const Profile = () => {
       </div>
 
       <div className="mt-10">
-        <ProfileForm user={user} loading={loading} />
+        <ProfileForm user={user} loading={loading} logout={logout} />
       </div>
     </div>
   );
