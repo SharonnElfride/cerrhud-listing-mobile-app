@@ -1,11 +1,18 @@
-import { type ProfileFormValues, profileSchema } from "@/forms/profileSchema";
+import { profileSchema, type ProfileFormValues } from "@/forms/profileSchema";
+import { updateSingleProfile } from "@/services/ProfilesService";
+import {
+  updateSupabaseAuthUser,
+  type SupabaseAuthUser,
+} from "@/services/SupabaseService";
 import type { AuthProps } from "@/shared/AuthProps";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { Button } from "../ui/button";
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
@@ -19,18 +26,21 @@ import {
   ColorPickerOutput,
   ColorPickerSelection,
 } from "../ui/shadcn-io/color-picker";
+import { Spinner } from "../ui/spinner";
 import ProfileFormFieldInfo from "./ProfileFormFieldInfo";
-import { toast } from "sonner";
-import { useState } from "react";
 
-const ProfileForm = ({ user, loading }: AuthProps) => {
+const ProfileForm = ({
+  user,
+  logout,
+}: AuthProps & {
+  logout: () => Promise<void>;
+}) => {
   const fieldClassName = "flex flex-col md:flex-row md:gap-5";
-  const [saving, setSaving] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -42,47 +52,21 @@ const ProfileForm = ({ user, loading }: AuthProps) => {
     },
   });
 
-  async function handleProfileSubmit(values: ProfileFormValues) {
-    try {
-      // 1) If avatarFile exists, upload and get publicUrl
-      if (avatarFile) {
-        const publicUrl = await uploadAvatar(avatarFile, user.id);
-        values.avatar = publicUrl;
-      }
-
-      // 2) Upsert profile fields
-      await supabase.from("profiles").upsert({
-        id: user.id,
-        first_name: values.first_name,
-        surname: values.surname,
-        email: values.email,
-        profile_color: values.profile_color,
-        avatar: values.avatar,
-        updated_at: new Date().toISOString(),
-      });
-
-      // 3) If password supplied, update auth
-      if (values.password) {
-        await supabase.auth.updateUser({ password: values.password });
-      }
-
-      // 4) Apply theme immediately client-side
-      applyUserTheme(values.profile_color);
-
-      toast.success("Saved");
-    } catch (err) {
-      toast.error("Something went wrong");
-    }
-  }
-
   const onSubmit = async (data: ProfileFormValues) => {
-    setSaving(true);
+    if (!user) return;
 
     try {
-      // 1) Update avatar previously uploaded (see next section) or other profile fields
-      // 2) Update profiles table
+      let updated = false;
+
+      if (data.password || data.email) {
+        let userData: SupabaseAuthUser = {};
+        if (data.email) userData = { email: data.email };
+        if (data.password) userData = { password: data.password, ...userData };
+
+        updated = await updateSupabaseAuthUser(userData);
+      }
+
       const updates = {
-        // id: user.id,
         first_name: data.first_name,
         surname: data.surname,
         email: data.email,
@@ -90,80 +74,81 @@ const ProfileForm = ({ user, loading }: AuthProps) => {
         updated_at: new Date().toISOString(),
       };
 
-      const { error } = await supabase.from("profiles").upsert(updates);
-      if (error) {
-        setSaving(false);
-        throw error;
-      }
-
-      // 3) If password provided, update auth
-      if (data.password) {
-        const { error: passErr } = await supabase.auth.updateUser({
-          password: data.password,
-        });
-        if (passErr) {
-          setSaving(false);
-          throw passErr;
-        }
-      }
+      await updateSingleProfile(user?.id, updates);
 
       toast.success("Profile updated");
       reset(data);
+
+      if (updated) {
+        logout();
+      }
     } catch (err: any) {
       toast.error(err.message ?? "Update failed");
     }
-
-    setSaving(false);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FieldGroup>
-        <FieldSet>
+        <FieldSet className="gap-3">
           <FieldSeparator />
-          <FieldGroup>
-            {/* {...register("first_name")} */}
+          <FieldGroup className="gap-3">
             <Field className={fieldClassName}>
               <ProfileFormFieldInfo>
                 <FieldLabel htmlFor="first_name">Nom complet</FieldLabel>
               </ProfileFormFieldInfo>
 
               <div className="flex flex-col w-full gap-2 md:flex-row md:gap-5">
-                <Input
-                  id="first_name"
-                  type="text"
-                  defaultValue={user?.first_name}
-                  className="border-gray-400"
-                  {...register("first_name")}
-                />
+                <div>
+                  <Input
+                    id="first_name"
+                    type="text"
+                    defaultValue={user?.first_name}
+                    className="border-gray-400"
+                    {...register("first_name")}
+                  />
+                  {errors.first_name && (
+                    <FieldError>{errors.first_name.message}</FieldError>
+                  )}
+                </div>
 
-                <Input
-                  id="surname"
-                  type="text"
-                  defaultValue={user?.surname ?? undefined}
-                  placeholder="Nom de famille"
-                  className="border-gray-400"
-                  {...register("surname")}
-                />
+                <div>
+                  <Input
+                    id="surname"
+                    type="text"
+                    defaultValue={user?.surname ?? undefined}
+                    placeholder="Nom de famille"
+                    className="border-gray-400"
+                    {...register("surname")}
+                  />
+                  {errors.surname && (
+                    <FieldError>{errors.surname.message}</FieldError>
+                  )}
+                </div>
               </div>
             </Field>
           </FieldGroup>
 
           <FieldSeparator />
 
-          <FieldGroup>
+          <FieldGroup className="gap-3">
             <Field className={fieldClassName}>
               <ProfileFormFieldInfo>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
               </ProfileFormFieldInfo>
 
-              <Input
-                id="email"
-                type="email"
-                defaultValue={user?.email}
-                className="border-gray-400"
-                {...register("email")}
-              />
+              <div>
+                <Input
+                  id="email"
+                  type="email"
+                  defaultValue={user?.email}
+                  className="border-gray-400"
+                  {...register("email")}
+                />
+                {errors.email && (
+                  <FieldError>{errors.email.message}</FieldError>
+                )}
+              </div>
             </Field>
 
             <FieldSeparator />
@@ -189,82 +174,68 @@ const ProfileForm = ({ user, loading }: AuthProps) => {
                 </div>
               </ColorPicker>
             </Field>
-
-            {/* <FieldSeparator />
-            <Field className={fieldClassName}>
-              <ProfileFormFieldInfo
-                className="flex flex-col gap-2"
-                style={{ alignItems: "start" }}
-              >
-                <FieldLabel htmlFor="password">Change pwd</FieldLabel>
-                <FieldDescription className="text-xs max-md:min-w-fit">
-                  Password must be at least <span className="font-bold">8</span>{" "}
-                  characters!
-                </FieldDescription>
-              </ProfileFormFieldInfo>
-
-              <Input
-                id="password"
-                type="password"
-                placeholder="********"
-                className="border-gray-400"
-                  {...register("password")}
-              />
-            </Field> */}
           </FieldGroup>
 
           <FieldSeparator />
 
-          <FieldGroup>
+          <FieldGroup className="gap-3">
             <Field className={fieldClassName}>
               <ProfileFormFieldInfo
                 className="flex flex-col gap-2"
                 style={{ alignItems: "start" }}
               >
-                <FieldLabel htmlFor="password">Change pwd</FieldLabel>
+                <FieldLabel htmlFor="password">Password</FieldLabel>
                 <FieldDescription className="text-xs max-md:min-w-fit">
                   Password must be at least <span className="font-bold">8</span>{" "}
                   characters!
                 </FieldDescription>
               </ProfileFormFieldInfo>
 
-              <Input
-                id="password"
-                type="password"
-                placeholder="********"
-                className="border-gray-400"
-                {...register("password")}
-              />
+              <div>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="********"
+                  className="border-gray-400"
+                  {...register("password")}
+                />
+                {errors.password && (
+                  <FieldError>{errors.password.message}</FieldError>
+                )}
+              </div>
             </Field>
 
             <Field className={fieldClassName}>
               <ProfileFormFieldInfo>
-                <FieldLabel htmlFor="confirm_password">Change pwd</FieldLabel>
+                <FieldLabel htmlFor="confirm_password">
+                  Confirm password
+                </FieldLabel>
               </ProfileFormFieldInfo>
 
-              <Input
-                id="confirm_password"
-                type="password"
-                placeholder="********"
-                className="border-gray-400"
-                {...register("confirm_password")}
-              />
+              <div>
+                <Input
+                  id="confirm_password"
+                  type="password"
+                  placeholder="********"
+                  className="border-gray-400"
+                  {...register("confirm_password")}
+                />
+                {errors.confirm_password && (
+                  <FieldError>{errors.confirm_password.message}</FieldError>
+                )}
+              </div>
             </Field>
           </FieldGroup>
 
           <FieldSeparator />
-
-          {/* <Field data-invalid>
-            <FieldLabel htmlFor="mail">Mail</FieldLabel>
-            <Input id="mail" type="email" className="border-white" aria-invalid/>
-            <FieldError>Enter a valid email address.</FieldError>
-          </Field>
-          <FieldSeparator /> */}
         </FieldSet>
 
         <Field orientation="horizontal">
-          <Button type="submit">Save changes</Button>
-          <Button variant="outline" type="button">
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? <Spinner /> : "Save changes"}
+          </Button>
+
+          <Button variant="outline" type="button" disabled={isSubmitting}>
             Cancel
           </Button>
         </Field>

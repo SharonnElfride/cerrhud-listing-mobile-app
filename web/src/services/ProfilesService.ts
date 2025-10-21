@@ -1,18 +1,10 @@
-/*
-export async function getMedicalTests(): Promise<MedicalTest[]> {
-  const rows = await db.getAllAsync(`SELECT * FROM ${MedicalTestsTableName}`);
-  return rows.map((row: any) => fromDatabase(row));
-}
-*/
-
 import { supabase } from "@/lib/supabase/client";
-import type {
-  Tables,
-  TablesInsert,
-  TablesUpdate,
-} from "@/lib/supabase/supabase";
-
-const PROFILES_TABLENAME = "profiles";
+import type { TablesInsert, TablesUpdate } from "@/lib/supabase/supabase";
+import {
+  PROFILES_STORAGE_PATH,
+  PROFILES_TABLENAME,
+  STORAGE_BUCKET_ID,
+} from "@/utils/constants";
 
 export async function getProfiles() {
   let { data: profiles, error } = await supabase
@@ -24,11 +16,11 @@ export async function getProfiles() {
   return profiles;
 }
 
-export async function getProfileById(id: string) {
+export async function getProfileById(userId: string) {
   let { data: profile, error } = await supabase
     .from(PROFILES_TABLENAME)
     .select("*")
-    .eq("id", id)
+    .eq("id", userId)
     .single();
 
   if (error) throw error;
@@ -36,30 +28,11 @@ export async function getProfileById(id: string) {
   return profile;
 }
 
-export async function updateSingleProfile(
-  profileData: TablesUpdate<"profiles">
-) {
-  // .update(updates)
-  let { data: profile, error } = await supabase
-    .from(PROFILES_TABLENAME)
-    .update({ other_column: "otherValue" })
-    .eq("id", profileData.id)
-    .select()
-    .single();
-
-  if (error) throw error;
-
-  return profile;
-}
-
-export async function addSingleProfile(
-  profileData: TablesInsert<"profiles">,
-  createdBy: string
-) {
-  // .insert(updates)
+export async function addSingleProfile(profileData: TablesInsert<"profiles">) {
   let { data: profiles, error } = await supabase
     .from(PROFILES_TABLENAME)
-    .insert([{ some_column: "someValue", other_column: "otherValue" }])
+    // .insert([profileData])
+    .insert(profileData)
     .select()
     .eq("id", profileData.id)
     .single();
@@ -69,11 +42,27 @@ export async function addSingleProfile(
   return profiles;
 }
 
+export async function updateSingleProfile(
+  userId: string,
+  profileData: TablesUpdate<"profiles">
+) {
+  let { data: profile, error } = await supabase
+    .from(PROFILES_TABLENAME)
+    .update(profileData)
+    .eq("id", userId)
+    .select()
+    .single();
+
+  if (error) throw error;
+
+  return profile;
+}
+
 export async function deleteProfiles(profileIds: string[]) {
   const { error } = await supabase
     .from(PROFILES_TABLENAME)
     .delete()
-    .eq("id", profileIds[0]);
+    .in("id", profileIds);
 
   if (error) throw error;
 
@@ -81,16 +70,35 @@ export async function deleteProfiles(profileIds: string[]) {
 }
 
 export async function uploadAvatar(userId: string, file: File) {
-  const filePath = `users/avatars/${userId}/avatar.png`;
+  const baseFileName = "avatar";
+  const ext = file.name.split(".").pop();
+  const filePath = `${PROFILES_STORAGE_PATH}/${userId}/${baseFileName}.${ext}`;
+
+  const { data: existing, error: listError } = await supabase.storage
+    .from(STORAGE_BUCKET_ID)
+    .list(`${PROFILES_STORAGE_PATH}/${userId}`);
+
+  if (listError) console.error("Error listing files:", listError);
+
+  const oldAvatar = existing?.find((f) => f.name.startsWith(baseFileName));
+  if (oldAvatar) {
+    await supabase.storage
+      .from(STORAGE_BUCKET_ID)
+      .remove([`${PROFILES_STORAGE_PATH}/${userId}/${oldAvatar.name}`]);
+  }
 
   const { error: uploadError } = await supabase.storage
-    .from("users/avatars")
-    .upload(filePath, file, { upsert: true });
+    .from(STORAGE_BUCKET_ID)
+    .upload(filePath, file, {
+      cacheControl: "0",
+      upsert: true,
+      contentType: file.type,
+    });
 
   if (uploadError) throw uploadError;
 
   const { data } = supabase.storage
-    .from("users/avatars")
+    .from(STORAGE_BUCKET_ID)
     .getPublicUrl(filePath);
   return data.publicUrl;
 }
