@@ -64,24 +64,26 @@ const ProfileForm = ({
         }
       });
 
-      if (touchedData.email || touchedData.password) {
-        const userData: SupabaseAuthUser = {};
-        if (touchedData.email) userData.email = touchedData.email;
-        if (touchedData.password) userData.password = touchedData.password;
+      // if (touchedData.email || touchedData.password) {
+      if (touchedData.email && touchedData.email !== user.email) {
+        const authUserData: SupabaseAuthUser = {};
+        if (touchedData.email) authUserData.email = touchedData.email;
+        // if (touchedData.password) userData.password = touchedData.password;
 
-        if (Object.keys(userData).length > 0) {
-          await updateSupabaseAuthUser(userData);
+        if (Object.keys(authUserData).length > 0) {
+          await updateSupabaseAuthUser(authUserData);
           logout();
         }
       }
 
-      const {
-        ["password"]: rmv,
-        ["confirm_password"]: rmv2,
-        ...profileData
-      } = touchedData;
-      if (Object.keys(profileData).length > 0) {
-        await updateSingleProfile(user.id, profileData);
+      // const {
+      //   ["password"]: rmv,
+      //   ["confirm_password"]: rmv2,
+      //   ...profileData
+      // } = touchedData;
+
+      if (Object.keys(touchedData).length > 0) {
+        await updateSingleProfile(user.id, touchedData);
       }
 
       toast.success("Profile updated!");
@@ -97,7 +99,10 @@ const ProfileForm = ({
         <FieldSet className="gap-3">
           <FieldSeparator />
           <FieldGroup className="gap-3">
-            <Field className={fieldClassName}>
+            <Field
+              className={fieldClassName}
+              data-invalid={!!errors.first_name || !!errors.surname}
+            >
               <ProfileFormFieldInfo>
                 <FieldLabel htmlFor="first_name">Nom complet</FieldLabel>
               </ProfileFormFieldInfo>
@@ -110,6 +115,7 @@ const ProfileForm = ({
                     defaultValue={user?.first_name}
                     className="border-gray-400"
                     {...register("first_name")}
+                    aria-invalid={!!errors.first_name}
                   />
                   {errors.first_name && (
                     <FieldError>{errors.first_name.message}</FieldError>
@@ -124,6 +130,7 @@ const ProfileForm = ({
                     placeholder="Nom de famille"
                     className="border-gray-400"
                     {...register("surname")}
+                    aria-invalid={!!errors.surname}
                   />
                   {errors.surname && (
                     <FieldError>{errors.surname.message}</FieldError>
@@ -136,7 +143,7 @@ const ProfileForm = ({
           <FieldSeparator />
 
           <FieldGroup className="gap-3">
-            <Field className={fieldClassName}>
+            <Field className={fieldClassName} data-invalid={!!errors.email}>
               <ProfileFormFieldInfo>
                 <FieldLabel htmlFor="mail">Email</FieldLabel>
               </ProfileFormFieldInfo>
@@ -148,6 +155,7 @@ const ProfileForm = ({
                   defaultValue={user?.email}
                   className="border-gray-400"
                   {...register("email")}
+                  aria-invalid={!!errors.email}
                 />
                 {errors.email && (
                   <FieldError>{errors.email.message}</FieldError>
@@ -156,14 +164,19 @@ const ProfileForm = ({
             </Field>
 
             <FieldSeparator />
-            <Field className={fieldClassName}>
+            <Field
+              className={fieldClassName}
+              data-invalid={!!errors.profile_color}
+            >
               <ProfileFormFieldInfo>
                 <FieldLabel htmlFor="profile_tint">Profile tint</FieldLabel>
               </ProfileFormFieldInfo>
 
               <ColorPicker
                 id="profile_tint"
-                className="rounded-md border bg-background p-4 shadow-sm"
+                className={`rounded-md border bg-background p-4 shadow-sm ${
+                  !errors.profile_color ? "" : "border-red-500"
+                }`}
                 defaultValue={user?.profile_color ?? "#6e4596"}
                 onChange={(value) => {
                   setValue("profile_color", value.toString(), {
@@ -188,7 +201,7 @@ const ProfileForm = ({
 
           {/*
           <FieldGroup className="gap-3">
-            <Field className={fieldClassName}>
+            <Field className={fieldClassName} data-invalid={!!errors.password}>
               <ProfileFormFieldInfo
                 className="flex flex-col gap-2"
                 style={{ alignItems: "start" }}
@@ -207,6 +220,7 @@ const ProfileForm = ({
                   placeholder="********"
                   className="border-gray-400"
                   {...register("password")}
+                  aria-invalid={!!errors.password}
                 />
                 {errors.password && (
                   <FieldError>{errors.password.message}</FieldError>
@@ -214,7 +228,7 @@ const ProfileForm = ({
               </div>
             </Field>
 
-            <Field className={fieldClassName}>
+            <Field className={fieldClassName} data-invalid={!!errors.confirm_password}>
               <ProfileFormFieldInfo>
                 <FieldLabel htmlFor="confirm_password">
                   Confirm password
@@ -228,6 +242,7 @@ const ProfileForm = ({
                   placeholder="********"
                   className="border-gray-400"
                   {...register("confirm_password")}
+                  aria-invalid={!!errors.confirm_password}
                 />
                 {errors.confirm_password && (
                   <FieldError>{errors.confirm_password.message}</FieldError>
