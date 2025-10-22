@@ -7,24 +7,24 @@ export const profileSchema = z
     surname: z.string().optional(),
     email: z.email("Adresse e-mail invalide."),
     profile_color: z.string().regex(/^#?[0-9a-fA-F]{6}$/, "Couleur invalide"),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters")
-      .optional(),
-    confirm_password: z.string().min(8).optional(),
+    // password: z
+    //   .string()
+    //   .min(8, "Password must be at least 8 characters")
+    //   .optional(),
+    // confirm_password: z.string().min(8).optional(),
   })
-  .refine(
-    (data) => {
-      if (data.password || data.confirm_password) {
-        return data.password === data.confirm_password;
-      }
-      return true;
-    },
-    {
-      message: "Les mots de passe sont différents.",
-      path: ["confirmPassword"],
-    }
-  );
+  // .refine(
+  //   (data) => {
+  //     if (data.password || data.confirm_password) {
+  //       return data.password === data.confirm_password;
+  //     }
+  //     return true;
+  //   },
+  //   {
+  //     message: "Les mots de passe sont différents.",
+  //     path: ["confirmPassword"],
+  //   }
+  // );
 
 export type ProfileFormValues = z.infer<typeof profileSchema>;
 
