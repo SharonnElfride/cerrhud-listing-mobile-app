@@ -11,9 +11,7 @@ const AuthRoute = ({
   children,
   redirectTo = LoginRoute.path,
 }: AuthRouteProps) => {
-  const { user, loading } = useAuth();
-
-  if (loading) return <div className="text-center p-5">Loading...</div>;
+  const { user } = useAuth();
 
   if (user) {
     return <Navigate to={redirectTo} replace />;
