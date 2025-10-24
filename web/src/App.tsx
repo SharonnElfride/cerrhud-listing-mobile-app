@@ -23,7 +23,7 @@ function App() {
       }`}
     >
       {!hideNavbar && <Navbar />}
-      <main className="grow bg-routes-bg shadow rounded-md">
+      <main className="min-w-4/5 grow bg-routes-bg shadow rounded-md">
         <Routes>{RenderRoutes(appRoutes)}</Routes>
       </main>
       <Toaster />

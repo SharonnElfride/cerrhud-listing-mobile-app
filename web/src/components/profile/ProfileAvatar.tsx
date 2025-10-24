@@ -92,9 +92,10 @@ const ProfileAvatar = ({ user, loading }: AuthProps) => {
           <DialogTrigger asChild>
             <button
               type="button"
+              role="button"
               className="absolute left-0 bottom-0 w-full h-[30%] 
                  bg-black/50 backdrop-blur-sm flex items-center justify-center 
-                 rounded-b-full cursor-pointer transition-all duration-300 hover:bottom-[0.5%] hover:bg-black/70"
+                 rounded-b-full transition-all duration-300 hover:bottom-[0.5%] hover:bg-black/70"
             >
               <CameraIcon className="w-6 h-6 text-white" />
             </button>
