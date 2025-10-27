@@ -22,7 +22,9 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-export const MedicalTestsColumns: ColumnDef<Tables<"medical_tests">>[] = [
+export const MedicalTestsColumns = (
+  enableMasterDetail?: boolean
+): ColumnDef<Tables<"medical_tests">>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -125,9 +127,20 @@ export const MedicalTestsColumns: ColumnDef<Tables<"medical_tests">>[] = [
                   <Trash2Icon />
                 </Button>
               )}
-              <Button variant="secondary" size="icon-sm">
-                <ChevronDown />
-              </Button>
+
+              {enableMasterDetail && (
+                <Button
+                  variant="secondary"
+                  size="icon-sm"
+                  onClick={() => row.toggleExpanded()}
+                >
+                  <ChevronDown
+                    className={`transition-transform ${
+                      row.getIsExpanded() ? "rotate-180" : ""
+                    }`}
+                  />
+                </Button>
+              )}
             </ButtonGroup>
           </div>
 

@@ -1,4 +1,5 @@
-import { MedicalTestsColumns } from "@/components/medical-tests/columns";
+import { MedicalTestsColumns } from "@/components/medical-tests/Columns";
+import MedicalTestsMasterDetail from "@/components/medical-tests/MasterDetail";
 import ListTitle from "@/components/shared/ListTitle";
 import { DataTable } from "@/components/ui/custom/data-table/data-table";
 import { useAuth } from "@/context/AuthContext";
@@ -13,29 +14,40 @@ import { useEffect, useState } from "react";
 
 const MedicalTests = ({}) => {
   const { user } = useAuth();
-  const [data, setData] = useState<Tables<"medical_tests">[]>([]);
+  const [medicalTests, setMedicalTests] = useState<Tables<"medical_tests">[]>(
+    []
+  );
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  async function loadData() {
+    setIsLoading(true);
+    const data = await getMedicalTests();
+    if (data) setMedicalTests(data);
+    setIsLoading(false);
+  }
 
   useEffect(() => {
-    async function loadData() {
-      let dt = await getMedicalTests();
-      if (dt) setData(dt);
-    }
-
     loadData();
   }, []);
 
   return (
     <div className="p-5 space-y-5">
-      <ListTitle title="Examens médicaux" description="Exams desc" />
+      <ListTitle
+        title="Examens médicaux"
+        description="Liste des examens disponibles avec leurs détails et tarifs."
+      />
 
       <div className="mx-auto">
         <DataTable
-          columns={MedicalTestsColumns}
-          data={data}
+          columns={MedicalTestsColumns(true)}
+          data={medicalTests}
           appRoute={MedicalTestsRoute}
           addDataButtonText="Ajouter un examen"
           // addDataButtonOnClick
           canAccessMoreButton={canAccessRoute(AddMedicalTestRoute, user)}
+          enableMasterDetail
+          masterDetail={MedicalTestsMasterDetail}
         />
       </div>
     </div>
