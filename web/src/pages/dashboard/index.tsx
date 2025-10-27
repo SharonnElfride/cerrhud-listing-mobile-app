@@ -10,7 +10,6 @@ const Dashboard = ({}) => {
         title="Tableau de bord"
         description="Vue d'ensemble des statistiques et activités récentes du système."
       />
-      {/* Tableau de bord */}
       <h1 className="text-2xl font-semibold mb-4">
         Welcome, {user?.first_name + " - " + user?.email}
       </h1>
