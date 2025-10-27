@@ -22,7 +22,6 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-// export const MedicalTestsColumns: ColumnDef<Tables<"medical_tests">>[] = [
 export const MedicalTestsColumns = (
   enableMasterDetail?: boolean
 ): ColumnDef<Tables<"medical_tests">>[] => [
