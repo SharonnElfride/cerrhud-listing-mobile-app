@@ -8,12 +8,12 @@ import {
   AddMedicalTestRoute,
   MedicalTestsRoute,
 } from "@/navigation/app_routes";
-import { canAccessRoute } from "@/navigation/guards";
+import { canAccessRoute, hasRequiredPermissions } from "@/navigation/guards";
 import { getMedicalTests } from "@/services/MedicalTestsService";
 import { useEffect, useState } from "react";
 
 const MedicalTests = ({}) => {
-  const { user } = useAuth();
+  const { user, userPermissions } = useAuth();
   const [medicalTests, setMedicalTests] = useState<Tables<"medical_tests">[]>(
     []
   );
@@ -38,17 +38,35 @@ const MedicalTests = ({}) => {
         description="Liste des examens disponibles avec leurs détails et tarifs."
       />
 
-      <div className="mx-auto">
-        <DataTable
-          columns={MedicalTestsColumns(true)}
-          data={medicalTests}
-          appRoute={MedicalTestsRoute}
-          addDataButtonText="Ajouter un examen"
-          // addDataButtonOnClick
-          canAccessMoreButton={canAccessRoute(AddMedicalTestRoute, user)}
-          enableMasterDetail
-          masterDetail={MedicalTestsMasterDetail}
-        />
+      <div className="mx-auto overflow-y-hidden">
+        {isLoading ? (
+          <div>Loading</div>
+        ) : (
+          <DataTable
+            columns={MedicalTestsColumns(true)}
+            data={medicalTests}
+            appRoute={MedicalTestsRoute}
+            addDataButtonText="Ajouter un examen"
+            // addDataButtonOnClick
+            canAccessMoreButton={canAccessRoute(AddMedicalTestRoute, user)}
+            enableMasterDetail
+            masterDetail={MedicalTestsMasterDetail}
+            refreshFunction={() => loadData()}
+            canAdd={hasRequiredPermissions(userPermissions, [
+              "medical_tests.create",
+            ])}
+            addFunction={() => {}}
+            canEdit={hasRequiredPermissions(userPermissions, [
+              "medical_tests.update",
+            ])}
+            editFunction={() => {}}
+            canDelete={hasRequiredPermissions(userPermissions, [
+              "medical_tests.update",
+              "medical_tests.delete",
+            ])}
+            deleteFunction={() => {}}
+          />
+        )}
       </div>
     </div>
   );

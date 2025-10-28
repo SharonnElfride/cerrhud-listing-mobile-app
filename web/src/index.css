@@ -167,7 +167,7 @@
   }
 
   body {
-    @apply bg-app-bg text-foreground;
+    @apply bg-app-bg text-foreground overflow-hidden;
   }
 
   button:not(:disabled),

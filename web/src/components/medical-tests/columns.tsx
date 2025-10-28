@@ -1,26 +1,11 @@
-import { useAuth } from "@/context/AuthContext";
+import { displayUserName } from "@/helpers/user_by_id_helper";
 import type { Tables } from "@/lib/supabase/supabase";
-import { hasRequiredPermissions } from "@/navigation/guards";
+import { cFormatDate } from "@/utils/formatting";
 import { type ColumnDef } from "@tanstack/react-table";
-import {
-  ArrowUpDown,
-  ChevronDown,
-  EditIcon,
-  EyeIcon,
-  MoreHorizontal,
-  Trash2Icon,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { ButtonGroup } from "../ui/button-group";
 import { Checkbox } from "../ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 
 export const MedicalTestsColumns = (
   enableMasterDetail?: boolean
@@ -49,6 +34,26 @@ export const MedicalTestsColumns = (
     enableHiding: false,
   },
   {
+    id: "actions",
+    cell: ({ row }) => {
+      return (
+        enableMasterDetail && (
+          <Button
+            variant="secondary"
+            size="icon-sm"
+            onClick={() => row.toggleExpanded()}
+          >
+            <ChevronDown
+              className={`transition-transform ${
+                row.getIsExpanded() ? "rotate-180" : ""
+              }`}
+            />
+          </Button>
+        )
+      );
+    },
+  },
+  {
     accessorKey: "acronym",
     header: "Acronyme",
     enableSorting: false,
@@ -57,116 +62,84 @@ export const MedicalTestsColumns = (
     accessorKey: "title",
     header: "Titre",
     enableSorting: false,
+    cell: ({ row }) => {
+      return (
+        <p
+          className="underline underline-offset-4 decoration-accent cursor-pointer hover:font-medium transition-all duration-300"
+          onClick={() => {
+            // open view modal
+          }}
+        >
+          {row.original.title}
+        </p>
+      );
+    },
   },
   {
     accessorKey: "price",
     header: "Prix",
+    meta: { filterType: "number" },
   },
   {
     accessorKey: "keywords",
     header: "Mots clés",
+    cell: ({ row }) => {
+      return (
+        <div className="w-[350px] flex flex-wrap items-center gap-1">
+          {row.original.keywords?.map((kw) => (
+            <Badge variant={"outline"} className="capitalize">
+              {kw}
+            </Badge>
+          ))}
+        </div>
+      );
+    },
     enableColumnFilter: false,
     enableSorting: false,
   },
   {
     accessorKey: "created_at",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Créé le
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+    header: "Créé le",
+    // header: ({ column }) => {
+    //   return (
+    //     <Button
+    //       variant="ghost"
+    //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    //     >
+    //       Créé le
+    //       <ArrowUpDown className="ml-2 h-4 w-4" />
+    //     </Button>
+    //   );
+    // },
+    cell: ({ row }) => {
+      return <p>{cFormatDate(row.original.created_at!)}</p>;
     },
-    enableColumnFilter: false,
+    meta: { filterType: "date" },
   },
   {
     accessorKey: "created_by",
     header: "Créé par",
+    cell: ({ row }) => {
+      return <p>{displayUserName(row.original.id)}</p>;
+    },
     enableColumnFilter: false,
     enableSorting: false,
   },
   {
     accessorKey: "updated_at",
     header: "Mis à jour le",
-    enableColumnFilter: false,
+    cell: ({ row }) => {
+      return <p>{cFormatDate(row.original.updated_at!)}</p>;
+    },
+    meta: { filterType: "date" },
   },
   {
     accessorKey: "updated_by",
     header: "Mis à jour par",
+    cell: ({ row }) => {
+      return <p>{displayUserName(row.original.id)}</p>;
+    },
     enableColumnFilter: false,
     enableSorting: false,
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const medicalTest = row.original;
-      const { userPermissions } = useAuth();
-
-      return (
-        <>
-          <div className="hidden md:flex">
-            <ButtonGroup>
-              <Button variant="outline" size="icon-sm">
-                <EyeIcon />
-              </Button>
-              {hasRequiredPermissions(userPermissions, [
-                "medical_tests.update",
-              ]) && (
-                <Button variant="outline" size="icon-sm">
-                  <EditIcon />
-                </Button>
-              )}
-              {hasRequiredPermissions(userPermissions, [
-                "medical_tests.delete",
-              ]) && (
-                <Button variant="destructive" size="icon-sm">
-                  <Trash2Icon />
-                </Button>
-              )}
-
-              {enableMasterDetail && (
-                <Button
-                  variant="secondary"
-                  size="icon-sm"
-                  onClick={() => row.toggleExpanded()}
-                >
-                  <ChevronDown
-                    className={`transition-transform ${
-                      row.getIsExpanded() ? "rotate-180" : ""
-                    }`}
-                  />
-                </Button>
-              )}
-            </ButtonGroup>
-          </div>
-
-          <div className="flex md:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem
-                  onClick={() => navigator.clipboard.writeText(medicalTest.id)}
-                >
-                  Copy medical test's ID
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>View customer</DropdownMenuItem>
-                <DropdownMenuItem>View medical test's details</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </>
-      );
-    },
   },
 ];

@@ -21,8 +21,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Search } from "lucide-react";
+import {
+  Edit3Icon,
+  ListPlusIcon,
+  RefreshCwIcon,
+  Search,
+  Trash2Icon,
+} from "lucide-react";
 import { type ReactNode, useState } from "react";
+import { Button } from "../../button";
 import {
   InputGroup,
   InputGroupAddon,
@@ -30,6 +37,17 @@ import {
 } from "../../input-group";
 import { CEmptyData, type CEmptyDataProps } from "../cempty-data";
 import { DataTablePagination } from "./pagination";
+
+interface TableButtons {
+  refreshFunction: () => void;
+  canAdd?: boolean;
+  // addFunction?: Promise<void>;
+  addFunction?: () => void;
+  canEdit?: boolean;
+  editFunction?: () => void;
+  canDelete?: boolean;
+  deleteFunction?: () => void;
+}
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -47,7 +65,14 @@ export function DataTable<TData, TValue>({
   canAccessMoreButton = false,
   enableMasterDetail = false,
   masterDetail,
-}: DataTableProps<TData, TValue> & CEmptyDataProps) {
+  refreshFunction,
+  canAdd = false,
+  addFunction,
+  canEdit = false,
+  editFunction,
+  canDelete = false,
+  deleteFunction,
+}: DataTableProps<TData, TValue> & CEmptyDataProps & TableButtons) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
@@ -57,7 +82,6 @@ export function DataTable<TData, TValue>({
   });
 
   const [expanded, setExpanded] = useState<ExpandedState>({});
-  // const rerender = () => setData(() => makeData(5000))
 
   const table = useReactTable({
     data,
@@ -71,8 +95,7 @@ export function DataTable<TData, TValue>({
     },
     initialState: {
       columnPinning: {
-        left: ["select", "title"],
-        right: ["actions"],
+        left: ["select", "actions", "title"],
       },
     },
     getCoreRowModel: getCoreRowModel(),
@@ -88,39 +111,56 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div>
+    <div className="space-y-5">
+      {/* Add button group here for: NEW (sheet), EDIT (sheet), DELETE (modal), REFRESH (with button & toltip) - Edit when only one seleted & Delete when one/+ selected */}
+      <div className="flex w-full justify-between">
+        <div className="flex gap-2">
+          {canAdd && addFunction && (
+            <Button size={"sm"} onClick={addFunction}>
+              <ListPlusIcon />
+              <p>Ajouter</p>
+            </Button>
+          )}
+
+          {canEdit && editFunction && (
+            <Button
+              size={"sm"}
+              onClick={editFunction}
+              disabled={!table.getIsSomeRowsSelected()}
+            >
+              <Edit3Icon />
+              <p>Éditer</p>
+            </Button>
+          )}
+
+          {canDelete && deleteFunction && (
+            <Button
+              variant={"destructive"}
+              size={"sm"}
+              onClick={deleteFunction}
+              disabled={!table.getIsSomeRowsSelected()}
+            >
+              <Trash2Icon />
+              <p>Supprimer</p>
+            </Button>
+          )}
+        </div>
+
+        <Button size={"sm"} onClick={refreshFunction}>
+          <RefreshCwIcon />
+          <p>Rafraîchir</p>
+        </Button>
+      </div>
+
       <div className="rounded-md border overflow-x-auto scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none]">
-        <Table className="min-w-full">
+        <Table className="min-w-full bg-background">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => {
               return (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
-                      <TableHead
-                        key={header.id}
-                        style={{
-                          position:
-                            header.column.getIsPinned() === "left" ||
-                            header.column.getIsPinned() === "right"
-                              ? "sticky"
-                              : undefined,
-                          left:
-                            header.column.getIsPinned() === "left"
-                              ? `${header.column.getStart("left") ?? 0}px`
-                              : undefined,
-                          right:
-                            header.column.getIsPinned() === "right"
-                              ? `${header.column.getAfter("right") ?? 0}px`
-                              : undefined,
-                          zIndex:
-                            header.column.getIsPinned() === "left" ||
-                            header.column.getIsPinned() === "right"
-                              ? 10
-                              : undefined,
-                          background: "inherit",
-                        }}
-                      >
+                      <TableHead key={header.id} data-col={header.column.id}>
                         {header.isPlaceholder
                           ? null
                           : flexRender(
@@ -140,27 +180,7 @@ export function DataTable<TData, TValue>({
                     return (
                       <TableHead
                         key={`filter-${header.id}`}
-                        style={{
-                          position:
-                            header.column.getIsPinned() === "left" ||
-                            header.column.getIsPinned() === "right"
-                              ? "sticky"
-                              : undefined,
-                          left:
-                            header.column.getIsPinned() === "left"
-                              ? `${header.column.getStart("left") ?? 0}px`
-                              : undefined,
-                          right:
-                            header.column.getIsPinned() === "right"
-                              ? `${header.column.getAfter("right") ?? 0}px`
-                              : undefined,
-                          zIndex:
-                            header.column.getIsPinned() === "left" ||
-                            header.column.getIsPinned() === "right"
-                              ? 10
-                              : undefined,
-                          background: "inherit",
-                        }}
+                        data-col={header.column.id}
                       >
                         {header.column.getCanFilter() && (
                           <InputGroup className="min-w-[100px] border-none shadow-none h-full">
@@ -199,30 +219,7 @@ export function DataTable<TData, TValue>({
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        style={{
-                          position:
-                            cell.column.getIsPinned() === "left" ||
-                            cell.column.getIsPinned() === "right"
-                              ? "sticky"
-                              : undefined,
-                          left:
-                            cell.column.getIsPinned() === "left"
-                              ? `${cell.column.getStart("left") ?? 0}px`
-                              : undefined,
-                          right:
-                            cell.column.getIsPinned() === "right"
-                              ? `${cell.column.getAfter("right") ?? 0}px`
-                              : undefined,
-                          zIndex:
-                            cell.column.getIsPinned() === "left" ||
-                            cell.column.getIsPinned() === "right"
-                              ? 10
-                              : undefined,
-                          background: "inherit",
-                        }}
-                      >
+                      <TableCell key={cell.id} data-col={cell.column.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
@@ -233,9 +230,7 @@ export function DataTable<TData, TValue>({
 
                   {enableMasterDetail && row.getIsExpanded() && (
                     <TableRow className="bg-base-200/30 transition-all duration-300 ease-in-out">
-                      <TableCell
-                        colSpan={columns.length + 1}
-                      >
+                      <TableCell colSpan={columns.length + 1}>
                         {masterDetail && masterDetail(row.original)}
                       </TableCell>
                     </TableRow>
