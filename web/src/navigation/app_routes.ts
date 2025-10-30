@@ -5,7 +5,7 @@ import NotFound from "@/pages/NotFound";
 import Unauthorized from "@/pages/Unauthorized";
 import Dashboard from "@/pages/dashboard";
 import MedicalTests from "@/pages/medicalTests";
-import AddMedicalTest from "@/pages/medicalTests/AddMedicalTest";
+import { AddMedicalTest } from "@/pages/medicalTests/AddMedicalTest";
 import {
   EditMedicalTest,
   type EditMedicalTestProps,

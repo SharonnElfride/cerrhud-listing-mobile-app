@@ -4,7 +4,7 @@ import type {
   TablesInsert,
   TablesUpdate,
 } from "@/lib/supabase/supabase";
-import { MEDICAL_TESTS_TABLENAME } from "@/utils/constants";
+import { MEDICAL_TESTS_TABLENAME } from "@/shared/constants";
 
 function fromDatabase(data: any): Tables<"medical_tests"> {
   return {

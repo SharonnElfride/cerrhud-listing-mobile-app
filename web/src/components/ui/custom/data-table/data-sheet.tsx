@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/sheet";
 import type { ReactNode } from "react";
 
-interface EditSheetProps {
+interface DataTableSheetProps {
   sheetTitle: string;
   sheetDescription: string;
   openSheet: boolean;
@@ -15,13 +15,13 @@ interface EditSheetProps {
   children: ReactNode;
 }
 
-const EditSheet = ({
+const DataTableSheet = ({
   children,
   sheetTitle,
   sheetDescription,
   openSheet,
   onOpenChange,
-}: EditSheetProps) => {
+}: DataTableSheetProps) => {
   return (
     <Sheet open={openSheet} onOpenChange={onOpenChange}>
       <SheetContent>
@@ -36,4 +36,4 @@ const EditSheet = ({
   );
 };
 
-export default EditSheet;
+export default DataTableSheet;

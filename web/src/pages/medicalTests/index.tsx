@@ -15,6 +15,7 @@ import {
 } from "@/services/MedicalTestsService";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { AddMedicalTest, AddMedicalTestData } from "./AddMedicalTest";
 import { EditMedicalTest, EditMedicalTestData } from "./EditMedicalTest";
 
 const MedicalTests = ({}) => {
@@ -43,50 +44,50 @@ const MedicalTests = ({}) => {
       />
 
       <div className="mx-auto overflow-y-hidden">
-        {isLoading ? (
-          <div>Loading</div>
-        ) : (
-          <DataTable
-            columns={MedicalTestsColumns(true)}
-            data={medicalTests}
-            appRoute={MedicalTestsRoute}
-            addDataButtonText="Ajouter un examen"
-            // addDataButtonOnClick
-            canAccessMoreButton={canAccessRoute(AddMedicalTestRoute, user)}
-            enableMasterDetail
-            masterDetail={MedicalTestsMasterDetail}
-            refreshFunction={() => loadData()}
-            canAdd={hasRequiredPermissions(userPermissions, [
-              "medical_tests.create",
-            ])}
-            addFunction={() => {}}
-            canEdit={hasRequiredPermissions(userPermissions, [
-              "medical_tests.update",
-            ])}
-            canDelete={hasRequiredPermissions(userPermissions, [
-              "medical_tests.update",
-              "medical_tests.delete",
-            ])}
-            deleteFunction={async (ids) => {
-              let deleted = await deleteMedicalTests(ids);
+        <DataTable
+          columns={MedicalTestsColumns(true)}
+          data={medicalTests}
+          isDataLoading={isLoading}
+          appRoute={MedicalTestsRoute}
+          addDataButtonText="Ajouter un examen"
+          canAccessMoreButton={canAccessRoute(AddMedicalTestRoute, user)}
+          enableMasterDetail
+          masterDetail={MedicalTestsMasterDetail}
+          refreshFunction={() => loadData()}
+          canAdd={hasRequiredPermissions(userPermissions, [
+            "medical_tests.create",
+          ])}
+          addForm={() => <AddMedicalTest displayHeader={false} />}
+          addSheet={{
+            title: AddMedicalTestData.title,
+            description: AddMedicalTestData.description,
+          }}
+          canEdit={hasRequiredPermissions(userPermissions, [
+            "medical_tests.update",
+          ])}
+          editForm={(row) => (
+            <EditMedicalTest displayHeader={false} mediscalTest={row} />
+          )}
+          editSheet={{
+            title: EditMedicalTestData.title,
+            description: EditMedicalTestData.description,
+          }}
+          canDelete={hasRequiredPermissions(userPermissions, [
+            "medical_tests.update",
+            "medical_tests.delete",
+          ])}
+          deleteFunction={async (ids) => {
+            let deleted = await deleteMedicalTests(ids);
 
-              if (deleted) {
-                toast.success("Les examens sélectionnés ont été supprimés.");
-              } else {
-                toast.error(
-                  "Impossible de supprimer les examens sélectionnés."
-                );
-              }
+            if (deleted) {
+              toast.success("Les examens sélectionnés ont été supprimés.");
+            } else {
+              toast.error("Impossible de supprimer les examens sélectionnés.");
+            }
 
-              await loadData();
-            }}
-            sheetTitle={EditMedicalTestData.title}
-            sheetDescription={EditMedicalTestData.description}
-            sheetContent={(row) => (
-              <EditMedicalTest displayHeader={false} mediscalTest={row} />
-            )}
-          />
-        )}
+            await loadData();
+          }}
+        />
       </div>
     </div>
   );
