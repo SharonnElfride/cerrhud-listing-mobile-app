@@ -3,7 +3,7 @@ import { supabase } from "@/lib/supabase/client";
 import type { Tables } from "@/lib/supabase/supabase";
 import { RolePermissions } from "@/models/RolePermissions";
 import { FromJson, type UserPermissions } from "@/models/UserPermissions";
-import { PROFILES_TABLENAME } from "@/utils/constants";
+import { PROFILES_TABLENAME } from "@/shared/constants";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextType {

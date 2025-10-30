@@ -1,4 +1,4 @@
-import { STORAGE_MAX_FILE_SIZE } from "@/utils/constants";
+import { STORAGE_MAX_FILE_SIZE } from "@/shared/constants";
 import { z } from "zod";
 
 export const profileSchema = z

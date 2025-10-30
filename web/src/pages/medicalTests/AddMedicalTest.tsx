@@ -1,10 +1,28 @@
-const AddMedicalTest = ({}) => {
+const AddMedicalTestData = {
+  title: "Ajouter un examen",
+  /* Make changes to your profile here. Click save when you&apos;re done. */
+  description: "",
+};
+
+interface AddMedicalTestProps {
+  displayHeader?: boolean;
+}
+
+const AddMedicalTest = ({ displayHeader }: AddMedicalTestProps) => {
   return (
     <div>
-      <h2>AddMedicalTest</h2>
-      <p>Add new medical test</p>
+      {displayHeader && (
+        <div>
+          <h2>{AddMedicalTestData.title}</h2>
+          <p>{AddMedicalTestData.description}</p>
+        </div>
+      )}
+
+      <div className="p-5">
+        Med form: <br />
+      </div>
     </div>
   );
 };
 
-export default AddMedicalTest;
+export { AddMedicalTest, AddMedicalTestData, type AddMedicalTestProps };
