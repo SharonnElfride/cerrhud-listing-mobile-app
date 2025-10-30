@@ -1,4 +1,13 @@
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import type { FilterType } from "@/shared/DataTableFilterType";
+import {
   type ColumnDef,
   type ColumnFiltersState,
   type ColumnPinningState,
@@ -12,15 +21,6 @@ import {
   type SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import {
   Edit3Icon,
   ListPlusIcon,
@@ -36,17 +36,23 @@ import {
   InputGroupInput,
 } from "../../input-group";
 import { CEmptyData, type CEmptyDataProps } from "../cempty-data";
+import DeleteDialog from "./delete-dialog";
+import EditSheet from "./edit-sheet";
 import { DataTablePagination } from "./pagination";
 
 interface TableButtons {
   refreshFunction: () => void;
   canAdd?: boolean;
-  // addFunction?: Promise<void>;
   addFunction?: () => void;
   canEdit?: boolean;
-  editFunction?: () => void;
   canDelete?: boolean;
-  deleteFunction?: () => void;
+  deleteFunction?: (ids: string[]) => Promise<void>;
+}
+
+interface EditSheetProps<TData> {
+  sheetTitle: string;
+  sheetDescription: string;
+  sheetContent: (row: TData) => ReactNode;
 }
 
 interface DataTableProps<TData, TValue> {
@@ -69,10 +75,15 @@ export function DataTable<TData, TValue>({
   canAdd = false,
   addFunction,
   canEdit = false,
-  editFunction,
   canDelete = false,
   deleteFunction,
-}: DataTableProps<TData, TValue> & CEmptyDataProps & TableButtons) {
+  sheetTitle,
+  sheetDescription,
+  sheetContent,
+}: DataTableProps<TData, TValue> &
+  EditSheetProps<TData> &
+  CEmptyDataProps &
+  TableButtons) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
@@ -80,8 +91,10 @@ export function DataTable<TData, TValue>({
     left: [],
     right: [],
   });
-
   const [expanded, setExpanded] = useState<ExpandedState>({});
+  const [openSheet, setOpenSheet] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const table = useReactTable({
     data,
@@ -116,17 +129,19 @@ export function DataTable<TData, TValue>({
       <div className="flex w-full justify-between">
         <div className="flex gap-2">
           {canAdd && addFunction && (
+          // {canAdd && addForm && (
             <Button size={"sm"} onClick={addFunction}>
               <ListPlusIcon />
               <p>Ajouter</p>
             </Button>
           )}
 
-          {canEdit && editFunction && (
+          {canEdit && (
+            // {canEdit && editForm && (
             <Button
               size={"sm"}
-              onClick={editFunction}
-              disabled={!table.getIsSomeRowsSelected()}
+              onClick={() => setOpenSheet(true)}
+              disabled={Object.keys(rowSelection).length !== 1}
             >
               <Edit3Icon />
               <p>Éditer</p>
@@ -137,7 +152,7 @@ export function DataTable<TData, TValue>({
             <Button
               variant={"destructive"}
               size={"sm"}
-              onClick={deleteFunction}
+              onClick={() => setOpenDialog(true)}
               disabled={!table.getIsSomeRowsSelected()}
             >
               <Trash2Icon />
@@ -177,6 +192,9 @@ export function DataTable<TData, TValue>({
               return (
                 <TableRow key={`filter-${headerGroup.id}`}>
                   {headerGroup.headers.map((header) => {
+                    const filterType = (header.column.columnDef.meta as any)
+                      ?.filterType as FilterType;
+
                     return (
                       <TableHead
                         key={`filter-${header.id}`}
@@ -184,23 +202,111 @@ export function DataTable<TData, TValue>({
                       >
                         {header.column.getCanFilter() && (
                           <InputGroup className="min-w-[100px] border-none shadow-none h-full">
-                            <InputGroupInput
-                              placeholder="Search..."
-                              value={
-                                (table
-                                  .getColumn(header.column.id)
-                                  ?.getFilterValue() as string) ?? ""
-                              }
-                              onChange={(event) =>
-                                table
-                                  .getColumn(header.column.id)
-                                  ?.setFilterValue(event.target.value)
-                              }
-                              className="!px-1 !text-xs"
-                            />
-                            <InputGroupAddon className="pl-1 py-0">
-                              <Search size={5} />
-                            </InputGroupAddon>
+                            {filterType === "number" && (
+                              <InputGroupInput
+                                type="number"
+                                value={
+                                  (table
+                                    .getColumn(header.column.id)
+                                    ?.getFilterValue() as string) ?? undefined
+                                }
+                                onChange={(e) => {
+                                  return table
+                                    .getColumn(header.column.id)
+                                    ?.setFilterValue(e.target.value);
+                                }}
+                                placeholder="0"
+                                className="!px-1 !text-xs"
+                              />
+                            )}
+
+                            {filterType === "boolean" && (
+                              <select
+                                className="border rounded px-1 py-0.5 text-xs"
+                                value={
+                                  (table
+                                    .getColumn(header.column.id)
+                                    ?.getFilterValue() as string) ?? ""
+                                }
+                                onChange={(e) =>
+                                  table
+                                    .getColumn(header.column.id)
+                                    ?.setFilterValue(e.target.value === "true")
+                                }
+                              >
+                                <option value="">All</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                              </select>
+                            )}
+
+                            {filterType === "date" && (
+                              <InputGroupInput
+                                type="date"
+                                value={
+                                  (table
+                                    .getColumn(header.column.id)
+                                    ?.getFilterValue() as string) ?? ""
+                                }
+                                onChange={(e) =>
+                                  table
+                                    .getColumn(header.column.id)
+                                    ?.setFilterValue(e.target.value)
+                                }
+                                className="!px-1 !text-xs"
+                              />
+                            )}
+
+                            {filterType === "select" &&
+                              header.column.columnDef.meta &&
+                              Array.isArray(
+                                (header.column.columnDef.meta as any)?.options
+                              ) && (
+                                <select
+                                  className="border rounded px-1 py-0.5 text-xs"
+                                  value={
+                                    (table
+                                      .getColumn(header.column.id)
+                                      ?.getFilterValue() as string) ?? ""
+                                  }
+                                  onChange={(e) =>
+                                    table
+                                      .getColumn(header.column.id)
+                                      ?.setFilterValue(e.target.value)
+                                  }
+                                >
+                                  <option value="">All</option>
+                                  {(
+                                    header.column.columnDef.meta as any
+                                  ).options.map((opt: string) => (
+                                    <option key={opt} value={opt}>
+                                      {opt}
+                                    </option>
+                                  ))}
+                                </select>
+                              )}
+
+                            {(!filterType || filterType === "text") && (
+                              <>
+                                <InputGroupInput
+                                  placeholder="Search..."
+                                  value={
+                                    (table
+                                      .getColumn(header.column.id)
+                                      ?.getFilterValue() as string) ?? ""
+                                  }
+                                  onChange={(event) =>
+                                    table
+                                      .getColumn(header.column.id)
+                                      ?.setFilterValue(event.target.value)
+                                  }
+                                  className="!px-1 !text-xs"
+                                />
+                                <InputGroupAddon className="pl-1 py-0">
+                                  <Search size={5} />
+                                </InputGroupAddon>
+                              </>
+                            )}
                           </InputGroup>
                         )}
                       </TableHead>
@@ -254,6 +360,40 @@ export function DataTable<TData, TValue>({
       </div>
 
       <DataTablePagination table={table} />
+
+      {table.getIsSomePageRowsSelected() && (
+        <>
+          <EditSheet
+            openSheet={openSheet}
+            onOpenChange={setOpenSheet}
+            sheetTitle={sheetTitle}
+            sheetDescription={sheetDescription}
+          >
+            {sheetContent(table.getRow(Object.keys(rowSelection)[0]).original)}
+          </EditSheet>
+
+          {deleteFunction && (
+            <DeleteDialog
+              openDialog={openDialog}
+              onOpenChange={(open) => {
+                if (isUpdating) return;
+                setOpenDialog(open);
+              }}
+              isUpdating={isUpdating}
+              deleteFunction={async () => {
+                setIsUpdating(true);
+                let idsToDelete = Object.keys(rowSelection).map(
+                  (key) => (table.getRow(key).original as any).id as string
+                );
+
+                await deleteFunction(idsToDelete);
+                setIsUpdating(false);
+                setOpenDialog(false);
+              }}
+            />
+          )}
+        </>
+      )}
     </div>
   );
 }

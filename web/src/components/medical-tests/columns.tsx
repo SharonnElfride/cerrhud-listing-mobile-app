@@ -78,6 +78,7 @@ export const MedicalTestsColumns = (
   {
     accessorKey: "price",
     header: "Prix",
+    filterFn: "includesString",
     meta: { filterType: "number" },
   },
   {

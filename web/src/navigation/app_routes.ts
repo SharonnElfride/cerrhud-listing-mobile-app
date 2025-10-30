@@ -6,7 +6,10 @@ import Unauthorized from "@/pages/Unauthorized";
 import Dashboard from "@/pages/dashboard";
 import MedicalTests from "@/pages/medicalTests";
 import AddMedicalTest from "@/pages/medicalTests/AddMedicalTest";
-import EditMedicalTest from "@/pages/medicalTests/EditMedicalTest";
+import {
+  EditMedicalTest,
+  type EditMedicalTestProps,
+} from "@/pages/medicalTests/EditMedicalTest";
 import ViewMedicalTest from "@/pages/medicalTests/ViewMedicalTest";
 import Profile from "@/pages/profile";
 import Users from "@/pages/users";
@@ -22,22 +25,21 @@ import {
   UsersIcon,
   type LucideProps,
 } from "lucide-react";
-import type { JSX } from "react";
 
 type RouteType = "auth" | "public" | "protected";
 
-export interface AppRoute {
+export interface AppRoute<P = {}> {
   path: string;
   label: string;
   icon?: React.ForwardRefExoticComponent<
     Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
   >;
-  route: ({}: {}) => JSX.Element;
+  route: React.ComponentType<P>;
   type: RouteType;
   redirectTo?: string;
   requiredRoles?: Enums<"user_role">[];
   requiredPermissions?: PermissionKey[];
-  children?: AppRoute[];
+  children?: AppRoute<any>[];
   hideNavbar?: boolean;
 }
 
@@ -61,7 +63,7 @@ export const ViewMedicalTestRoute: AppRoute = {
   requiredPermissions: ["medical_tests.read"],
 };
 
-export const UpdateMedicalTestRoute: AppRoute = {
+export const UpdateMedicalTestRoute: AppRoute<EditMedicalTestProps> = {
   path: "/medical-tests/edit/:id",
   label: "Edit Medical Test Details",
   icon: EditIcon,
