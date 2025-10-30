@@ -9,15 +9,19 @@ import {
   MedicalTestsRoute,
 } from "@/navigation/app_routes";
 import { canAccessRoute, hasRequiredPermissions } from "@/navigation/guards";
-import { getMedicalTests } from "@/services/MedicalTestsService";
+import {
+  deleteMedicalTests,
+  getMedicalTests,
+} from "@/services/MedicalTestsService";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { EditMedicalTest, EditMedicalTestData } from "./EditMedicalTest";
 
 const MedicalTests = ({}) => {
   const { user, userPermissions } = useAuth();
   const [medicalTests, setMedicalTests] = useState<Tables<"medical_tests">[]>(
     []
   );
-
   const [isLoading, setIsLoading] = useState(true);
 
   async function loadData() {
@@ -59,12 +63,28 @@ const MedicalTests = ({}) => {
             canEdit={hasRequiredPermissions(userPermissions, [
               "medical_tests.update",
             ])}
-            editFunction={() => {}}
             canDelete={hasRequiredPermissions(userPermissions, [
               "medical_tests.update",
               "medical_tests.delete",
             ])}
-            deleteFunction={() => {}}
+            deleteFunction={async (ids) => {
+              let deleted = await deleteMedicalTests(ids);
+
+              if (deleted) {
+                toast.success("Les examens sélectionnés ont été supprimés.");
+              } else {
+                toast.error(
+                  "Impossible de supprimer les examens sélectionnés."
+                );
+              }
+
+              await loadData();
+            }}
+            sheetTitle={EditMedicalTestData.title}
+            sheetDescription={EditMedicalTestData.description}
+            sheetContent={(row) => (
+              <EditMedicalTest displayHeader={false} mediscalTest={row} />
+            )}
           />
         )}
       </div>

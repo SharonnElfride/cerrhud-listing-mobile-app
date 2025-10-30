@@ -81,13 +81,22 @@ export async function updateSingleMedicalTest(
   return fromDatabase(medicalTest);
 }
 
-async function deleteMedicalTests(medicalTestIds: string[]) {
+export async function deleteMedicalTests(medicalTestIds: string[]) {
   const { error } = await supabase
     .from(MEDICAL_TESTS_TABLENAME)
-    .delete()
+    .update({ deleted: true })
     .in("id", medicalTestIds);
 
   if (error) throw error;
 
   return true;
 }
+
+// async function deleteMedicalTests(medicalTestIds: string[]) {
+//   const { error } = await supabase
+//     .from(MEDICAL_TESTS_TABLENAME)
+//     .delete()
+//     .in("id", medicalTestIds);
+//   if (error) throw error;
+//   return true;
+// }
