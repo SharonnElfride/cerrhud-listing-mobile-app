@@ -30,17 +30,17 @@ import {
 import { type ReactNode, useState } from "react";
 import { Button } from "../../button";
 import { CEmptyData, type CEmptyDataProps } from "../cempty-data";
+import { CLoadingData } from "../cloading-data";
 import DataTableSheet from "./data-sheet";
-import DeleteDialog from "./delete-dialog";
+import DataTableDeleteDialog from "./delete-dialog";
 import { DataTableFilters } from "./filters";
 import { DataTablePagination } from "./pagination";
-import { CLoadingData } from "../cloading-data";
 
 interface TableButtons<TData> {
   isDataLoading: boolean;
   refreshFunction: () => void;
   canAdd?: boolean;
-  addForm?: () => ReactNode;
+  addForm?: (onCancelAdd: () => void) => ReactNode;
   addSheet?: {
     title: string;
     description: string;
@@ -280,7 +280,7 @@ export function DataTable<TData, TValue>({
           sheetTitle={addSheet.title}
           sheetDescription={addSheet.description}
         >
-          {addForm()}
+          {addForm(() => setOpenAddSheet(false))}
         </DataTableSheet>
       )}
 
@@ -298,7 +298,7 @@ export function DataTable<TData, TValue>({
           )}
 
           {deleteFunction && (
-            <DeleteDialog
+            <DataTableDeleteDialog
               openDialog={openDialog}
               onOpenChange={(open) => {
                 if (isUpdating) return;

@@ -1,11 +1,13 @@
 import { displayUserName } from "@/helpers/user_by_id_helper";
 import type { Tables } from "@/lib/supabase/supabase";
+import { ViewMedicalTest } from "@/pages/medicalTests/ViewMedicalTest";
 import { cFormatDate } from "@/utils/formatting";
 import { type ColumnDef } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
+import DataTableViewDialog from "../ui/custom/data-table/view-dialog";
 
 export const MedicalTestsColumns = (
   enableMasterDetail?: boolean
@@ -58,20 +60,35 @@ export const MedicalTestsColumns = (
     header: "Acronyme",
     enableSorting: false,
   },
+  // {
+  //   accessorKey: "deleted",
+  //   header: "Supprimé",
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className="flex justify-center">
+  //         {row.original.deleted ? (
+  //           <CheckIcon size={18} color="var(--color-primary)" />
+  //         ) : null}
+  //       </div>
+  //     );
+  //   },
+  //   enableSorting: false,
+  //   meta: {
+  //     filterType: "boolean",
+  //   },
+  // },
   {
     accessorKey: "title",
     header: "Titre",
     enableSorting: false,
     cell: ({ row }) => {
       return (
-        <p
-          className="underline underline-offset-4 decoration-accent cursor-pointer hover:font-medium transition-all duration-300"
-          onClick={() => {
-            // open view modal
-          }}
+        <DataTableViewDialog
+          title={row.original.title}
+          description={row.original.description}
         >
-          {row.original.title}
-        </p>
+          <ViewMedicalTest displayHeader={false} medicalTest={row.original} />
+        </DataTableViewDialog>
       );
     },
   },

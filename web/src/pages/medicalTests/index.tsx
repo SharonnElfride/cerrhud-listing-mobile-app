@@ -36,6 +36,18 @@ const MedicalTests = ({}) => {
     loadData();
   }, []);
 
+  async function handleDelete(ids: string[]) {
+    let deleted = await deleteMedicalTests(ids);
+
+    if (deleted) {
+      toast.success("Les examens sélectionnés ont été supprimés.");
+    } else {
+      toast.error("Impossible de supprimer les examens sélectionnés.");
+    }
+
+    await loadData();
+  }
+
   return (
     <div className="p-5 space-y-5">
       <ListTitle
@@ -57,7 +69,9 @@ const MedicalTests = ({}) => {
           canAdd={hasRequiredPermissions(userPermissions, [
             "medical_tests.create",
           ])}
-          addForm={() => <AddMedicalTest displayHeader={false} />}
+          addForm={(onCancelAdd) => (
+            <AddMedicalTest displayHeader={false} onCancel={onCancelAdd} />
+          )}
           addSheet={{
             title: AddMedicalTestData.title,
             description: AddMedicalTestData.description,
@@ -66,7 +80,7 @@ const MedicalTests = ({}) => {
             "medical_tests.update",
           ])}
           editForm={(row) => (
-            <EditMedicalTest displayHeader={false} mediscalTest={row} />
+            <EditMedicalTest displayHeader={false} medicalTest={row} />
           )}
           editSheet={{
             title: EditMedicalTestData.title,
@@ -76,17 +90,7 @@ const MedicalTests = ({}) => {
             "medical_tests.update",
             "medical_tests.delete",
           ])}
-          deleteFunction={async (ids) => {
-            let deleted = await deleteMedicalTests(ids);
-
-            if (deleted) {
-              toast.success("Les examens sélectionnés ont été supprimés.");
-            } else {
-              toast.error("Impossible de supprimer les examens sélectionnés.");
-            }
-
-            await loadData();
-          }}
+          deleteFunction={handleDelete}
         />
       </div>
     </div>
