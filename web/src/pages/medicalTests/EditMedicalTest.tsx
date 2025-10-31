@@ -2,18 +2,18 @@ import type { Tables } from "@/lib/supabase/supabase";
 
 const EditMedicalTestData = {
   title: "Éditer un examen",
-  /* Make changes to your profile here. Click save when you&apos;re done. */
-  description: "",
+  description:
+    "Modifiez les détails d'un examen médical existant, mettez à jour ses informations ou ajustez son prix.",
 };
 
 interface EditMedicalTestProps {
   displayHeader?: boolean;
-  mediscalTest: Tables<"medical_tests">;
+  medicalTest: Tables<"medical_tests">;
 }
 
 const EditMedicalTest = ({
   displayHeader = true,
-  mediscalTest,
+  medicalTest,
 }: EditMedicalTestProps) => {
   return (
     <div>
@@ -24,9 +24,9 @@ const EditMedicalTest = ({
         </div>
       )}
 
-      <div className="p-5">
+      <div className="px-5">
         Med test: <br />
-        <b>{mediscalTest.id}</b>
+        <b>{medicalTest.id}</b>
       </div>
     </div>
   );

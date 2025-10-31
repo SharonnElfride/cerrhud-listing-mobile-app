@@ -10,7 +10,10 @@ import {
   EditMedicalTest,
   type EditMedicalTestProps,
 } from "@/pages/medicalTests/EditMedicalTest";
-import ViewMedicalTest from "@/pages/medicalTests/ViewMedicalTest";
+import {
+  ViewMedicalTest,
+  type ViewMedicalTestProps,
+} from "@/pages/medicalTests/ViewMedicalTest";
 import Profile from "@/pages/profile";
 import Users from "@/pages/users";
 import AddUser from "@/pages/users/AddUser";
@@ -53,7 +56,7 @@ export const AddMedicalTestRoute: AppRoute = {
   requiredPermissions: ["medical_tests.create"],
 };
 
-export const ViewMedicalTestRoute: AppRoute = {
+export const ViewMedicalTestRoute: AppRoute<ViewMedicalTestProps> = {
   path: "/medical-tests/:id",
   label: "Medical Test Details",
   icon: EyeIcon,

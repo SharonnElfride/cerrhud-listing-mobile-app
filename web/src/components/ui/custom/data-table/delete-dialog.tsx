@@ -10,19 +10,19 @@ import {
 } from "../../dialog";
 import { Spinner } from "../../spinner";
 
-interface DeleteDialogProps {
+interface DataTableDeleteDialogProps {
   openDialog: boolean;
   onOpenChange: (open: boolean) => void;
   isUpdating: boolean;
   deleteFunction: () => Promise<void>;
 }
 
-const DeleteDialog = ({
+const DataTableDeleteDialog = ({
   openDialog,
   onOpenChange,
   isUpdating,
   deleteFunction,
-}: DeleteDialogProps) => {
+}: DataTableDeleteDialogProps) => {
   return (
     <Dialog open={openDialog} onOpenChange={onOpenChange}>
       <DialogContent>
@@ -61,4 +61,4 @@ const DeleteDialog = ({
   );
 };
 
-export default DeleteDialog;
+export default DataTableDeleteDialog;

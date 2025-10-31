@@ -24,7 +24,7 @@ const DataTableSheet = ({
 }: DataTableSheetProps) => {
   return (
     <Sheet open={openSheet} onOpenChange={onOpenChange}>
-      <SheetContent>
+      <SheetContent className="overflow-y-scroll">
         <SheetHeader>
           <SheetTitle>{sheetTitle}</SheetTitle>
           <SheetDescription>{sheetDescription}</SheetDescription>
